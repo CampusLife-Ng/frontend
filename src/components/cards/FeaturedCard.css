@@ -1,0 +1,120 @@
+.featured__card {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  column-gap: 2rem;
+  background-color: white;
+  padding: 1rem;
+  border-radius: 10px;
+  /* box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15); */
+  /* box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; */
+  height: 40rem;
+  border: 1px solid var(--bg-neutral);
+}
+
+.featured__card-desc-btn {
+  background-color: var(--text-primary);
+  width: max-content;
+  padding: 1rem 2rem;
+  color: white;
+  font-weight: 500;
+  border-radius: 8px;
+}
+
+/* .featured__card-left { */
+
+/* } */
+
+.featured__card-desc {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.featured__card-left {
+  position: relative;
+}
+
+.featured__card-left img {
+  display: block;
+  width: 100%;
+  height: 38rem;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.featured__card-desc-first,
+.featured__card-desc-second {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.featured__card-desc-first p:nth-child(1) {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: var(--text-3);
+  color: var(--text-light);
+}
+
+.desc__location-icon {
+  font-size: var(--text-3) !important;
+}
+
+.featured__card-desc-first p:nth-child(2) {
+  color: var(--text-primary);
+  font-size: var(--text-3);
+  font-weight: 600;
+}
+
+.featured__card-desc-second p {
+  color: var(--text-blue);
+  font-size: var(--text-3);
+  text-decoration: underline;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.featured__card-desc-third p {
+  color: var(--text-light);
+  font-size: var(--text-3);
+}
+
+.featured__card-desc-fourth {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.featured__card-desc-btn {
+  cursor: pointer;
+}
+
+/* @950px */
+@media screen and (max-width: 59.375em) {
+  .featured__card {
+    grid-template-columns: 1fr;
+    height: max-content;
+    row-gap: 2rem;
+  }
+
+  .featured__card-desc {
+    gap: 2rem;
+  }
+}
+
+/* @600px */
+@media screen and (max-width: 37.5em) {
+  .featured__card-desc-first,
+  .featured__card-desc-second {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.7rem;
+  }
+
+  .featured__card-left img {
+    width: 90vw;
+    margin: 0 auto;
+  }
+}

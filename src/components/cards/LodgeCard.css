@@ -1,0 +1,108 @@
+.lodge__card {
+  /* border: 1px solid red; */
+  width: 95%;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  padding: 1.2rem;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border-radius: 10px;
+  justify-self: center;
+}
+
+.lodge__card .top img {
+  width: 100%;
+  height: 36rem;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.lodge__card .top {
+  position: relative;
+}
+
+.like__box,
+.availability {
+  position: absolute;
+}
+
+.like__box {
+  top: 1rem;
+  right: 1rem;
+}
+
+.availability {
+  right: 1rem;
+  bottom: 1.5rem;
+  background-color: var(--bg-primary);
+  padding: 0.4rem 1rem;
+  border-radius: 100px;
+}
+
+.availability.available {
+  color: var(--text-blue);
+}
+
+.availability.notavailable {
+  color: var(--bg-danger);
+}
+
+.lodge-like,
+.lodge-liked {
+  font-size: 4rem !important;
+  cursor: pointer;
+}
+
+.lodge-like {
+  color: white;
+}
+
+.lodge-liked {
+  color: var(--bg-danger);
+}
+
+.lodge__card .bottom {
+  /* border: 1px solid red; */
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.lodge__card .bottom__first {
+  display: flex;
+  justify-content: space-between;
+}
+
+.lodge__card .bottom__first .lodge__card-price {
+  color: var(--text-primary);
+  font-size: var(--text-2);
+  font-weight: 600;
+}
+
+.lodge__card .bottom__first p:nth-child(2) {
+  color: var(--text-blue);
+  font-size: var(--text-2);
+  text-decoration: underline;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.lodge__card .lodge__name {
+  color: var(--text-dark);
+  font-size: var(--text-3);
+  font-weight: 600;
+}
+
+.lodge__card .lodge__location {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--text-light);
+}
+
+@media screen and (max-width: 26.25em) {
+  .lodge__card {
+    width: 95vw;
+    justify-self: start;
+  }
+}

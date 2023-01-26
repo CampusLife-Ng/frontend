@@ -1,0 +1,15 @@
+.specs {
+  border: 1px solid var(--text-light);
+  width: max-content;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.7rem;
+  border-radius: 50px;
+  color: var(--text-dark);
+  font-size: var(--text-2);
+}
+
+.specs__icon {
+  font-size: var(--text-3) !important;
+}
