@@ -1,3 +1,5 @@
+@import url(https://fonts.googleapis.com/css?family=Inter:100,200,300,regular,500,600,700,800,900);
+
 *,
 *::before,
 *::after {
@@ -9,6 +11,66 @@
   text-decoration: none;
 }
 
+:root {
+  --primary-color: #44c570;
+
+  --bg-white: #fff;
+  --bg-neutral: #cacbcc;
+  --bg-black: #1b1f27;
+  --bg-secondary: #f0f5ff;
+  --bg-primary: #eeffff;
+  --bg-danger: #e02d3c;
+
+  --text-primary: #30b15c;
+  --text-black: #000;
+  --text-dark: #0a0d14;
+  --text-light: #3f444d;
+  --text-blue: #1d5bd6;
+
+  --text-1: 1.6rem;
+  --text-2: 1.8rem;
+  --text-3: 2.2rem;
+  --text-4: 2.6rem;
+  --text-5: 3rem;
+  --text-6: 4.6rem;
+
+  --container-lg: 1320px;
+}
+
 html {
   font-size: 62.5%;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  font-size: var(--text-1);
+  background-color: var(--bg-white);
+}
+
+h1 {
+  font-size: var(--text-6);
+  color: var(--text-black);
+  line-height: 5rem;
+  letter-spacing: -1px;
+  font-weight: 600;
+}
+
+h2 {
+  font-size: var(--text-5);
+  color: var(--text-black);
+  font-weight: 600;
+  letter-spacing: -1px;
+}
+
+h3 {
+  font-size: var(--text-4);
+  color: var(--text-dark);
+  font-weight: 600;
+  letter-spacing: -1px;
+}
+
+@media screen and (max-width: 400px) {
+  html {
+    font-size: 50%;
+  }
 }
