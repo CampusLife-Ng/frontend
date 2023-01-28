@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
-import countSlice from "../features/slices/countSlice";
+import lodgeSlice from "../features/slices/lodgeSlice";
 
 export const store = configureStore({
   reducer: {
-    count: countSlice,
+    lodge: lodgeSlice,
   },
 });
