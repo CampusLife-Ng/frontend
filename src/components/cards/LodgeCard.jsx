@@ -1,6 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./LodgeCard.css";
-import MobileImg3 from "./../../assets/mobile-img3.jpg";
 import { motion } from "framer-motion";
 import RoomIcon from "@mui/icons-material/Room";
 import Specs from "./../specs/Specs";
@@ -9,36 +8,82 @@ import WaterIcon from "@mui/icons-material/Water";
 import SoupKitchenIcon from "@mui/icons-material/SoupKitchen";
 import WcIcon from "@mui/icons-material/Wc";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addLodge,
+  removeLodge,
+  selectIdLodgeList,
+} from "../../features/slices/lodgeSlice";
 
-const LodgeCard = () => {
+const LodgeCard = ({
+  id,
+  lodgeImg,
+  available,
+  lodgePrice,
+  lodgeName,
+  lodgeLocation,
+}) => {
+  const idListOfLodge = useSelector(selectIdLodgeList);
+  // console.log(idListOfLodge);
   const [liked, setLiked] = useState(false);
+  const dispatch = useDispatch();
 
   const toggleLike = () => {
     setLiked(!liked);
   };
 
+  // add liked property to the state
+  useEffect(() => {
+    if (liked) {
+      dispatch(
+        addLodge({
+          id,
+          lodgeImg,
+          available,
+          lodgePrice,
+          lodgeName,
+          lodgeLocation,
+        })
+      );
+    } else {
+      dispatch(removeLodge(id));
+    }
+  }, [liked]);
+
   return (
     <div className="lodge__card">
       <div className="top">
-        <img src={MobileImg3} alt="" />
-        <div className="availability available">Available</div>
+        <img src={lodgeImg} alt="" />
+        <div
+          className={`availability ${available ? "available" : "notavailable"}`}
+        >
+          {available ? "Available" : "Not Available"}
+        </div>
         <motion.div
-          onClick={toggleLike}
+          onClick={() => {
+            toggleLike();
+          }}
           whileTap={{ scale: 0.8 }}
           className="like__box"
         >
-          <FavoriteIcon className={`${liked ? "lodge-liked" : "lodge-like"}`} />
+          <FavoriteIcon
+            className={`${
+              liked || idListOfLodge?.includes(id)
+                ? "lodge-liked"
+                : "lodge-like"
+            }`}
+          />
         </motion.div>
       </div>
       <div className="bottom">
         <div className="bottom__first">
-          <p className="lodge__card-price">₦ 300,000.00 </p>
+          <p className="lodge__card-price">₦ {lodgePrice} </p>
           <motion.p whileTap={{ scale: 0.8 }}>Show on map</motion.p>
         </div>
-        <p className="lodge__name">Chukwuebube Lodge, FUTO</p>
+        <p className="lodge__name">{lodgeName} Lodge, FUTO</p>
         <p className="lodge__location">
           <RoomIcon className="desc__location-icon" />
-          <span>No 17, Onuiyi, Owerri road. Futo</span>
+          <span>{lodgeLocation}</span>
         </p>
 
         <div className="featured__card-desc-fourth">

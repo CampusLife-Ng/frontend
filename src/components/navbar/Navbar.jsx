@@ -5,9 +5,13 @@ import { Link } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { selectLodgeList } from "../../features/slices/lodgeSlice";
 
 const Navbar = () => {
   const [openNav, setOpenNav] = useState(false);
+
+  const getLodgeList = useSelector(selectLodgeList);
 
   useEffect(() => {
     const handleNavActiveLink = (e) => {
@@ -37,14 +41,14 @@ const Navbar = () => {
           </Link>
 
           <ul className="nav__links">
-            <li className="nav__link">Town</li>
+            {/* <li className="nav__link">Town</li> */}
             <li className="nav__link">Marketplace</li>
             <li className="nav__link">
               <span>Liked</span>
-              <div className="liked">1</div>
+              <div className="liked-notification">{getLodgeList?.length}</div>
             </li>
             <li className="nav__link">Signup</li>
-            <Button text="Suggest" type="fill" />
+            <Button text="Suggest a lodge" type="fill" />
           </ul>
 
           {openNav ? (
@@ -61,14 +65,14 @@ const Navbar = () => {
         </div>
       </div>
       <ul className={`mobile__nav ${openNav && "active"}`}>
-        <li className="nav__link">Town</li>
+        {/* <li className="nav__link">Town</li> */}
         <li className="nav__link">Marketplace</li>
         <li className="nav__link">
           <span>Liked</span>
-          <div className="liked">1</div>
+          <div className="liked-notification">{getLodgeList?.length}</div>
         </li>
         <li className="nav__link">Signup</li>
-        <Button text="Suggest" type="fill" />
+        <Button text="Suggest a lodge" type="fill" />
       </ul>
     </nav>
   );
