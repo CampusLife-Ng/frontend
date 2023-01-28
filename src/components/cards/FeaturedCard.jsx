@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./FeaturedCard.css";
 import RoomIcon from "@mui/icons-material/Room";
 import Specs from "./../specs/Specs";
@@ -8,19 +8,51 @@ import SoupKitchenIcon from "@mui/icons-material/SoupKitchen";
 import WcIcon from "@mui/icons-material/Wc";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { motion } from "framer-motion";
+import { useDispatch } from "react-redux";
+import { addLodge, removeLodge } from "../../features/slices/lodgeSlice";
 
-const FeaturedCard = ({ img }) => {
+const FeaturedCard = ({
+  img,
+  id,
+  available,
+  lodgePrice,
+  lodgeName,
+  lodgeLocation,
+}) => {
   const [liked, setLiked] = useState(false);
+  const dispatch = useDispatch();
 
   const toggleLike = () => {
     setLiked(!liked);
   };
 
+  // add liked property to the state
+  useEffect(() => {
+    if (liked) {
+      dispatch(
+        addLodge({
+          id,
+          img,
+          available,
+          lodgePrice,
+          lodgeName,
+          lodgeLocation,
+        })
+      );
+    } else {
+      dispatch(removeLodge(id));
+    }
+  }, [liked]);
+
   return (
     <div className="featured__card">
       <div className="featured__card-left">
         <img src={img} alt="" />
-        <div className="availability available">Available</div>
+        <div
+          className={`availability ${available ? "available" : "notavailable"}`}
+        >
+          {available ? "Available" : "Not Available"}
+        </div>
         <motion.div
           onClick={toggleLike}
           whileTap={{ scale: 0.8 }}
@@ -33,12 +65,12 @@ const FeaturedCard = ({ img }) => {
         <div className="featured__card-desc-first">
           <p className="desc__location">
             <RoomIcon className="desc__location-icon" />
-            <span>No 17, Onuiyi, Owerri road. Futo</span>
+            <span>{lodgeLocation}</span>
           </p>
-          <p className="desc__price">₦ 250,000.00 </p>
+          <p className="desc__price">₦ {lodgePrice} </p>
         </div>
         <div className="featured__card-desc-second">
-          <h3>Odilanma Lodge, Futo</h3>
+          <h3>{lodgeName}</h3>
           <motion.p whileTap={{ scale: 0.8 }}>Show on map</motion.p>
         </div>
         <div className="featured__card-desc-third">
