@@ -11,37 +11,32 @@ export const lodgeSlice = createSlice({
   reducers: {
     // add a lodge detail to state
     addLodge: (state, action) => {
-      state.lodgeList.push(action.payload);
-      state.idLikedList.push(action.payload.id);
-      // window.localStorage.setItem("lodgeList", JSON.stringify(state.lodgeList));
-    },
-
-    // remove a lodge detail from the state
-    removeLodge: (state, action) => {
-      state.lodgeList = state.lodgeList.filter(
-        (item) => item.id !== action.payload
+      const idx = state.lodgeList.findIndex(
+        (item) => item.id === action.payload.id
       );
-      state.idLikedList = state.idLikedList.filter(
-        (num) => num !== action.payload
-      );
-      // window.localStorage.setItem("lodgeList", JSON.stringify(state.lodgeList));
+      if (idx > -1) {
+        state.lodgeList = state.lodgeList.filter(
+          (item) => item.id !== action.payload.id
+        );
+      } else {
+        state.lodgeList.push(action.payload);
+      }
     },
 
     setLodges: (state, action) => {
-      // console.log(action.payload);
       state.lodgeList = action.payload;
     },
 
-    setIdOfLodges: (state, action) => {
-      state.idLikedList = action.payload;
+    setLiked: (state, action) => {
+      state.liked = action.payload;
     },
   },
 });
 
-export const { addLodge, removeLodge, setLodges, setIdOfLodges } =
+export const { addLodge, removeLodge, setLodges, setLiked } =
   lodgeSlice.actions;
 
 export const selectLodgeList = (state) => state.lodge.lodgeList;
-export const selectIdLodgeList = (state) => state.lodge.idLikedList;
+export const selectLikedLodge = (state) => state.lodge.liked;
 
 export default lodgeSlice.reducer;
