@@ -8,8 +8,8 @@ import SoupKitchenIcon from "@mui/icons-material/SoupKitchen";
 import WcIcon from "@mui/icons-material/Wc";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { motion } from "framer-motion";
-import { useDispatch } from "react-redux";
-import { addLodge, removeLodge } from "../../features/slices/lodgeSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { addLodge, selectLodgeList } from "../../features/slices/lodgeSlice";
 
 const FeaturedCard = ({
   img,
@@ -21,6 +21,7 @@ const FeaturedCard = ({
 }) => {
   const [liked, setLiked] = useState(false);
   const dispatch = useDispatch();
+  const lodgeList = useSelector(selectLodgeList);
 
   const toggleLike = () => {
     setLiked(!liked);
@@ -28,21 +29,21 @@ const FeaturedCard = ({
 
   // add liked property to the state
   useEffect(() => {
-    if (liked) {
-      dispatch(
-        addLodge({
-          id,
-          img,
-          available,
-          lodgePrice,
-          lodgeName,
-          lodgeLocation,
-        })
-      );
-    } else {
-      dispatch(removeLodge(id));
-    }
+    dispatch(
+      addLodge({
+        id,
+        img,
+        available,
+        lodgePrice,
+        lodgeName,
+        lodgeLocation,
+      })
+    );
   }, [liked]);
+
+  const activateLike = (num) => {
+    return lodgeList?.findIndex((item) => item.id === num);
+  };
 
   return (
     <div className="featured__card">
@@ -58,7 +59,11 @@ const FeaturedCard = ({
           whileTap={{ scale: 0.8 }}
           className="like__box"
         >
-          <FavoriteIcon className={`${liked ? "lodge-liked" : "lodge-like"}`} />
+          <FavoriteIcon
+            className={`${
+              activateLike(id) > -1 ? "lodge-liked" : "lodge-like"
+            }`}
+          />
         </motion.div>
       </div>
       <div className="featured__card-desc">
