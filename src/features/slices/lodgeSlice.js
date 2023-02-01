@@ -2,7 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   lodgeList: [],
-  idLikedList: [],
 };
 
 export const lodgeSlice = createSlice({
