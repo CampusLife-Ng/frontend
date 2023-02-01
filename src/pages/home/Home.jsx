@@ -12,6 +12,8 @@ import {
   FeatureTop,
   FeaturedCard,
   LodgeCard,
+  NewsLetter,
+  Footer,
 } from "../../components";
 import Hero1 from "./../../assets/heroimg1.png";
 import Hero2 from "./../../assets/heroimg2.png";
@@ -20,6 +22,8 @@ import Hero4 from "./../../assets/heroimg4.png";
 import MobileImg1 from "./../../assets/mobile-img1.jpg";
 import MobileImg2 from "./../../assets/mobile-img2.jpg";
 import MobileImg3 from "./../../assets/mobile-img3.jpg";
+import MpImg1 from "./../../assets/mpimg1.png";
+import MpImg2 from "./../../assets/mpimg2.png";
 // import { v4 as uuidv4 } from "uuid";
 
 const lodgeDataEziobodo = [
@@ -341,6 +345,38 @@ const Home = () => {
           )}
         </div>
       </section>
+
+      {/* MARKET PLACE SECTION */}
+      <section className="market__place">
+        <FeatureTop text="Our Marketplace" type="market-place" />
+        <div className="market__place-content">
+          <div className="market__place-content-container">
+            <div className="left">
+              <h3>
+                Get all types of properties from the campuslife marketplace!{" "}
+              </h3>
+              <p>
+                Lorem ipsum dolor sit amet consectetur. Ac netus id erat
+                commodo. Magna tristique pretium nulla cursus diam lectus
+                imperdiet rutrum faucibus.
+              </p>
+              <div className="market-place-btn">
+                <Button text="Coming Soon" type="outline" color="blue" />
+              </div>
+            </div>
+            <div className="right">
+              <img src={MpImg1} alt="" />
+              <img src={MpImg2} alt="" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* NEWS SECTION */}
+      <NewsLetter />
+
+      {/* FOOTER SECTION */}
+      <Footer />
     </>
   );
 };
