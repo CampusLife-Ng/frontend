@@ -9,11 +9,7 @@ import SoupKitchenIcon from "@mui/icons-material/SoupKitchen";
 import WcIcon from "@mui/icons-material/Wc";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  addLodge,
-  removeLodge,
-  selectIdLodgeList,
-} from "../../features/slices/lodgeSlice";
+import { addLodge, selectLodgeList } from "../../features/slices/lodgeSlice";
 
 const LodgeCard = ({
   id,
@@ -23,32 +19,30 @@ const LodgeCard = ({
   lodgeName,
   lodgeLocation,
 }) => {
-  const idListOfLodge = useSelector(selectIdLodgeList);
-  // console.log(idListOfLodge);
-  const [liked, setLiked] = useState(false);
   const dispatch = useDispatch();
+  const [liked, setLiked] = useState(false);
+  const lodgeList = useSelector(selectLodgeList);
 
   const toggleLike = () => {
     setLiked(!liked);
   };
 
-  // add liked property to the state
   useEffect(() => {
-    if (liked) {
-      dispatch(
-        addLodge({
-          id,
-          lodgeImg,
-          available,
-          lodgePrice,
-          lodgeName,
-          lodgeLocation,
-        })
-      );
-    } else {
-      dispatch(removeLodge(id));
-    }
+    dispatch(
+      addLodge({
+        id,
+        lodgeImg,
+        available,
+        lodgePrice,
+        lodgeName,
+        lodgeLocation,
+      })
+    );
   }, [liked]);
+
+  const activateLike = (num) => {
+    return lodgeList?.findIndex((item) => item.id === num);
+  };
 
   return (
     <div className="lodge__card">
@@ -68,9 +62,7 @@ const LodgeCard = ({
         >
           <FavoriteIcon
             className={`${
-              liked || idListOfLodge?.includes(id)
-                ? "lodge-liked"
-                : "lodge-like"
+              activateLike(id) > -1 ? "lodge-liked" : "lodge-like"
             }`}
           />
         </motion.div>

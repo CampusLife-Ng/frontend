@@ -1,5 +1,4 @@
 .feature__top {
-  /* border: 1px solid black; */
   max-width: calc(var(--container-lg) + 1rem);
   margin: 0 auto 2rem auto;
   padding: 0 1rem;
@@ -10,6 +9,11 @@
 
 .feature__top h2 {
   text-transform: capitalize;
+}
+
+.feature__top .market-place {
+  text-align: center;
+  flex: 1;
 }
 
 .feature__top-right {

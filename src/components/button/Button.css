@@ -24,3 +24,9 @@
   border: 1px solid var(--text-primary);
   color: var(--text-primary);
 }
+
+.btn-outline-blue {
+  background-color: transparent;
+  border: 1px solid var(--text-blue);
+  color: var(--text-blue);
+}
