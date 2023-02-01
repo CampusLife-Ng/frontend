@@ -13,6 +13,7 @@ const Navbar = () => {
 
   const getLodgeList = useSelector(selectLodgeList);
 
+  // console.log(getLodgeList);
   useEffect(() => {
     const handleNavActiveLink = (e) => {
       if (e.target.closest(".nav__link")) {
