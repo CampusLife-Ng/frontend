@@ -69,7 +69,7 @@ h3 {
   letter-spacing: -1px;
 }
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 450px) {
   html {
     font-size: 50%;
   }
