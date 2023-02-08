@@ -1,0 +1,19 @@
+.view-all {
+  margin-top: 20rem;
+}
+
+.view-all__content {
+  max-width: calc(var(--container-lg) + 1rem);
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.view-all__top h2 {
+  text-align: center;
+}
+
+.view-all__top p {
+  max-width: 75rem;
+  margin: 2rem auto 1rem auto;
+  text-align: center;
+}
