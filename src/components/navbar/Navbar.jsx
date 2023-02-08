@@ -7,11 +7,17 @@ import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { selectLodgeList } from "../../features/slices/lodgeSlice";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+  const navigate = useNavigate();
   const [openNav, setOpenNav] = useState(false);
 
   const getLodgeList = useSelector(selectLodgeList);
+
+  const handleLikedPage = () => {
+    navigate("/liked-lodges");
+  };
 
   // console.log(getLodgeList);
   useEffect(() => {
@@ -25,7 +31,7 @@ const Navbar = () => {
     };
     document
       .querySelector(".nav__links")
-      .addEventListener("click", handleNavActiveLink);
+      ?.addEventListener("click", handleNavActiveLink);
 
     return () =>
       document
@@ -44,7 +50,7 @@ const Navbar = () => {
           <ul className="nav__links">
             {/* <li className="nav__link">Town</li> */}
             <li className="nav__link">Marketplace</li>
-            <li className="nav__link">
+            <li className="nav__link" onClick={handleLikedPage}>
               <span>Liked</span>
               <div className="liked-notification">{getLodgeList?.length}</div>
             </li>
@@ -68,7 +74,7 @@ const Navbar = () => {
       <ul className={`mobile__nav ${openNav && "active"}`}>
         {/* <li className="nav__link">Town</li> */}
         <li className="nav__link">Marketplace</li>
-        <li className="nav__link">
+        <li className="nav__link" onClick={handleLikedPage}>
           <span>Liked</span>
           <div className="liked-notification">{getLodgeList?.length}</div>
         </li>

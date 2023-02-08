@@ -10,7 +10,7 @@ select {
   border: 0;
   flex: 1;
   margin-left: 1rem;
-  font-size: var(--text-2);
+  font-size: var(--text-1);
   color: var(--text-light);
   font-weight: 500;
   font-family: inherit;

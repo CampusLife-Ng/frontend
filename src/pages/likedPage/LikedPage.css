@@ -1,0 +1,62 @@
+.liked-lodges {
+  margin-top: 13rem;
+}
+
+.liked-lodges__content {
+  margin: 0 auto;
+  max-width: calc(var(--container-lg) + 1rem);
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.featured__box-liked {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.empty-liked__text {
+  margin-top: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.empty-liked__text p {
+  max-width: 60rem;
+  text-align: center;
+}
+
+.empty-liked__text .empty-liked__btn {
+  display: flex;
+  gap: 2rem;
+}
+
+.empty-liked__img {
+  height: 60rem;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.empty-liked__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media screen and (max-width: 37.5em) {
+  .empty-liked__img {
+    height: 40rem;
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 28.125em) {
+  .empty-liked__text .empty-liked__btn {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+}

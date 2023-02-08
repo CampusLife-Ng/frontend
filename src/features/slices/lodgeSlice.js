@@ -2,6 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   lodgeList: [],
+  featuredLodgeList: [],
+  normalLodgeList: [],
 };
 
 export const lodgeSlice = createSlice({
@@ -24,19 +26,29 @@ export const lodgeSlice = createSlice({
     },
 
     setLodges: (state, action) => {
-      state.lodgeList = action.payload;
+      state.lodgeList = action.payload.data;
+      state.featuredLodgeList = action.payload.featuredLodgedata;
+      state.normalLodgeList = action.payload.normalLodgedata;
     },
 
-    setLiked: (state, action) => {
-      state.liked = action.payload;
+    displaceLodges: (state) => {
+      // TODO: logic to displace featuredlodgelist & normallodgelist
+      state.featuredLodgeList = state.lodgeList.filter(
+        (item) => item.lodgeType === "featured"
+      );
+
+      state.normalLodgeList = state.lodgeList.filter(
+        (item) => item.lodgeType === "normal"
+      );
     },
   },
 });
 
-export const { addLodge, removeLodge, setLodges, setLiked } =
-  lodgeSlice.actions;
+export const { addLodge, setLodges, displaceLodges } = lodgeSlice.actions;
 
 export const selectLodgeList = (state) => state.lodge.lodgeList;
 export const selectLikedLodge = (state) => state.lodge.liked;
+export const selectFeaturedLodgeList = (state) => state.lodge.featuredLodgeList;
+export const selectNormalLodgeList = (state) => state.lodge.normalLodgeList;
 
 export default lodgeSlice.reducer;

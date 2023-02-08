@@ -9,7 +9,12 @@ import SoupKitchenIcon from "@mui/icons-material/SoupKitchen";
 import WcIcon from "@mui/icons-material/Wc";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useDispatch, useSelector } from "react-redux";
-import { addLodge, selectLodgeList } from "../../features/slices/lodgeSlice";
+import {
+  addLodge,
+  displaceLodges,
+  selectLodgeList,
+} from "../../features/slices/lodgeSlice";
+import { Link } from "react-router-dom";
 
 const LodgeCard = ({
   id,
@@ -18,6 +23,7 @@ const LodgeCard = ({
   lodgePrice,
   lodgeName,
   lodgeLocation,
+  type,
 }) => {
   const dispatch = useDispatch();
   const [liked, setLiked] = useState(false);
@@ -36,8 +42,10 @@ const LodgeCard = ({
         lodgePrice,
         lodgeName,
         lodgeLocation,
+        lodgeType: "normal",
       })
     );
+    dispatch(displaceLodges());
   }, [liked]);
 
   const activateLike = (num) => {
@@ -53,19 +61,23 @@ const LodgeCard = ({
         >
           {available ? "Available" : "Not Available"}
         </div>
-        <motion.div
-          onClick={() => {
-            toggleLike();
-          }}
-          whileTap={{ scale: 0.8 }}
-          className="like__box"
-        >
-          <FavoriteIcon
-            className={`${
-              activateLike(id) > -1 ? "lodge-liked" : "lodge-like"
-            }`}
-          />
-        </motion.div>
+        {type === "featured" ? (
+          <></>
+        ) : (
+          <motion.div
+            onClick={() => {
+              toggleLike();
+            }}
+            whileTap={{ scale: 0.8 }}
+            className="like__box"
+          >
+            <FavoriteIcon
+              className={`${
+                activateLike(id) > -1 ? "lodge-liked" : "lodge-like"
+              }`}
+            />
+          </motion.div>
+        )}
       </div>
       <div className="bottom">
         <div className="bottom__first">
@@ -88,7 +100,9 @@ const LodgeCard = ({
           whileTap={{ scale: 0.8 }}
           className="featured__card-desc-btn"
         >
-          View Details
+          <Link style={{ color: "white" }} to="/details">
+            View Details
+          </Link>
         </motion.div>
       </div>
     </div>

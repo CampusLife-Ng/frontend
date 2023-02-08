@@ -9,7 +9,12 @@ import WcIcon from "@mui/icons-material/Wc";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
-import { addLodge, selectLodgeList } from "../../features/slices/lodgeSlice";
+import {
+  addLodge,
+  displaceLodges,
+  selectLodgeList,
+} from "../../features/slices/lodgeSlice";
+import { Link } from "react-router-dom";
 
 const FeaturedCard = ({
   img,
@@ -18,6 +23,7 @@ const FeaturedCard = ({
   lodgePrice,
   lodgeName,
   lodgeLocation,
+  type,
 }) => {
   const [liked, setLiked] = useState(false);
   const dispatch = useDispatch();
@@ -37,8 +43,10 @@ const FeaturedCard = ({
         lodgePrice,
         lodgeName,
         lodgeLocation,
+        lodgeType: "featured",
       })
     );
+    dispatch(displaceLodges());
   }, [liked]);
 
   const activateLike = (num) => {
@@ -54,17 +62,21 @@ const FeaturedCard = ({
         >
           {available ? "Available" : "Not Available"}
         </div>
-        <motion.div
-          onClick={toggleLike}
-          whileTap={{ scale: 0.8 }}
-          className="like__box"
-        >
-          <FavoriteIcon
-            className={`${
-              activateLike(id) > -1 ? "lodge-liked" : "lodge-like"
-            }`}
-          />
-        </motion.div>
+        {type === "featured" ? (
+          <></>
+        ) : (
+          <motion.div
+            onClick={toggleLike}
+            whileTap={{ scale: 0.8 }}
+            className="like__box"
+          >
+            <FavoriteIcon
+              className={`${
+                activateLike(id) > -1 ? "lodge-liked" : "lodge-like"
+              }`}
+            />
+          </motion.div>
+        )}
       </div>
       <div className="featured__card-desc">
         <div className="featured__card-desc-first">
@@ -95,8 +107,18 @@ const FeaturedCard = ({
           whileTap={{ scale: 0.8 }}
           className="featured__card-desc-btn"
         >
-          View Details
+          <Link style={{ color: "white" }} to="/details">
+            View Details
+          </Link>
         </motion.div>
+
+        {type !== "featured" && (
+          <div className="arrow__box">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        )}
       </div>
     </div>
   );
