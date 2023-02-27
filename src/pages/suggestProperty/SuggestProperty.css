@@ -130,16 +130,50 @@
 
 
 .suggest-btn {
+  display: block;
   background-color: var(--text-primary);
   outline-color: transparent;
   border: none;
-  font-size: var(--text-4);
+  font-size: var(--text-2);
   color: white;
-  padding: 2rem 2.5rem;
-  border-radius: 5px;
+  padding: 1.5rem 3rem;
+  border-radius: 10px;
   cursor: pointer;
-  margin-top: 3rem;
+  margin: 3rem auto;
 }
+
+.verify-btns {
+  display: flex;
+  justify-content: center;
+  margin-top: 3rem;
+  gap: 2rem;
+  text-align: center;
+}
+
+.verify-btn {
+  padding: 1.5rem 3rem;
+  border-radius: 10px;
+}
+
+.verify-btn.verify {
+  background-color: var(--text-primary);
+  font-size: var(--text-2);
+  color: white;
+}
+
+.verify-btn.continue {
+  background-color: var(--text-light);
+  font-size: var(--text-2);
+  color: white;
+}
+
+
+.verify-btn.trash {
+  background-color: var(--bg-danger);
+  font-size: var(--text-2);
+  color: white;
+}
+
 
 
 /* at media query 950px */
@@ -183,3 +217,10 @@
   }
 }
 
+
+/* at media query 400px */
+@media screen and (max-width: 400px) {
+  .verify-btns {
+    flex-direction: column;
+  }
+}

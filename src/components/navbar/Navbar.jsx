@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { selectLodgeList } from "../../features/slices/lodgeSlice";
 import { useNavigate } from "react-router-dom";
+import AnchorLink from "react-anchor-link-smooth-scroll";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -49,13 +50,19 @@ const Navbar = () => {
 
           <ul className="nav__links">
             {/* <li className="nav__link">Town</li> */}
-            <li className="nav__link">Marketplace</li>
+            <AnchorLink href="#market-place">
+              <li className="nav__link">Marketplace</li>
+            </AnchorLink>
             <li className="nav__link" onClick={handleLikedPage}>
               <span>Liked</span>
               <div className="liked-notification">{getLodgeList?.length}</div>
             </li>
-            <li className="nav__link">Signup</li>
-            <Button text="Suggest a lodge" type="fill" />
+            <Link to="/signup">
+              <li className="nav__link">Signup</li>
+            </Link>
+            <Link to="/suggest">
+              <Button text="Suggest a lodge" type="fill" />
+            </Link>
           </ul>
 
           {openNav ? (
@@ -73,13 +80,19 @@ const Navbar = () => {
       </div>
       <ul className={`mobile__nav ${openNav && "active"}`}>
         {/* <li className="nav__link">Town</li> */}
-        <li className="nav__link">Marketplace</li>
+        <AnchorLink href="#market-place">
+          <li className="nav__link">Marketplace</li>
+        </AnchorLink>
         <li className="nav__link" onClick={handleLikedPage}>
           <span>Liked</span>
           <div className="liked-notification">{getLodgeList?.length}</div>
         </li>
-        <li className="nav__link">Signup</li>
-        <Button text="Suggest a lodge" type="fill" />
+        <Link to="/signup">
+          <li className="nav__link">Signup</li>
+        </Link>
+        <Link to="/suggest">
+          <Button text="Suggest a lodge" type="fill" />
+        </Link>
       </ul>
     </nav>
   );

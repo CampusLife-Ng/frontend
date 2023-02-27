@@ -7,7 +7,7 @@ import {
   selectNormalLodgeList,
   setLodges,
 } from "./features/slices/lodgeSlice";
-import { Home, Details, ViewAll, LikedPage, SignUp, SuggestProperty } from "./pages";
+import { Home, Details, ViewAll, LikedPage, SignUp, SuggestProperty, VerifyProperty } from "./pages";
 
 function App() {
   const dispatch = useDispatch();
@@ -47,6 +47,7 @@ function App() {
         <Route path="/liked-lodges" element={<LikedPage />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/suggest" element={<SuggestProperty />} />
+        <Route path="/verify-property" element={<VerifyProperty />}/>
       </Routes>
     </>
   );

@@ -30,6 +30,7 @@ import {
   lodgeDataUmuchimma,
   lodgeDataIhiagwa,
 } from "../../utils/dev-data";
+import { Link } from "react-router-dom";
 // import { v4 as uuidv4 } from "uuid";
 
 const Home = () => {
@@ -52,8 +53,12 @@ const Home = () => {
                 at gravida vestibulum. amet nunc dui lorem.
               </p>
               <div className="hero__btn">
-                <Button text="Suggest a lodge" type="fill" />
-                <Button text="Browse all properties" type="outline" />
+                <Link to="/suggest">
+                  <Button text="Suggest a lodge" type="fill" />
+                </Link>
+                <Link to="/view-all">
+                  <Button text="Browse all properties" type="outline" />
+                </Link>
               </div>
             </div>
             <div className="hero__right">
@@ -240,7 +245,7 @@ const Home = () => {
       </section>
 
       {/* MARKET PLACE SECTION */}
-      <section className="market__place">
+      <section className="market__place" id="market-place">
         <FeatureTop text="Our Marketplace" type="market-place" />
         <div className="market__place-content">
           <div className="market__place-content-container">
