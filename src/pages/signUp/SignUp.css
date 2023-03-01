@@ -58,12 +58,55 @@
 .signup-form-group input {
   /* width: 90%; */
   height: 6rem;
+  width: 100%;
   border-radius: 10px;
   border: 1px solid var(--bg-neutral);
   font-family: inherit;
   color: var(--text-dark);
-  padding: 0 1.5rem;
+  padding: 0 2rem;
   font-size: var(--text-1);
+}
+
+.signup-form-group > div {
+  position: relative;
+}
+
+.signup-form-group .visibles-icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 1.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.signup-form-group .visibles-icon .signup-eye-open {
+  font-size: 2rem;
+  cursor: pointer;
+  color: var(--text-light);
+  opacity: 0.55;
+}
+
+.signup-form-group .visibles-icon .signup-eye-close {
+  font-size: 2rem;
+  cursor: pointer;
+  color: var(--text-light);
+  opacity: 0.55;
+}
+
+.signup-form-group .visibles-icon .signup-eye-open.hidden {
+  display: none;
+}
+.signup-form-group .visibles-icon .signup-eye-close.hidden {
+  display: none;
+}
+
+.signup-icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 2rem;
+  font-size: 2.5rem !important;
 }
 
 .signup-form-btn {
@@ -77,6 +120,8 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  border-color: transparent;
+  font-family: inherit;
 }
 
 .signup-form-google {
@@ -97,6 +142,15 @@
   color: var(--text-blue);
   font-size: var(--text-3) !important;
   margin-right: 1rem;
+}
+
+.signup-institution {
+  display: block;
+  border: 1px solid var(--bg-neutral);
+  margin-left: 0;
+  padding: 2rem;
+  border-radius: 10px;
+  width: 100%;
 }
 
 /* .signup-form .select_institution {

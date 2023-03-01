@@ -7,16 +7,49 @@ import RoomIcon from "@mui/icons-material/Room";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { toast } from "react-toastify";
 
 const SearchBar = () => {
   const [openFilterBox, setOpenFilterBox] = useState(false);
+  const [searchForm, setSearchForm] = useState({
+    lodgename: null,
+    lodgetype: null,
+    lodgetown: null,
+    lodgelocation: null,
+  });
+
+  const updateSearchFormState = (type, value) => {
+    console.log(type, value);
+    setSearchForm((prev) => {
+      return {
+        ...prev,
+        [type]: value,
+      };
+    });
+  };
+
+  const submitSearchForm = (e) => {
+    e.preventDefault();
+    for (const val in searchForm) {
+      if (!searchForm[val]) {
+        toast.warning("Please fill all search fields");
+        return;
+      }
+    }
+
+    // TODO: RUN AXIOS POST REQUEST TO SUBMIT DATA
+    console.log(searchForm);
+    window.location.reload(); // for now!!
+  };
 
   return (
     <div className="search">
-      <form className="search__form">
+      {/* DESKTOP SEARCH FORM */}
+      <form onSubmit={(e) => submitSearchForm(e)} className="search__form">
         <div className="form-group">
           <SearchIcon className="group-icon" />
           <input
+            onChange={(e) => updateSearchFormState("lodgename", e.target.value)}
             type="text"
             name="lodge-name"
             id="lodge-name"
@@ -27,6 +60,7 @@ const SearchBar = () => {
         <div className="form-group">
           <CallMergeIcon className="group-icon" />
           <select
+            onChange={(e) => updateSearchFormState("lodgetype", e.target.value)}
             className="select"
             defaultValue={"Type Of Lodge"}
             name="lodge-type"
@@ -45,6 +79,7 @@ const SearchBar = () => {
         <div className="form-group">
           <HouseIcon className="group-icon" />
           <select
+            onChange={(e) => updateSearchFormState("lodgetown", e.target.value)}
             className="select"
             defaultValue={"Lodge Town"}
             name="lodge-town"
@@ -63,6 +98,9 @@ const SearchBar = () => {
         <div className="form-group">
           <RoomIcon className="group-icon" />
           <select
+            onChange={(e) =>
+              updateSearchFormState("lodgelocation", e.target.value)
+            }
             className="select"
             defaultValue={"Location"}
             name="lodge-location"
@@ -85,11 +123,15 @@ const SearchBar = () => {
         </div>
       </form>
 
-      <form className="search__form-mobile">
+      {/* MOBILE SEARCH FORM */}
+      <form onSubmit={(e) => submitSearchForm(e)} className="search__form-mobile">
         <div className="top">
           <div className="form-group">
             <SearchIcon className="group-icon" />
             <input
+              onChange={(e) =>
+                updateSearchFormState("lodgename", e.target.value)
+              }
               type="text"
               name="lodge-name"
               id="lodge-name"
@@ -108,6 +150,9 @@ const SearchBar = () => {
           <div className="form-group">
             <CallMergeIcon className="group-icon" />
             <select
+              onChange={(e) =>
+                updateSearchFormState("lodgetype", e.target.value)
+              }
               className="select"
               defaultValue={"Type Of Lodge"}
               name="lodge-type"
@@ -126,6 +171,9 @@ const SearchBar = () => {
           <div className="form-group">
             <HouseIcon className="group-icon" />
             <select
+              onChange={(e) =>
+                updateSearchFormState("lodgetown", e.target.value)
+              }
               className="select"
               defaultValue={"Lodge Town"}
               name="lodge-town"
@@ -144,6 +192,9 @@ const SearchBar = () => {
           <div className="form-group">
             <RoomIcon className="group-icon" />
             <select
+              onChange={(e) =>
+                updateSearchFormState("lodgelocation", e.target.value)
+              }
               className="select"
               defaultValue={"Location"}
               name="lodge-location"

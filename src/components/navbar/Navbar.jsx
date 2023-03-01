@@ -58,7 +58,7 @@ const Navbar = () => {
               <div className="liked-notification">{getLodgeList?.length}</div>
             </li>
             <Link to="/signup">
-              <li className="nav__link">Signup</li>
+              <li className="nav__link">Signup/Login</li>
             </Link>
             <Link to="/suggest">
               <Button text="Suggest a lodge" type="fill" />
@@ -88,7 +88,7 @@ const Navbar = () => {
           <div className="liked-notification">{getLodgeList?.length}</div>
         </li>
         <Link to="/signup">
-          <li className="nav__link">Signup</li>
+          <li className="nav__link">Signup/Login</li>
         </Link>
         <Link to="/suggest">
           <Button text="Suggest a lodge" type="fill" />

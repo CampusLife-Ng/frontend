@@ -8,6 +8,8 @@ import {
   setLodges,
 } from "./features/slices/lodgeSlice";
 import { Home, Details, ViewAll, LikedPage, SignUp, SuggestProperty, VerifyProperty } from "./pages";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const dispatch = useDispatch();
@@ -40,6 +42,7 @@ function App() {
 
   return (
     <>
+      <ToastContainer theme="colored" pauseOnHover={false} autoClose={3000} />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/details" element={<Details />} />
@@ -47,7 +50,7 @@ function App() {
         <Route path="/liked-lodges" element={<LikedPage />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/suggest" element={<SuggestProperty />} />
-        <Route path="/verify-property" element={<VerifyProperty />}/>
+        <Route path="/verify-property" element={<VerifyProperty />} />
       </Routes>
     </>
   );

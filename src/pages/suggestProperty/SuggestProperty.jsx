@@ -1,15 +1,22 @@
 import "./SuggestProperty.css";
-import React from "react";
+import React, { useState } from "react";
 import { Footer, Navbar, NewsLetter } from "../../components";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import WorkHistoryOutlinedIcon from "@mui/icons-material/WorkHistoryOutlined";
 import SuggestForm from "./SuggestForm";
 import { useNavigate, useLocation } from "react-router-dom";
+import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+import { motion } from "framer-motion";
+import NoImg from "./../../assets/no-img.png"
 
 const SuggestProperty = () => {
-
   const location = useLocation();
-  const verify = location.state?.verify || false
+  const verify = location.state?.verify || false;
+  
+  const handleDeleteImage = () => {
+    const preImg = document.getElementById("image-file-preview");
+    preImg.src = NoImg
+  }
 
   return (
     <>
@@ -48,6 +55,22 @@ const SuggestProperty = () => {
                 enim nisl praesent massa morbi eu morbi. Neque semper ultricies
                 fames.
               </p>
+            </div>
+
+            <div className="preview-box">
+              <div>
+                <h3>Image Preview</h3>
+                <motion.div
+                  onClick={handleDeleteImage}
+                  whileTap={{ scale: 0.8 }}
+                  className="delete-box"
+                >
+                  <DeleteOutlineOutlinedIcon className="delete-preview-box" />
+                </motion.div>
+              </div>
+              <div className="preview-img">
+                <img id="image-file-preview" src="" />
+              </div>
             </div>
           </div>
           <div className="right">
