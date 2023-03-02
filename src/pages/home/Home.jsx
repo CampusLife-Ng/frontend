@@ -31,13 +31,16 @@ import {
   lodgeDataIhiagwa,
 } from "../../utils/dev-data";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../features/slices/userSlice";
 // import { v4 as uuidv4 } from "uuid";
 
 const Home = () => {
+  const getUser = useSelector(selectUser);
   return (
     <>
       {/* NAVIGATION */}
-      <Navbar marketplace={true}/>
+      <Navbar marketplace={true} />
 
       {/* HERO SECTION */}
       <section className="hero">
@@ -59,6 +62,13 @@ const Home = () => {
                 <Link to="/view-all">
                   <Button text="Browse all properties" type="outline" />
                 </Link>
+                {getUser && (
+                  <>
+                    <Link to="/create-lodge">
+                      <Button text="Create a Lodge" type="outline-blue" />
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
             <div className="hero__right">
@@ -103,8 +113,19 @@ const Home = () => {
                 at.
               </p>
               <div className="hero__mobile-btn">
-                <Button text="Sugget a lodge" type="fill" />
-                <Button text="Browse all properties" type="outline" />
+                <Link to="/suggest">
+                  <Button text="Suggest a lodge" type="fill" />
+                </Link>
+                <Link to="/view-all">
+                  <Button text="Browse all properties" type="outline" />
+                </Link>
+                {getUser && (
+                  <>
+                    <Link to="/create-lodge">
+                      <Button text="Create a Lodge" type="outline-blue" />
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           </div>

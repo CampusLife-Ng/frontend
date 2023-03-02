@@ -8,6 +8,7 @@
   font-weight: 600;
   transition: all 300ms ease;
   font-family: inherit;
+  min-width: 22rem;
 }
 
 .btn:hover {

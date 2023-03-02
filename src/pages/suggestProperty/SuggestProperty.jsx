@@ -59,7 +59,12 @@ const SuggestProperty = () => {
 
             <div className="preview-box">
               <div>
-                <h3>Image Preview</h3>
+                <h3>
+                  Image Preview{" "}
+                  <span className="lodge-picture-notice">
+                    (lodge frontal view*)
+                  </span>
+                </h3>
                 <motion.div
                   onClick={handleDeleteImage}
                   whileTap={{ scale: 0.8 }}

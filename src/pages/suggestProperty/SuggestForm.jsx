@@ -21,13 +21,16 @@ const SuggestForm = ({ verify }) => {
     lodgeprice: null,
     lodgedescription: null,
     lodgepicture: null,
+    caretakernumber: null,
+    lodgemultiplepicture: [],
+    lng: null,
+    lat: null,
   });
 
   useEffect(() => {
     let preview = document.getElementById("image-file-preview");
     preview.src = NoImg;
   }, []);
-
 
   // console.log(suggestLodgeData);
 
@@ -48,6 +51,27 @@ const SuggestForm = ({ verify }) => {
     }
   };
 
+  const handleImgUploadMultiple = (e) => {
+    let boxContainer = document.getElementById("multiple-img-showcase");
+    let finalArr = [];
+    console.log(e.target.files);
+    if (e.target.files.length > 3)
+      return toast.warning("must be 3 photos uploaded");
+    boxContainer.innerHTML = "";
+    for (let i = 0; i < e.target.files.length; i++) {
+      boxContainer.innerHTML += `<p>${e.target.files[i].name}</p>`;
+      finalArr.push(e.target.files[i]);
+      // console.log(e.target.files[i].name)
+    }
+
+    setSuggestLodgeData((prev) => {
+      return {
+        ...prev,
+        ["lodgemultiplepicture"]: finalArr,
+      };
+    });
+  };
+
   const updateSuggestFormState = (type, value) => {
     // console.log(type, value);
     setSuggestLodgeData((prev) => {
@@ -60,10 +84,20 @@ const SuggestForm = ({ verify }) => {
 
   const submitSuggestForm = (e) => {
     e.preventDefault();
-    for (const val in suggestLodgeData) {
-      if (!suggestLodgeData[val]) {
-        toast.warning("All fields are required");
-        return;
+    if (verify) {
+      for (let val in suggestLodgeData) {
+        if (!suggestLodgeData[val])
+          return toast.warning("All fields are required");
+      }
+    }
+
+    if (!verify) {
+      for (let val in suggestLodgeData) {
+        if (val === "lat" || val === "lng" || val === "lodgemultiplepicture") {
+          continue;
+        }
+        if (!suggestLodgeData[val])
+          return toast.warning("All fields are required");
       }
     }
 
@@ -211,6 +245,20 @@ const SuggestForm = ({ verify }) => {
           </div>{" "}
           <div>
             <div className="peronal-details-form-group">
+              <label>CareTaker's Number</label>
+              <div>
+                <span className="country-code">+234</span>
+                <input
+                  onChange={(e) =>
+                    updateSuggestFormState("caretakernumber", e.target.value)
+                  }
+                  type="number"
+                />
+              </div>
+            </div>
+          </div>{" "}
+          <div>
+            <div className="peronal-details-form-group">
               <label>Lodge Price</label>
               <div>
                 <span className="country-code">₦</span>
@@ -223,10 +271,40 @@ const SuggestForm = ({ verify }) => {
               </div>
             </div>
           </div>{" "}
+          {verify && (
+            <>
+              <div>
+                {" "}
+                <div className="peronal-details-form-group">
+                  <label>Longitude</label>
+                  <input
+                    onChange={(e) =>
+                      updateSuggestFormState("lng", e.target.value)
+                    }
+                    type="number"
+                  />
+                </div>{" "}
+                <div className="peronal-details-form-group">
+                  <label>Latitude</label>
+                  <input
+                    onChange={(e) =>
+                      updateSuggestFormState("lat", e.target.value)
+                    }
+                    type="number"
+                  />
+                </div>
+              </div>
+            </>
+          )}
           <div>
             {" "}
             <div className="peronal-details-form-group">
-              <label>Lodge Picture</label>
+              <label>
+                Lodge Picture{" "}
+                <span className="lodge-picture-notice">
+                  (lodge frontal view*)
+                </span>
+              </label>
               <div>
                 <label
                   id="lodge-img"
@@ -244,6 +322,42 @@ const SuggestForm = ({ verify }) => {
               </div>
             </div>
           </div>
+          {verify && (
+            <>
+              {" "}
+              <div className="showcase-div">
+                {" "}
+                <div className="peronal-details-form-group showcase">
+                  <label>
+                    Showcase Pictures{" "}
+                    <span className="lodge-picture-notice">
+                      (exactly 3 images*)
+                    </span>
+                  </label>
+                  <div>
+                    <label
+                      id="lodge-img-showcase"
+                      className="lodge-img"
+                      htmlFor="lodge-image-showcase"
+                    ></label>
+                    <input
+                      onChange={(e) => handleImgUploadMultiple(e)}
+                      className="lodge-image-action"
+                      id="lodge-image-showcase"
+                      type="file"
+                      accept="image/*"
+                      multiple
+                    />
+                    <FileUploadOutlinedIcon className="lodge-img-icon" />
+                  </div>
+                  <div
+                    id="multiple-img-showcase"
+                    className="multiple-img-showcase"
+                  ></div>
+                </div>
+              </div>
+            </>
+          )}
           <div>
             {" "}
             <div className="peronal-details-form-group">
@@ -263,9 +377,13 @@ const SuggestForm = ({ verify }) => {
 
         {verify ? (
           <div className="verify-btns">
-            <motion.div whileTap={{ scale: 0.8 }} className="verify-btn verify">
+            <motion.button
+              type="submit"
+              whileTap={{ scale: 0.8 }}
+              className="verify-btn verify"
+            >
               Verify
-            </motion.div>
+            </motion.button>
             <motion.div
               onClick={() => navigator(-1)}
               whileTap={{ scale: 0.8 }}

@@ -7,9 +7,19 @@ import {
   selectNormalLodgeList,
   setLodges,
 } from "./features/slices/lodgeSlice";
-import { Home, Details, ViewAll, LikedPage, SignUp, SuggestProperty, VerifyProperty, Auth } from "./pages";
+import {
+  Home,
+  Details,
+  ViewAll,
+  LikedPage,
+  SuggestProperty,
+  VerifyProperty,
+  Auth,
+  CreateLodge,
+} from "./pages";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ScrollToTop from "react-scroll-to-top";
 
 function App() {
   const dispatch = useDispatch();
@@ -51,7 +61,18 @@ function App() {
         <Route path="/auth" element={<Auth />} />
         <Route path="/suggest" element={<SuggestProperty />} />
         <Route path="/verify-property" element={<VerifyProperty />} />
+        <Route path="/create-lodge" element={<CreateLodge />} />
       </Routes>
+      <ScrollToTop
+        smooth
+        color="white"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: "var(--text-primary)",
+        }}
+      />
     </>
   );
 }
