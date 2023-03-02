@@ -132,9 +132,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* SEARCH BAR */}
-      <SearchBar />
-
       {/* FEATURED LODGES SECTION*/}
       <section className="feature__section">
         <FeatureTop text="Featured Lodges" type="featured" />
@@ -183,6 +180,9 @@ const Home = () => {
           </Swiper>
         </div>
       </section>
+
+      {/* SEARCH BAR */}
+      <SearchBar />
 
       {/* LODGES IN EZIOBODO SECTION*/}
       <section className="lodges__section-1">

@@ -19,7 +19,7 @@ const SearchBar = () => {
   });
 
   const updateSearchFormState = (type, value) => {
-    console.log(type, value);
+    // console.log(type, value);
     setSearchForm((prev) => {
       return {
         ...prev,
@@ -39,7 +39,7 @@ const SearchBar = () => {
 
     // TODO: RUN AXIOS POST REQUEST TO SUBMIT DATA
     console.log(searchForm);
-    window.location.reload(); // for now!!
+    // window.location.reload(); // for now!!
   };
 
   return (

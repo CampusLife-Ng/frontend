@@ -86,6 +86,14 @@ const SuggestForm = ({ verify }) => {
     e.preventDefault();
     if (verify) {
       for (let val in suggestLodgeData) {
+        if (
+          val === "fullname" ||
+          val === "email" ||
+          val === "phonenumber" ||
+          val === "institution"
+        ) {
+          continue;
+        }
         if (!suggestLodgeData[val])
           return toast.warning("All fields are required");
       }
@@ -109,69 +117,75 @@ const SuggestForm = ({ verify }) => {
   return (
     <>
       <form onSubmit={(e) => submitSuggestForm(e)}>
-        <div className="personal-details">
-          <div>
+        {!verify && (
+          <>
             {" "}
-            <div className="peronal-details-form-group">
-              <label>Fullname</label>
-              <input
-                onChange={(e) =>
-                  updateSuggestFormState("fullname", e.target.value)
-                }
-                type="text"
-                placeholder="fullname"
-              />
-            </div>{" "}
-            <div className="peronal-details-form-group">
-              <label>Email</label>
-              <input
-                onChange={(e) =>
-                  updateSuggestFormState("email", e.target.value)
-                }
-                type="email"
-                placeholder="email"
-              />
-            </div>
-          </div>
-          <div>
-            <div className="peronal-details-form-group">
-              <label>Phone number</label>
+            <div className="personal-details">
               <div>
-                <span className="country-code">+234</span>
-                <input
-                  onChange={(e) =>
-                    updateSuggestFormState("phonenumber", e.target.value)
-                  }
-                  type="number"
-                />
+                {" "}
+                <div className="peronal-details-form-group">
+                  <label>Fullname</label>
+                  <input
+                    onChange={(e) =>
+                      updateSuggestFormState("fullname", e.target.value)
+                    }
+                    type="text"
+                    placeholder="fullname"
+                  />
+                </div>{" "}
+                <div className="peronal-details-form-group">
+                  <label>Email</label>
+                  <input
+                    onChange={(e) =>
+                      updateSuggestFormState("email", e.target.value)
+                    }
+                    type="email"
+                    placeholder="email"
+                  />
+                </div>
               </div>
-            </div>
+              <div>
+                <div className="peronal-details-form-group">
+                  <label>Phone number</label>
+                  <div>
+                    <span className="country-code">+234</span>
+                    <input
+                      onChange={(e) =>
+                        updateSuggestFormState("phonenumber", e.target.value)
+                      }
+                      type="number"
+                    />
+                  </div>
+                </div>
 
-            <div className="peronal-details-form-group">
-              <label>Institution</label>
-              <div>
-                <select
-                  onChange={(e) =>
-                    updateSuggestFormState("institution", e.target.value)
-                  }
-                  defaultValue={"Select Institution"}
-                  className="institution-select"
-                  name="institution"
-                  id="institution"
-                >
-                  <option value={"Select Institution"} disabled>
-                    Select Institution
-                  </option>
-                  <option value="futo">Futo</option>
-                  <option value="unn">Unn</option>
-                  <option value="unizik">Unizik</option>
-                </select>
-                <ArrowDropDownOutlinedIcon className="instDropDown" />
+                <div className="peronal-details-form-group">
+                  <label>Institution</label>
+                  <div>
+                    <select
+                      onChange={(e) =>
+                        updateSuggestFormState("institution", e.target.value)
+                      }
+                      defaultValue={"Select Institution"}
+                      className="institution-select"
+                      name="institution"
+                      id="institution"
+                    >
+                      <option value={"Select Institution"} disabled>
+                        Select Institution
+                      </option>
+                      <option value="futo">Futo</option>
+                      <option value="unn">Unn</option>
+                      <option value="unizik">Unizik</option>
+                    </select>
+                    <ArrowDropDownOutlinedIcon className="instDropDown" />
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-        <div className="property-details">
+          </>
+        )}
+
+        <div className={`property-details ${verify ? "verify" : ""}`}>
           <div>
             {" "}
             <div className="peronal-details-form-group">
