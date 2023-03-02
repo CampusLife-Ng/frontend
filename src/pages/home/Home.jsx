@@ -37,7 +37,7 @@ const Home = () => {
   return (
     <>
       {/* NAVIGATION */}
-      <Navbar />
+      <Navbar marketplace={true}/>
 
       {/* HERO SECTION */}
       <section className="hero">

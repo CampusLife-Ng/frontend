@@ -5,3 +5,4 @@ export { default as LikedPage } from "./likedPage/LikedPage";
 export { default as SignUp } from "./signUp/SignUp";
 export { default as SuggestProperty } from "./suggestProperty/SuggestProperty";
 export { default as VerifyProperty } from "./verifyProperty/VerifyProperty";
+export {default as Auth } from "./signUp/Auth";

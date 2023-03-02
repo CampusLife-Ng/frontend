@@ -7,7 +7,7 @@ import {
   selectNormalLodgeList,
   setLodges,
 } from "./features/slices/lodgeSlice";
-import { Home, Details, ViewAll, LikedPage, SignUp, SuggestProperty, VerifyProperty } from "./pages";
+import { Home, Details, ViewAll, LikedPage, SignUp, SuggestProperty, VerifyProperty, Auth } from "./pages";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -48,7 +48,7 @@ function App() {
         <Route path="/details" element={<Details />} />
         <Route path="/view-all" element={<ViewAll />} />
         <Route path="/liked-lodges" element={<LikedPage />} />
-        <Route path="/signup" element={<SignUp />} />
+        <Route path="/auth" element={<Auth />} />
         <Route path="/suggest" element={<SuggestProperty />} />
         <Route path="/verify-property" element={<VerifyProperty />} />
       </Routes>

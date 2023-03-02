@@ -1,7 +1,23 @@
 .signup__body {
+  position: relative;
   margin-top: 13rem;
   padding: 3rem 0;
-  background-color: rgba(0, 0, 0, 0.9);
+  /* background-color: rgba(0, 0, 0, 0.9); */
+  background: url("./../../assets/campus-background.jpg") no-repeat;
+  background-position: center;
+  background-size: cover;
+  height: 100vh;
+}
+
+.signup__body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-image: linear-gradient(to bottom right, #002f4b, #dc4225);
+  opacity: 0.6;
 }
 
 .signup-form {
@@ -14,6 +30,11 @@
   gap: 2rem;
   padding: 3rem;
   border-radius: 5px;
+  /* z-index: 90; */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .signup-form h3 {
@@ -81,14 +102,14 @@
 }
 
 .signup-form-group .visibles-icon .signup-eye-open {
-  font-size: 2rem;
+  font-size: 3.2rem;
   cursor: pointer;
   color: var(--text-light);
   opacity: 0.55;
 }
 
 .signup-form-group .visibles-icon .signup-eye-close {
-  font-size: 2rem;
+  font-size: 3.2rem;
   cursor: pointer;
   color: var(--text-light);
   opacity: 0.55;

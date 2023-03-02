@@ -14,8 +14,40 @@ import Room1 from "./../../assets/room1.jpg";
 import Room2 from "./../../assets/room2.jpg";
 import Room3 from "./../../assets/room3.jpg";
 import Room4 from "./../../assets/room4.jpg";
+import { useState } from "react";
+import { toast } from "react-toastify";
 
 const Details = () => {
+  const [detailsSearchData, setDetailsSearchData] = useState({
+    propertyname: "",
+    location: "",
+    town: "",
+    lodgetype: "",
+  });
+
+  const updateDetailsSearchData = (type, value) => {
+    setDetailsSearchData((prev) => {
+      return {
+        ...prev,
+        [type]: value,
+      };
+    });
+  };
+
+  const handleDetailSearchForm = (e) => {
+    e.preventDefault();
+    for (const val in detailsSearchData) {
+      if (!detailsSearchData[val]) {
+        toast.warning("Please fill all fields");
+        return;
+      }
+    }
+
+    // TODO: RUN AXIOS POST REQUEST TO SUBMIT DATA
+    console.log(detailsSearchData);
+    // window.location.reload(); for now!!
+  };
+
   return (
     <>
       <Navbar />
@@ -24,13 +56,22 @@ const Details = () => {
           <div className="details__top">
             <div className="details__top-display">
               <div className="details__top-display-left">
-                <form className="details__top-form">
+                <form
+                  onSubmit={(e) => handleDetailSearchForm(e)}
+                  className="details__top-form"
+                >
                   <h3>Search</h3>
                   <div className="details-form-group">
                     <p>Property Name</p>
                     <div>
                       <SearchIcon className="details-form-group-icon" />
                       <input
+                        onChange={(e) =>
+                          updateDetailsSearchData(
+                            "propertyname",
+                            e.target.value
+                          )
+                        }
                         type="text"
                         name="lodge-name"
                         id="lodge-name"
@@ -44,6 +85,9 @@ const Details = () => {
                     <div>
                       <RoomIcon className="details-form-group-icon" />
                       <select
+                        onChange={(e) =>
+                          updateDetailsSearchData("location", e.target.value)
+                        }
                         className="select"
                         defaultValue={"Location"}
                         name="lodge-location"
@@ -65,6 +109,9 @@ const Details = () => {
                     <div>
                       <HouseIcon className="details-form-group-icon" />
                       <select
+                        onChange={(e) =>
+                          updateDetailsSearchData("town", e.target.value)
+                        }
                         className="select"
                         defaultValue={"Town"}
                         name="lodge-town"
@@ -86,6 +133,9 @@ const Details = () => {
                     <div>
                       <CallMergeIcon className="details-form-group-icon" />
                       <select
+                        onChange={(e) =>
+                          updateDetailsSearchData("lodgetype", e.target.value)
+                        }
                         className="select"
                         defaultValue={"Type Of Lodge"}
                         name="lodge-type"
@@ -102,12 +152,13 @@ const Details = () => {
                     </div>
                   </div>
 
-                  <motion.div
+                  <motion.button
+                    type="submit"
                     whileTap={{ scale: 0.8 }}
                     className="details-form-group-btn"
                   >
                     Search
-                  </motion.div>
+                  </motion.button>
                 </form>
                 <div className="details__top-map-box">
                   <motion.div
@@ -155,9 +206,9 @@ const Details = () => {
                     </div>
                     <div className="right__images-bottom-3">
                       <img src={Room4} alt="image-4" />
-                      <motion.span whileTap={{ scale: 0.8 }}>
+                      {/* <motion.span whileTap={{ scale: 0.8 }}>
                         View More
-                      </motion.span>
+                      </motion.span> */}
                     </div>
                   </div>
                 </div>

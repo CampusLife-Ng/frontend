@@ -16,6 +16,8 @@ select {
   font-family: inherit;
   padding: 1rem;
   cursor: pointer;
+  background-color: white;
+  border-radius: 5px;
 }
 
 .select-icon {

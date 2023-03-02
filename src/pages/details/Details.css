@@ -149,6 +149,8 @@
   font-size: var(--text-2);
   cursor: pointer;
   border-radius: 10px;
+  font-family: inherit;
+  border-color: transparent;
 }
 
 .details-form-group p {
