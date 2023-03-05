@@ -145,17 +145,9 @@
 }
 
 .suggest-btn {
-  display: block;
-  background-color: var(--text-primary);
-  outline-color: transparent;
-  border: none;
-  font-size: var(--text-2);
-  color: white;
-  padding: 1.5rem 3rem;
-  border-radius: 10px;
-  cursor: pointer;
-  margin: 3rem auto;
-  font-family: inherit;
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
 }
 
 .verify-btns {

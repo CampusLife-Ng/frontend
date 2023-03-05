@@ -5,6 +5,7 @@ import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import NoImg from "./../../assets/no-img.png";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { Button } from "../../components";
 
 const SuggestForm = ({ verify }) => {
   const navigator = useNavigate();
@@ -411,13 +412,9 @@ const SuggestForm = ({ verify }) => {
           </div>
         ) : (
           <>
-            <motion.button
-              whileTap={{ scale: 0.8 }}
-              className="suggest-btn"
-              type="submit"
-            >
-              Suggest
-            </motion.button>
+          <div className="suggest-btn">
+            <Button text="Suggest" type="fill"/>
+          </div>
           </>
         )}
       </form>
