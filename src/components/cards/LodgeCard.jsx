@@ -16,6 +16,7 @@ import {
 } from "../../features/slices/lodgeSlice";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { selectUser } from "../../features/slices/userSlice";
 
 const LodgeCard = ({
   id,
@@ -55,7 +56,9 @@ const LodgeCard = ({
 
   const handleShowMap = () => {
     toast.info("Map Coming Soon.. 😁");
-  }
+  };
+
+  const getUser = useSelector(selectUser);
 
   return (
     <div className="lodge__card">
@@ -87,7 +90,9 @@ const LodgeCard = ({
       <div className="bottom">
         <div className="bottom__first">
           <p className="lodge__card-price">₦ {lodgePrice} </p>
-          <motion.p onClick={handleShowMap} whileTap={{ scale: 0.8 }}>Show on map</motion.p>
+          <motion.p onClick={handleShowMap} whileTap={{ scale: 0.8 }}>
+            Show on map
+          </motion.p>
         </div>
         <p className="lodge__name">{lodgeName} Lodge, FUTO</p>
         <p className="lodge__location">
@@ -101,14 +106,36 @@ const LodgeCard = ({
           <Specs Icon={WcIcon} text="Toilet" />
           <Specs Icon={WaterIcon} text="Running water" />
         </div>
-        <motion.div
-          whileTap={{ scale: 0.8 }}
-          className="featured__card-desc-btn"
-        >
-          <Link style={{ color: "white" }} to="/details">
-            View Details
-          </Link>
-        </motion.div>
+        <div className="card-btns">
+          <motion.div
+            whileTap={{ scale: 0.8 }}
+            className="featured__card-desc-btn"
+          >
+            <Link style={{ color: "white" }} to="/details">
+              View Details
+            </Link>
+          </motion.div>
+
+          {getUser && (
+            <>
+              <motion.div
+                whileTap={{ scale: 0.8 }}
+                className="lodge-card-update-btn"
+              >
+                <Link style={{ color: "white" }} to="/create-lodge">
+                  Update
+                </Link>
+              </motion.div>
+
+              <motion.div
+                whileTap={{ scale: 0.8 }}
+                className="lodge-card-delete-btn"
+              >
+                Delete
+              </motion.div>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );

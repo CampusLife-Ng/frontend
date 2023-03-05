@@ -16,6 +16,7 @@ import {
 } from "../../features/slices/lodgeSlice";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { selectUser } from "../../features/slices/userSlice";
 
 const FeaturedCard = ({
   img,
@@ -29,6 +30,7 @@ const FeaturedCard = ({
   const [liked, setLiked] = useState(false);
   const dispatch = useDispatch();
   const lodgeList = useSelector(selectLodgeList);
+  const getUser = useSelector(selectUser);
 
   const toggleLike = () => {
     setLiked(!liked);
@@ -110,14 +112,36 @@ const FeaturedCard = ({
           <Specs Icon={WcIcon} text="Toilet" />
           <Specs Icon={WaterIcon} text="Running water" />
         </div>
-        <motion.div
-          whileTap={{ scale: 0.8 }}
-          className="featured__card-desc-btn"
-        >
-          <Link style={{ color: "white" }} to="/details">
-            View Details
-          </Link>
-        </motion.div>
+        <div className="featured-action-btns">
+          <motion.div
+            whileTap={{ scale: 0.8 }}
+            className="featured__card-desc-btn"
+          >
+            <Link style={{ color: "white" }} to="/details">
+              View Details
+            </Link>
+          </motion.div>
+
+          {getUser && (
+            <>
+              <motion.div
+                whileTap={{ scale: 0.8 }}
+                className="lodge-card-update-btn"
+              >
+                <Link style={{ color: "white" }} to="/create-lodge">
+                  Update
+                </Link>
+              </motion.div>
+
+              <motion.div
+                whileTap={{ scale: 0.8 }}
+                className="lodge-card-delete-btn"
+              >
+                Delete
+              </motion.div>
+            </>
+          )}
+        </div>
 
         {type !== "featured" && (
           <div className="arrow__box">

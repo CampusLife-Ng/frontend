@@ -98,6 +98,29 @@
   color: var(--text-light);
 }
 
+.card-btns {
+  display: flex;
+  justify-content: space-between;
+}
+
+.lodge-card-delete-btn {
+  padding: 1rem 2rem;
+  background-color: var(--bg-danger);
+  width: max-content;
+  cursor: pointer;
+  border-radius: 5px;
+  color: white;
+}
+
+.lodge-card-update-btn{
+  padding: 1rem 2rem;
+  background-color: var(--text-blue);
+  width: max-content;
+  cursor: pointer;
+  border-radius: 5px;
+  color: white;
+}
+
 @media screen and (max-width: 26.25em) {
   .lodge__card {
     width: 95vw;
