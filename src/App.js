@@ -16,10 +16,12 @@ import {
   VerifyProperty,
   Auth,
   CreateLodge,
+  MissingPage,
 } from "./pages";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ScrollToTop from "react-scroll-to-top";
+import { Layout, RequireAuth } from "./components";
 
 function App() {
   const dispatch = useDispatch();
@@ -54,14 +56,24 @@ function App() {
     <>
       <ToastContainer theme="colored" pauseOnHover={false} autoClose={3000} />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/details" element={<Details />} />
-        <Route path="/view-all" element={<ViewAll />} />
-        <Route path="/liked-lodges" element={<LikedPage />} />
-        <Route path="/auth" element={<Auth />} />
-        <Route path="/suggest" element={<SuggestProperty />} />
-        <Route path="/verify-property" element={<VerifyProperty />} />
-        <Route path="/create-lodge" element={<CreateLodge />} />
+        <Route path="/" element={<Layout />}>
+          {/* PUBLIC ROUTES */}
+          <Route path="/" element={<Home />} />
+          <Route path="/auth" element={<Auth />} />
+
+          {/* PROTECTED ROUTES */}
+          <Route element={<RequireAuth />}>
+            <Route path="/view-all" element={<ViewAll />} />
+            <Route path="/details" element={<Details />} />
+            <Route path="/liked-lodges" element={<LikedPage />} />
+            <Route path="/suggest" element={<SuggestProperty />} />
+            <Route path="/verify-property" element={<VerifyProperty />} />
+            <Route path="/create-lodge" element={<CreateLodge />} />
+          </Route>
+
+          {/* CATCH NON-EXISTING ROUTES */}
+          <Route path="*" element={<MissingPage />} />
+        </Route>
       </Routes>
       <ScrollToTop
         smooth

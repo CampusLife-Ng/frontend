@@ -26,6 +26,17 @@
   color: var(--text-primary);
 }
 
+.btn-danger {
+  background-color: var(--bg-danger);
+  color: white;
+}
+
+.btn-outline-danger {
+  background-color: transparent;
+  border: 1px solid var(--bg-danger);
+  color: var(--bg-danger);
+}
+
 .btn-outline-blue {
   background-color: transparent;
   border: 1px solid var(--text-blue);

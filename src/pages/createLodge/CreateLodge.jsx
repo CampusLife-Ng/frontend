@@ -7,8 +7,8 @@ import ArrowDropDownOutlinedIcon from "@mui/icons-material/ArrowDropDownOutlined
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import { useState } from "react";
 import NoImg from "./../../assets/no-img.png";
-import { Action } from "@remix-run/router";
 import { toast } from "react-toastify";
+import Select from "react-select";
 
 // create lodge state
 const STATE = {
@@ -61,6 +61,9 @@ const reducer = (state, action) => {
     case "description":
       return { ...state, description: action.payload };
 
+    case "lodgespecs":
+      return { ...state, lodgespecs: action.payload };
+
     default:
       throw new Error().message;
   }
@@ -79,11 +82,27 @@ const ACTION = {
   LODGEPICTURE: "lodgepicture",
   LODGEMULTIPLEPICTURE: "lodgemultiplepicture",
   DESCRIPTION: "description",
+  LODGESPECS: "lodgespecs",
 };
 
 const CreateLodge = () => {
   const [singleImg, setSingleImg] = useState(null);
   const [createLodgeState, dispatch] = useReducer(reducer, STATE);
+  const lodgeSpecs = [
+    { value: "water", label: "Water" },
+    { value: "electricity", label: "Electricity" },
+    { value: "good-network", label: "Good Network" },
+    { value: "bustop-location", label: "Bustop Location" },
+  ];
+
+  const handleSelectChange = (event) => {
+    let ans = [];
+    for (let i = 0; i < event.length; i++) {
+      ans.push(event[i].value);
+    }
+    // console.log(ans);
+    dispatch({ type: ACTION.LODGESPECS, payload: ans });
+  };
 
   useEffect(() => {
     let preview = document.getElementById("create-lodge__image-file-preview");
@@ -135,6 +154,8 @@ const CreateLodge = () => {
     console.log(createLodgeState);
     // window.location.reload(); // for now!!
   };
+
+  // console.log(createLodgeState);
 
   return (
     <>
@@ -285,6 +306,18 @@ const CreateLodge = () => {
                   />
                 </div>
               </div>
+            </div>
+
+            {/* LODGE SPECS */}
+            <div className="create-lodge-select">
+              <label>
+                Lodge Specs <span>(you can select multiple specs)</span>
+              </label>
+              <Select
+                options={lodgeSpecs}
+                isMulti
+                onChange={handleSelectChange}
+              />
             </div>
 
             {/* LONGITUDE AND LATITUDE */}

@@ -33,10 +33,14 @@ import {
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../features/slices/userSlice";
+import { toast } from "react-toastify";
 // import { v4 as uuidv4 } from "uuid";
 
 const Home = () => {
   const getUser = useSelector(selectUser);
+  const handleShowMarketPlace = () => {
+    toast.info("Futo Market Place Coming Soon.. 😁");
+  };
   return (
     <>
       {/* NAVIGATION */}
@@ -182,7 +186,7 @@ const Home = () => {
       </section>
 
       {/* SEARCH BAR */}
-      <SearchBar />
+      {/* <SearchBar /> */}
 
       {/* LODGES IN EZIOBODO SECTION*/}
       <section className="lodges__section-1">
@@ -280,7 +284,7 @@ const Home = () => {
                 imperdiet rutrum faucibus.
               </p>
               <div className="market-place-btn">
-                <Button text="Coming Soon" type="outline" color="blue" />
+                <Button onclick={handleShowMarketPlace} text="Coming Soon" type="outline" color="blue" />
               </div>
             </div>
             <div className="right">

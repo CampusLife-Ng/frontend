@@ -15,6 +15,7 @@ import {
   selectLodgeList,
 } from "../../features/slices/lodgeSlice";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const FeaturedCard = ({
   img,
@@ -53,15 +54,19 @@ const FeaturedCard = ({
     return lodgeList?.findIndex((item) => item.id === num);
   };
 
+  const handleShowMap = () => {
+    toast.info("Map Coming Soon.. 😁");
+  };
+
   return (
     <div className="featured__card">
       <div className="featured__card-left">
         <img src={img} alt="" />
-        <div
+        {/* <div
           className={`availability ${available ? "available" : "notavailable"}`}
         >
           {available ? "Available" : "Not Available"}
-        </div>
+        </div> */}
         {type === "featured" ? (
           <></>
         ) : (
@@ -88,7 +93,9 @@ const FeaturedCard = ({
         </div>
         <div className="featured__card-desc-second">
           <h3>{lodgeName}</h3>
-          <motion.p whileTap={{ scale: 0.8 }}>Show on map</motion.p>
+          <motion.p onClick={handleShowMap} whileTap={{ scale: 0.8 }}>
+            Show on map
+          </motion.p>
         </div>
         <div className="featured__card-desc-third">
           <p>

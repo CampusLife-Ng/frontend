@@ -12,7 +12,6 @@ import { toast } from "react-toastify";
 const SearchBar = () => {
   const [openFilterBox, setOpenFilterBox] = useState(false);
   const [searchForm, setSearchForm] = useState({
-    lodgename: null,
     lodgetype: null,
     lodgetown: null,
     lodgelocation: null,
@@ -49,7 +48,7 @@ const SearchBar = () => {
         <div className="form-group">
           <SearchIcon className="group-icon" />
           <input
-            onChange={(e) => updateSearchFormState("lodgename", e.target.value)}
+            // onChange={(e) => updateSearchFormState("lodgename", e.target.value)}
             type="text"
             name="lodge-name"
             id="lodge-name"
@@ -110,8 +109,6 @@ const SearchBar = () => {
               Location
             </option>
             <option value="futo">Futo</option>
-            <option value="unn">Unn</option>
-            <option value="unizik">Unizik</option>
           </select>
           <KeyboardArrowDownIcon className="select-icon" />
         </div>
@@ -124,7 +121,10 @@ const SearchBar = () => {
       </form>
 
       {/* MOBILE SEARCH FORM */}
-      <form onSubmit={(e) => submitSearchForm(e)} className="search__form-mobile">
+      <form
+        onSubmit={(e) => submitSearchForm(e)}
+        className="search__form-mobile"
+      >
         <div className="top">
           <div className="form-group">
             <SearchIcon className="group-icon" />
@@ -184,7 +184,7 @@ const SearchBar = () => {
               </option>
               <option value="eziobodo">Eziobodo</option>
               <option value="umuchimma">Umuchimma</option>
-              <option value="obinze">Obinze</option>
+              <option value="ihiagwa">Ihiagwa</option>
             </select>
             <KeyboardArrowDownIcon className="select-icon" />
           </div>
@@ -204,8 +204,6 @@ const SearchBar = () => {
                 Location
               </option>
               <option value="futo">Futo</option>
-              <option value="unn">Unn</option>
-              <option value="unizik">Unizik</option>
             </select>
             <KeyboardArrowDownIcon className="select-icon" />
           </div>

@@ -6,6 +6,7 @@ import NoImg from "./../../assets/no-img.png";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Button } from "../../components";
+import Select from "react-select";
 
 const SuggestForm = ({ verify }) => {
   const navigator = useNavigate();
@@ -26,7 +27,30 @@ const SuggestForm = ({ verify }) => {
     lodgemultiplepicture: [],
     lng: null,
     lat: null,
+    lodgespecs: null,
   });
+
+  const lodgeSpecs = [
+    { value: "water", label: "Water" },
+    { value: "electricity", label: "Electricity" },
+    { value: "good-network", label: "Good Network" },
+    { value: "bustop-location", label: "Bustop Location" },
+  ];
+
+  const handleSelectChange = (event) => {
+    let ans = [];
+
+    for (let i = 0; i < event.length; i++) {
+      ans.push(event[i].value);
+    }
+
+    setSuggestLodgeData((prev) => {
+      return {
+        ...prev,
+        ["lodgespecs"]: ans,
+      };
+    });
+  };
 
   useEffect(() => {
     let preview = document.getElementById("image-file-preview");
@@ -113,6 +137,7 @@ const SuggestForm = ({ verify }) => {
     console.log(suggestLodgeData);
     // window.location.reload(); // for now!!
   };
+  // console.log(suggestLodgeData);
 
   return (
     <>
@@ -174,8 +199,6 @@ const SuggestForm = ({ verify }) => {
                         Select Institution
                       </option>
                       <option value="futo">Futo</option>
-                      <option value="unn">Unn</option>
-                      <option value="unizik">Unizik</option>
                     </select>
                     <ArrowDropDownOutlinedIcon className="instDropDown" />
                   </div>
@@ -271,6 +294,16 @@ const SuggestForm = ({ verify }) => {
               </div>
             </div>
           </div>{" "}
+          <div className="create-lodge-select">
+            <label>
+              Lodge Specs <span>(you can select multiple specs)</span>
+            </label>
+            <Select
+              options={lodgeSpecs}
+              isMulti
+              onChange={handleSelectChange}
+            />
+          </div>
           <div>
             <div className="peronal-details-form-group">
               <label>Lodge Price</label>
