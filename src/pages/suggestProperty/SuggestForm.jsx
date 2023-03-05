@@ -55,9 +55,8 @@ const SuggestForm = ({ verify }) => {
   const handleImgUploadMultiple = (e) => {
     let boxContainer = document.getElementById("multiple-img-showcase");
     let finalArr = [];
-    console.log(e.target.files);
-    if (e.target.files.length > 3)
-      return toast.warning("must be 3 photos uploaded");
+    if (e.target.files.length !== 3)
+      return toast.warning("Show case image field must have 3 images");
     boxContainer.innerHTML = "";
     for (let i = 0; i < e.target.files.length; i++) {
       boxContainer.innerHTML += `<p>${e.target.files[i].name}</p>`;
@@ -412,9 +411,9 @@ const SuggestForm = ({ verify }) => {
           </div>
         ) : (
           <>
-          <div className="suggest-btn">
-            <Button text="Suggest" type="fill"/>
-          </div>
+            <div className="suggest-btn">
+              <Button text="Suggest" type="fill" />
+            </div>
           </>
         )}
       </form>

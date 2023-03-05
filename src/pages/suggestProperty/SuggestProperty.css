@@ -266,11 +266,16 @@
 
 .multiple-img-showcase {
   display: flex;
-  gap: 3rem;
+  gap: 1rem;
 }
 
-.property-details .showcase-div {
+.multiple-img-showcase p{
+  border: 1px solid var(--text-light);
+  border-radius: 5px;
+  padding: 1rem;
 }
+
+
 
 .peronal-details-form-group .showcase {
   height: max-content;

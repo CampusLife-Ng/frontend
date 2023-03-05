@@ -105,9 +105,8 @@ const CreateLodge = () => {
   const handleMultipleImgUpload = (e) => {
     let boxContainer = document.getElementById("create-multiple-img-showcase");
     let finalArr = [];
-    if (e.target.files.length < 3)
+    if (e.target.files.length !== 3)
       return toast.warning("Show case image field must have 3 images");
-    console.log(e.target.files);
     boxContainer.innerHTML = "";
     for (let i = 0; i < e.target.files.length; i++) {
       boxContainer.innerHTML += `<p>${e.target.files[i].name}</p>`;
