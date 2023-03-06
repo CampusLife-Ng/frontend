@@ -128,7 +128,7 @@ const FeaturedCard = ({
                 whileTap={{ scale: 0.8 }}
                 className="lodge-card-update-btn"
               >
-                <Link style={{ color: "white" }} to="/create-lodge">
+                <Link style={{ color: "white" }} to="/update-lodge">
                   Update
                 </Link>
               </motion.div>

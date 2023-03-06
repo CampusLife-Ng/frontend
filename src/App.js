@@ -17,6 +17,7 @@ import {
   Auth,
   CreateLodge,
   MissingPage,
+  UpdateLodge,
 } from "./pages";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -69,6 +70,7 @@ function App() {
             <Route path="/suggest" element={<SuggestProperty />} />
             <Route path="/verify-property" element={<VerifyProperty />} />
             <Route path="/create-lodge" element={<CreateLodge />} />
+            <Route path="/update-lodge" element={<UpdateLodge />}/>
           </Route>
 
           {/* CATCH NON-EXISTING ROUTES */}
