@@ -23,6 +23,7 @@ const STATE = {
   lodgepicture: null,
   lodgemultiplepicture: [],
   description: "",
+  lodgespecs: [],
 };
 
 // create reducer

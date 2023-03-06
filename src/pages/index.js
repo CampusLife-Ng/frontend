@@ -8,4 +8,5 @@ export { default as VerifyProperty } from "./verifyProperty/VerifyProperty";
 export { default as Auth } from "./signUp/Auth";
 export { default as CreateLodge } from "./createLodge/CreateLodge";
 export { default as MissingPage } from "./missingPage/MissingPage";
-export { default as UpdateLodge } from "./updateLodge/UpdateLodge"
+export { default as UpdateLodge } from "./updateLodge/UpdateLodge";
+export { default as AboutUs } from "./aboutUs/AboutUs";

@@ -18,6 +18,7 @@ import {
   CreateLodge,
   MissingPage,
   UpdateLodge,
+  AboutUs,
 } from "./pages";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -61,6 +62,7 @@ function App() {
           {/* PUBLIC ROUTES */}
           <Route path="/" element={<Home />} />
           <Route path="/auth" element={<Auth />} />
+          <Route path="/our-team" element={<AboutUs />}/>
 
           {/* PROTECTED ROUTES */}
           <Route element={<RequireAuth />}>

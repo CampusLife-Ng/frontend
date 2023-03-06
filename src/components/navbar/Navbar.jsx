@@ -59,6 +59,12 @@ const Navbar = ({ marketplace }) => {
                 </NavLink>
               </li>
 
+              <li className="nav__link">
+                <NavLink style={activeStyling} to="/our-team">
+                  Our Team
+                </NavLink>
+              </li>
+
               <Link to="/suggest">
                 <Button text="Suggest a lodge" type="fill" />
               </Link>
@@ -108,6 +114,13 @@ const Navbar = ({ marketplace }) => {
               Signup/Login
             </NavLink>
           </li>
+
+          <li className="nav__link">
+            <NavLink style={activeStyling} to="/our-team">
+              Our Team
+            </NavLink>
+          </li>
+
           <Link to="/suggest">
             <Button text="Suggest a lodge" type="fill" />
           </Link>
