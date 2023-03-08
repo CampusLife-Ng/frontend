@@ -79,8 +79,8 @@ const SuggestForm = ({ verify }) => {
   const handleImgUploadMultiple = (e) => {
     let boxContainer = document.getElementById("multiple-img-showcase");
     let finalArr = [];
-    if (e.target.files.length !== 3)
-      return toast.warning("Show case image field must have 3 images");
+    if (e.target.files.length < 1 || e.target.files.length > 3)
+      return toast.warning("Showcase images must be between 1 and 3 images");
     boxContainer.innerHTML = "";
     for (let i = 0; i < e.target.files.length; i++) {
       boxContainer.innerHTML += `<p>${e.target.files[i].name}</p>`;
@@ -378,7 +378,7 @@ const SuggestForm = ({ verify }) => {
                   <label>
                     Showcase Pictures{" "}
                     <span className="lodge-picture-notice">
-                      (exactly 3 images*)
+                      (between 1 to 3 images*)
                     </span>
                   </label>
                   <div>
