@@ -11,3 +11,4 @@ export { default as Modal } from "./modal/Modal";
 export { default as RequireAuth } from "./RequireAuth";
 export { default as Layout } from "./Layout"
 export { default as Spinner } from "./spinner/Spinner";
+export { default as Pagination } from "./pagination/Pagination";

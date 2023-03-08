@@ -6,14 +6,22 @@ import {
   SearchBar,
   LodgeCard,
   FeatureTop,
+  Pagination,
 } from "../../components";
 import {
   lodgeDataEziobodo,
   lodgeDataIhiagwa,
   lodgeDataUmuchimma,
 } from "../../utils/dev-data";
+import { useState } from "react";
 
 const ViewAll = () => {
+
+  const [pageNumber, setPageNumber] = useState(1)
+
+  // Use page number to slice array
+  // console.log(pageNumber)
+
   return (
     <>
       <Navbar />
@@ -110,6 +118,8 @@ const ViewAll = () => {
                 )}
               </div>
             </section>
+
+            <Pagination totalNumOfLodges={40} itemsPerPage={10} setPageNumber={setPageNumber}/>
           </div>
         </div>
       </section>

@@ -158,8 +158,6 @@ const SignUp = ({location}) => {
                 Select Institution
               </option>
               <option value="futo">Futo</option>
-              <option value="unn">Unn</option>
-              <option value="unizik">Unizik</option>
             </select>
 
             <ArrowDropDownOutlinedIcon className="signup-icon" />
@@ -175,12 +173,12 @@ const SignUp = ({location}) => {
           SignUp
         </motion.button>
 
-        <p>OR</p>
+        {/* <p>OR</p>
 
         <motion.div whileTap={{ scale: 0.8 }} className="signup-form-google">
           <GoogleIcon className="signup-form-icon" />
           <span>Sign In With Google</span>
-        </motion.div>
+        </motion.div> */}
       </form>
     </>
   );

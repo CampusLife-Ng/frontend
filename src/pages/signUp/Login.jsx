@@ -132,12 +132,12 @@ const Login = ({location}) => {
           Login
         </motion.button>
 
-        <p>OR</p>
+        {/* <p>OR</p>
 
         <motion.div whileTap={{ scale: 0.8 }} className="signup-form-google">
           <GoogleIcon className="signup-form-icon" />
           <span>Sign In With Google</span>
-        </motion.div>
+        </motion.div> */}
       </form>
     </>
   );

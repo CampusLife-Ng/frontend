@@ -34,6 +34,9 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../features/slices/userSlice";
 import { toast } from "react-toastify";
+import { useEffect, useState } from "react";
+import axios from "axios";
+const GETALLLODGES_URL = "/lodges/getLodges";
 // import { v4 as uuidv4 } from "uuid";
 
 const Home = () => {
@@ -41,6 +44,35 @@ const Home = () => {
   const handleShowMarketPlace = () => {
     toast.info("Futo Market Place Coming Soon.. 😁");
   };
+
+  const [eziobodoLodges, setEziobodoLodges] = useState([])
+  const [umuchimmaLodges, setUmuchimmaLodges] = useState([])
+  const [ihiagwaLodges, setIhiagwaLodges] = useState([])
+
+  useEffect(() => {
+
+    const fetchLodges = async () => {
+      try {
+        const response = await axios.get(GETALLLODGES_URL);
+        // console.log(response?.data?.data);
+
+        setEziobodoLodges(response?.data?.data?.lodges?.filter(item => item.lodgetown === "eziobodo"))
+        setUmuchimmaLodges(response?.data?.data?.lodges?.filter(item => item.lodgetown === "umuchimma"))
+        setIhiagwaLodges(response?.data?.data?.lodges?.filter(item => item.lodgetown === "ihiagwa"))
+        
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    fetchLodges()
+
+  }, [])
+
+  // console.log(eziobodoLodges)
+  // console.log(ihiagwaLodges)
+  // console.log(umuchimmaLodges)
+
   return (
     <>
       {/* NAVIGATION */}
@@ -137,7 +169,7 @@ const Home = () => {
       </section>
 
       {/* FEATURED LODGES SECTION*/}
-      <section className="feature__section">
+      {/* <section className="feature__section">
         <FeatureTop text="Featured Lodges" type="featured" />
 
         <div className="featured__box">
@@ -172,18 +204,9 @@ const Home = () => {
                 </SwiperSlide>
               )
             )}
-            {/* <SwiperSlide>
-              <FeaturedCard img={MobileImg1} />
-            </SwiperSlide>
-            <SwiperSlide>
-              <FeaturedCard img={MobileImg2} />
-            </SwiperSlide>
-            <SwiperSlide>
-              <FeaturedCard img={MobileImg3} />
-            </SwiperSlide> */}
           </Swiper>
         </div>
-      </section>
+      </section> */}
 
       {/* SEARCH BAR */}
       {/* <SearchBar /> */}
@@ -192,23 +215,23 @@ const Home = () => {
       <section className="lodges__section-1">
         <FeatureTop text="Lodges Around Eziobodo" />
         <div className="lodges__box">
-          {lodgeDataEziobodo.map(
+          {eziobodoLodges.map(
             ({
               id,
-              lodgeImg,
-              available,
-              lodgePrice,
-              lodgeName,
-              lodgeLocation,
+              lodgepicture,
+              lodgeprice,
+              lodgename,
+              address,
+              specifications,
             }) => (
               <LodgeCard
                 key={id}
                 id={id}
-                lodgeImg={lodgeImg}
-                available={available}
-                lodgePrice={lodgePrice}
-                lodgeName={lodgeName}
-                lodgeLocation={lodgeLocation}
+                lodgepicture={lodgepicture}
+                lodgeprice={lodgeprice}
+                lodgename={lodgename}
+                address={address}
+                specifications={specifications}
               />
             )
           )}
@@ -219,23 +242,23 @@ const Home = () => {
       <section className="lodges__section-1">
         <FeatureTop text="Lodges Around Umuchimma" />
         <div className="lodges__box">
-          {lodgeDataUmuchimma.map(
+          {umuchimmaLodges.map(
             ({
               id,
-              lodgeImg,
-              available,
-              lodgePrice,
-              lodgeName,
-              lodgeLocation,
+              lodgepicture,
+              lodgeprice,
+              lodgename,
+              address,
+              specifications,
             }) => (
               <LodgeCard
                 key={id}
                 id={id}
-                lodgeImg={lodgeImg}
-                available={available}
-                lodgePrice={lodgePrice}
-                lodgeName={lodgeName}
-                lodgeLocation={lodgeLocation}
+                lodgepicture={lodgepicture}
+                lodgeprice={lodgeprice}
+                lodgename={lodgename}
+                address={address}
+                specifications={specifications}
               />
             )
           )}
@@ -246,23 +269,23 @@ const Home = () => {
       <section className="lodges__section-1">
         <FeatureTop text="Lodges Around Ihiagwa" />
         <div className="lodges__box">
-          {lodgeDataIhiagwa.map(
+          {ihiagwaLodges.map(
             ({
               id,
-              lodgeImg,
-              available,
-              lodgePrice,
-              lodgeName,
-              lodgeLocation,
+              lodgepicture,
+              lodgeprice,
+              lodgename,
+              address,
+              specifications,
             }) => (
               <LodgeCard
                 key={id}
                 id={id}
-                lodgeImg={lodgeImg}
-                available={available}
-                lodgePrice={lodgePrice}
-                lodgeName={lodgeName}
-                lodgeLocation={lodgeLocation}
+                lodgepicture={lodgepicture}
+                lodgeprice={lodgeprice}
+                lodgename={lodgename}
+                address={address}
+                specifications={specifications}
               />
             )
           )}
