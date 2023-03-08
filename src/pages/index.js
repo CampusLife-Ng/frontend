@@ -10,3 +10,4 @@ export { default as CreateLodge } from "./createLodge/CreateLodge";
 export { default as MissingPage } from "./missingPage/MissingPage";
 export { default as UpdateLodge } from "./updateLodge/UpdateLodge";
 export { default as AboutUs } from "./aboutUs/AboutUs";
+export { default as Unauthorized } from "./missingPage/Unauthorized";

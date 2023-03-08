@@ -53,11 +53,18 @@ const Navbar = ({ marketplace }) => {
                 </NavLink>
               </li>
 
-              <li className="nav__link">
-                <NavLink style={activeStyling} to="/auth">
-                  Signup/Login
-                </NavLink>
-              </li>
+              {
+              Object.keys(getUser).length === 0 && (
+                <>
+                  <li className="nav__link">
+                    <NavLink style={activeStyling} to="/auth">
+                      Login
+                    </NavLink>
+                  </li>
+                </>
+              )
+              }
+
 
               <li className="nav__link">
                 <NavLink style={activeStyling} to="/our-team">
@@ -68,7 +75,7 @@ const Navbar = ({ marketplace }) => {
               <Link to="/suggest">
                 <Button text="Suggest a lodge" type="fill" />
               </Link>
-              {getUser && (
+              {getUser.role === "admin" && (
                 <>
                   {" "}
                   <Link to="/verify-property">
@@ -109,11 +116,17 @@ const Navbar = ({ marketplace }) => {
               <div className="liked-notification">{getLodgeList?.length}</div>
             </NavLink>
           </li>
-          <li className="nav__link">
-            <NavLink style={activeStyling} to="/auth">
-              Signup/Login
-            </NavLink>
-          </li>
+          {
+            Object.keys(getUser).length === 0 && (
+              <>
+                <li className="nav__link">
+                  <NavLink style={activeStyling} to="/auth">
+                    Login
+                  </NavLink>
+                </li>
+              </>
+            )
+          }
 
           <li className="nav__link">
             <NavLink style={activeStyling} to="/our-team">
@@ -124,7 +137,7 @@ const Navbar = ({ marketplace }) => {
           <Link to="/suggest">
             <Button text="Suggest a lodge" type="fill" />
           </Link>
-          {getUser && (
+          {getUser.role === "admin" && (
             <>
               {" "}
               <Link to="/verify-property">

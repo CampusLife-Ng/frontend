@@ -122,7 +122,7 @@ const FeaturedCard = ({
             </Link>
           </motion.div>
 
-          {getUser && (
+          {getUser.role === "admin" && (
             <>
               <motion.div
                 whileTap={{ scale: 0.8 }}

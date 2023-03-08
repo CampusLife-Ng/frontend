@@ -5,11 +5,21 @@ import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined
 import GoogleIcon from "@mui/icons-material/Google";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
-import { revokeAccess } from "../../features/slices/authSlice";
+import { giveAccess } from "../../features/slices/authSlice";
+import { setUser } from "../../features/slices/userSlice";
+import axios from "axios";
+import Spinner from "../../components/spinner/Spinner";
+import { useNavigate } from "react-router-dom";
+const LOGIN_URL = "/users/login"
 
-const Login = () => {
+const Login = ({location}) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const [seePwd, setSeePwd] = useState(false);
+  const [formIsLoading, setFormIsLoading] = useState(false)
+
+  // console.log(location)
+  const destination = location?.state?.destination.pathname || "/"
 
   const [loginData, setLoginData] = useState({
     email: "",
@@ -34,27 +44,43 @@ const Login = () => {
     });
   };
 
-  const handleLoginForm = (e) => {
+  const handleLoginForm = async (e) => {
     e.preventDefault();
-    for (const val in loginData) {
+    setFormIsLoading(true)
+    // TODO: RUN AXIOS POST REQUEST TO SUBMIT DATA
+    try {
+      for (const val in loginData) {
       if (!loginData[val]) {
         toast.warning("All fields are required");
+        setFormIsLoading(false)
         return;
       }
     }
+    // console.log(loginData);
+    const response = await axios.post(LOGIN_URL, loginData, { headers: { "Content-Type": "application/json" }, withCredentials: true })
 
-    // TODO: RUN AXIOS POST REQUEST TO SUBMIT DATA
-    console.log(loginData);
+    // console.log(response?.data?.data)
+    dispatch(setUser(response?.data?.data))
+    setFormIsLoading(false)
+    navigate(destination, {replace: true} )
+    toast.success("Login successful")
     // window.location.reload(); // for now!!
+    } catch (error) {
+      toast.error(error?.response?.data?.message)
+      setFormIsLoading(false)
+    }
   };
 
   const handleChangeAuthPage = () => {
-    dispatch(revokeAccess());
+    dispatch(giveAccess());
   };
+
+  // console.log(formIsLoading)
 
   return (
     <>
       <form onSubmit={(e) => handleLoginForm(e)} className="signup-form">
+        {formIsLoading && (<Spinner />)}
         <h3>Welcome to Campuslife</h3>
         <div className="account-question">
           Don't have an account?{" "}
@@ -70,6 +96,7 @@ const Login = () => {
             type="text"
             id="email"
             placeholder="example@email.com"
+            autoComplete="off"
           />
         </div>
 
@@ -81,6 +108,7 @@ const Login = () => {
               type={seePwd ? "text" : "password"}
               id="password"
               placeholder="Enter Password"
+              autoComplete="off"
             />
             <div className="visibles-icon">
               <VisibilityOutlinedIcon

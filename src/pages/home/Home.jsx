@@ -66,7 +66,7 @@ const Home = () => {
                 <Link to="/view-all">
                   <Button text="Browse all properties" type="outline" />
                 </Link>
-                {getUser && (
+                {getUser.role === "admin" && (
                   <>
                     <Link to="/create-lodge">
                       <Button text="Create a Lodge" type="outline-blue" />
@@ -123,7 +123,7 @@ const Home = () => {
                 <Link to="/view-all">
                   <Button text="Browse all properties" type="outline" />
                 </Link>
-                {getUser && (
+                {getUser.role === "admin" && (
                   <>
                     <Link to="/create-lodge">
                       <Button text="Create a Lodge" type="outline-blue" />

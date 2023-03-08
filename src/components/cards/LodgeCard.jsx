@@ -116,7 +116,7 @@ const LodgeCard = ({
             </Link>
           </motion.div>
 
-          {getUser && (
+          {getUser.role === "admin" && (
             <>
               <motion.div
                 whileTap={{ scale: 0.8 }}

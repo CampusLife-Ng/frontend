@@ -21,11 +21,11 @@ const Auth = () => {
       <div className="signup__body">
         {accessLogin ? (
           <>
-            <Login />
+            <SignUp location={location}/>
           </>
         ) : (
           <>
-            <SignUp />
+            <Login location={location}/>
           </>
         )}
       </div>

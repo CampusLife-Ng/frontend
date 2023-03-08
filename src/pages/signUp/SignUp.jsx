@@ -6,12 +6,24 @@ import ArrowDropDownOutlinedIcon from "@mui/icons-material/ArrowDropDownOutlined
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 import { useDispatch } from "react-redux";
-import { giveAccess } from "../../features/slices/authSlice";
+import { revokeAccess } from "../../features/slices/authSlice";
 import { toast } from "react-toastify";
 
-const SignUp = () => {
+import axios from "axios";
+import Spinner from "../../components/spinner/Spinner";
+import { useNavigate } from "react-router-dom";
+import { setUser } from "../../features/slices/userSlice";
+const SIGNUP_URL = "/users/register"
+const LOGIN_URL = "/users/login"
+
+const SignUp = ({location}) => {
   const dispatch = useDispatch();
   const [seePwd, setSeePwd] = useState(false);
+  const navigate = useNavigate()
+  const [formIsLoading, setFormIsLoading] = useState(false)
+
+  const destination = location?.state?.destination.pathname || "/"
+  // console.log(destination)
 
   const [signupData, setSignupData] = useState({
     fullname: "",
@@ -38,27 +50,46 @@ const SignUp = () => {
     setSeePwd(false);
   };
 
-  const submitSignupForm = (e) => {
+  const submitSignupForm = async(e) => {
     e.preventDefault();
-    for (const val in signupData) {
-      if (!signupData[val]) {
-        toast.warning("All fields are required");
-        return;
-      }
-    }
+    setFormIsLoading(true)
 
-    // TODO: RUN AXIOS POST REQUEST TO SUBMIT DATA
-    console.log(signupData);
-    // window.location.reload(); // for now!!
+    try {
+      for (const val in signupData) {
+        if (!signupData[val]) {
+          toast.warning("All fields are required");
+          setFormIsLoading(false)
+          return;
+        }
+      }
+
+      // TODO: RUN AXIOS POST REQUEST TO SUBMIT DATA
+      const response = await axios.post(SIGNUP_URL, signupData, { headers: { "Content-Type": "application/json" }, withCredentials: true })
+      // console.log(response)
+      if (response.status === 201){
+        const loginResponse = await axios.post(LOGIN_URL, {email: signupData.email, password: signupData.password}, { headers: { "Content-Type": "application/json" }, withCredentials: true })
+
+        // console.log(loginResponse)
+        dispatch(setUser(loginResponse?.data?.data))
+        setFormIsLoading(false)
+        navigate(destination, {replace: true} )
+        toast.success(`Welcome ${loginResponse?.data?.data?.fullname}`)
+      }
+      // window.location.reload(); // for now!!
+    } catch (error) {
+      toast.error(error?.response?.data?.message)
+      setFormIsLoading(false)
+    }
   };
 
   const handleChangeAuthPage = () => {
-    dispatch(giveAccess());
+    dispatch(revokeAccess());
   };
 
   return (
     <>
       <form onSubmit={(e) => submitSignupForm(e)} className="signup-form">
+        {formIsLoading && (<Spinner />)}
         <h3>Welcome to Campuslife</h3>
         <div className="account-question">
           Already have an account?{" "}
@@ -74,6 +105,7 @@ const SignUp = () => {
             type="text"
             id="fullname"
             placeholder="Enter your full name"
+            autoComplete="off"
           />
         </div>
 
@@ -85,6 +117,7 @@ const SignUp = () => {
             type="email"
             id="email"
             placeholder="example@email.com"
+            autoComplete="off"
           />
         </div>
 
@@ -96,6 +129,7 @@ const SignUp = () => {
               type={seePwd ? "text" : "password"}
               id="password"
               placeholder="Enter Password"
+              autoComplete="off"
             />
             <div className="visibles-icon">
               <VisibilityOutlinedIcon
