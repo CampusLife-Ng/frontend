@@ -45,31 +45,40 @@ const Home = () => {
     toast.info("Futo Market Place Coming Soon.. 😁");
   };
 
-  const [eziobodoLodges, setEziobodoLodges] = useState([])
-  const [umuchimmaLodges, setUmuchimmaLodges] = useState([])
-  const [ihiagwaLodges, setIhiagwaLodges] = useState([])
+  const [eziobodoLodges, setEziobodoLodges] = useState([]);
+  const [umuchimmaLodges, setUmuchimmaLodges] = useState([]);
+  const [ihiagwaLodges, setIhiagwaLodges] = useState([]);
 
   useEffect(() => {
-
     const fetchLodges = async () => {
       try {
         const response = await axios.get(GETALLLODGES_URL);
         // console.log(response?.data?.data);
 
-        setEziobodoLodges(response?.data?.data?.lodges?.filter(item => item.lodgetown === "eziobodo"))
-        setUmuchimmaLodges(response?.data?.data?.lodges?.filter(item => item.lodgetown === "umuchimma"))
-        setIhiagwaLodges(response?.data?.data?.lodges?.filter(item => item.lodgetown === "ihiagwa"))
-        
+        setEziobodoLodges(
+          response?.data?.data?.lodges?.filter(
+            (item) => item.lodgetown === "eziobodo"
+          )
+        );
+        setUmuchimmaLodges(
+          response?.data?.data?.lodges?.filter(
+            (item) => item.lodgetown === "umuchimma"
+          )
+        );
+        setIhiagwaLodges(
+          response?.data?.data?.lodges?.filter(
+            (item) => item.lodgetown === "ihiagwa"
+          )
+        );
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
-    }
+    };
 
-    fetchLodges()
+    fetchLodges();
+  }, []);
 
-  }, [])
-
-  // console.log(eziobodoLodges)
+  console.log(eziobodoLodges);
   // console.log(ihiagwaLodges)
   // console.log(umuchimmaLodges)
 
@@ -223,6 +232,9 @@ const Home = () => {
               lodgename,
               address,
               specifications,
+              lodgemultiplepicture,
+              caretakernumber,
+              lodgedescription,
             }) => (
               <LodgeCard
                 key={id}
@@ -232,6 +244,9 @@ const Home = () => {
                 lodgename={lodgename}
                 address={address}
                 specifications={specifications}
+                lodgemultiplepicture={lodgemultiplepicture}
+                caretakernumber={caretakernumber}
+                lodgedescription={lodgedescription}
               />
             )
           )}
@@ -250,6 +265,9 @@ const Home = () => {
               lodgename,
               address,
               specifications,
+              lodgemultiplepicture,
+              caretakernumber,
+              lodgedescription,
             }) => (
               <LodgeCard
                 key={id}
@@ -259,6 +277,9 @@ const Home = () => {
                 lodgename={lodgename}
                 address={address}
                 specifications={specifications}
+                lodgemultiplepicture={lodgemultiplepicture}
+                caretakernumber={caretakernumber}
+                lodgedescription={lodgedescription}
               />
             )
           )}
@@ -277,6 +298,9 @@ const Home = () => {
               lodgename,
               address,
               specifications,
+              lodgemultiplepicture,
+              caretakernumber,
+              lodgedescription,
             }) => (
               <LodgeCard
                 key={id}
@@ -286,6 +310,9 @@ const Home = () => {
                 lodgename={lodgename}
                 address={address}
                 specifications={specifications}
+                lodgemultiplepicture={lodgemultiplepicture}
+                caretakernumber={caretakernumber}
+                lodgedescription={lodgedescription}
               />
             )
           )}
@@ -307,7 +334,12 @@ const Home = () => {
                 imperdiet rutrum faucibus.
               </p>
               <div className="market-place-btn">
-                <Button onclick={handleShowMarketPlace} text="Coming Soon" type="outline" color="blue" />
+                <Button
+                  onclick={handleShowMarketPlace}
+                  text="Coming Soon"
+                  type="outline"
+                  color="blue"
+                />
               </div>
             </div>
             <div className="right">

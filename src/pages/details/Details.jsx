@@ -1,22 +1,19 @@
 import "./Details.css";
 import { Footer, Navbar, NewsLetter, SearchBar, Specs } from "../../components";
 import HouseIcon from "@mui/icons-material/House";
-import WaterIcon from "@mui/icons-material/Water";
-import SoupKitchenIcon from "@mui/icons-material/SoupKitchen";
-import WcIcon from "@mui/icons-material/Wc";
-import ApartmentIcon from "@mui/icons-material/Apartment";
 import RoomIcon from "@mui/icons-material/Room";
 import { motion } from "framer-motion";
-import Room1 from "./../../assets/room1.jpg";
-import Room2 from "./../../assets/room2.jpg";
-import Room3 from "./../../assets/room3.jpg";
-import Room4 from "./../../assets/room4.jpg";
 import { toast } from "react-toastify";
+import { useLocation } from "react-router-dom";
+import CurrencyFormat from 'react-currency-format';
 
 const Details = () => {
   const handleShowMap = () => {
     toast.info("Map Coming Soon.. 😁");
   };
+
+  const location = useLocation();
+  console.log(location);
 
   return (
     <>
@@ -29,18 +26,19 @@ const Details = () => {
                 <div className="details__top-display-right">
                   <div className="right__text">
                     <h3>
-                      Odilanma Lodge, Federal University of Technology, Owerri.
+                      {location?.state?.data?.lodgename}, Federal University of
+                      Technology, Owerri.
                     </h3>
                     <div className="right__location">
                       <RoomIcon className="right__location-icon" />
-                      <p>
-                        Lorem ipsum dolor sit amet consectetur. Sagittis cum
-                        metus praesent porttitor. Fusce pellentesque et mi
-                        euismod habitasse pellentesque netus consequat.
-                      </p>
+                      <p>{location?.state?.data?.lodgedescription}</p>
                     </div>
                     <div className="price-map">
-                      <p className="right__price">₦ 300,000.00 </p>
+                      <p className="right__price">
+                        {
+                          <CurrencyFormat value={location?.state?.data?.lodgeprice} displayType={'text'} thousandSeparator={true} prefix={'₦'} renderText={value => <span>{value}</span>} />
+                        }
+                      </p>
                       <motion.div
                         onClick={handleShowMap}
                         whileTap={{ scale: 0.8 }}
@@ -53,21 +51,21 @@ const Details = () => {
 
                   <div className="right__images">
                     <div className="right__images-top">
-                      <img src={Room2} alt="image-1" />
+                      <img
+                        src={location?.state?.data?.lodgepicture}
+                        alt="image-1"
+                      />
                     </div>
                     <div className="right__images-bottom">
-                      <div className="right__images-bottom-1">
-                        <img src={Room2} alt="image-2" />
-                      </div>
-                      <div className="right__images-bottom-2">
-                        <img src={Room3} alt="image-3" />
-                      </div>
-                      <div className="right__images-bottom-3">
-                        <img src={Room4} alt="image-4" />
-                        {/* <motion.span whileTap={{ scale: 0.8 }}>
-                        View More
-                      </motion.span> */}
-                      </div>
+                      {location?.state?.data?.lodgemultiplepicture?.map(
+                        (item, idx) => (
+                          <>
+                            <div className={`right__images-bottom-${idx + 1}`}>
+                              <img src={item} alt="image-2" />
+                            </div>
+                          </>
+                        )
+                      )}
                     </div>
                   </div>
                 </div>
@@ -76,11 +74,11 @@ const Details = () => {
 
             <div className="details-container">
               <div className="details__top-specs">
-                <Specs Icon={HouseIcon} text="Self Con" />
-                <Specs Icon={SoupKitchenIcon} text="Kitchen" />
-                <Specs Icon={WaterIcon} text="Running Water" />
-                <Specs Icon={WcIcon} text="2 Toilets" />
-                <Specs Icon={ApartmentIcon} text="Top Floor" />
+                {location?.state?.data?.specifications[0]
+                  .split(", ")
+                  .map((item, idx) => (
+                    <Specs key={idx} Icon={HouseIcon} text={item} />
+                  ))}
               </div>
             </div>
           </div>
@@ -132,10 +130,7 @@ const Details = () => {
               <h3>Agent And Contact Info</h3>
               <div className="details__bottom-desc-content">
                 <p>
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Asperiores ea magni ratione quae architecto delectus? Fugit,
-                  unde? Ducimus, numquam doloremque? Lorem, ipsum dolor sit amet
-                  consectetur adipisicing elit. Laboriosam.
+                  Lorem ipsum dolor, {location?.state?.data?.caretakernumber}.
                 </p>
               </div>
             </div>

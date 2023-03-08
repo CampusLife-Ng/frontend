@@ -14,6 +14,7 @@ import {
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { selectUser } from "../../features/slices/userSlice";
+import { useNavigate } from "react-router-dom";
 
 const LodgeCard = ({
   id,
@@ -22,9 +23,13 @@ const LodgeCard = ({
   lodgename,
   address,
   specifications,
+  lodgemultiplepicture,
+  lodgedescription,
+  caretakernumber,
   type,
 }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [liked, setLiked] = useState(false);
   const lodgeList = useSelector(selectLodgeList);
   const toggleLike = () => {
@@ -40,6 +45,9 @@ const LodgeCard = ({
         lodgename,
         address,
         specifications,
+        lodgemultiplepicture,
+        lodgedescription,
+        caretakernumber,
         lodgeType: "normal",
       })
     );
@@ -52,6 +60,24 @@ const LodgeCard = ({
 
   const handleShowMap = () => {
     toast.info("Map Coming Soon.. 😁");
+  };
+
+  const goToDetails = () => {
+    navigate("/details", {
+      state: {
+        data: {
+          id,
+          lodgepicture,
+          lodgeprice,
+          lodgename,
+          address,
+          specifications,
+          lodgemultiplepicture,
+          lodgedescription,
+          caretakernumber,
+        },
+      },
+    });
   };
 
   const getUser = useSelector(selectUser);
@@ -93,18 +119,17 @@ const LodgeCard = ({
         </p>
 
         <div className="featured__card-desc-fourth">
-          {
-            specifications[0].split(", ").map(item => <Specs Icon={HouseIcon} text={item} />)
-          }
+          {specifications[0].split(", ").map((item, idx) => (
+            <Specs key={idx} Icon={HouseIcon} text={item} />
+          ))}
         </div>
         <div className="card-btns">
           <motion.div
+            onClick={goToDetails}
             whileTap={{ scale: 0.8 }}
             className="featured__card-desc-btn"
           >
-            <Link style={{ color: "white" }} to="/details">
-              View Details
-            </Link>
+            View Details
           </motion.div>
 
           {getUser.role === "admin" && (
