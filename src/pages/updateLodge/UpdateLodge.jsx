@@ -2,21 +2,26 @@ import "./UpdateLodge.css";
 import { Navbar, NewsLetter, Footer, Button } from "../../components";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import NoImg from "./../../assets/no-img.png";
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useState } from "react";
 import ArrowDropDownOutlinedIcon from "@mui/icons-material/ArrowDropDownOutlined";
 import Select from "react-select";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import { toast } from "react-toastify";
+import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../features/slices/userSlice";
+const UPDATE_URL = "lodges/update/"
 
 // UPDATE LODGE STATE
 const UPDATEDETAILSTATE = {
   lodgename: "",
   lodgetype: "",
   lodgetown: "",
-  lodgeaddress: "",
+  address: "",
   caretakernumber: null,
   lodgeprice: null,
-  lodgespecs: [],
+  specifications:[],
   lng: null,
   lat: null,
   description: "",
@@ -33,7 +38,7 @@ const ACTION = {
   LODGENAME: "lodgename",
   LODGETYPE: "lodgetype",
   LODGETOWN: "lodgetown",
-  LODGEADDRESS: "lodgeaddress",
+  ADDRESS: "address",
   CARETAKERNUMBER: "caretakernumber",
   LODGEPRICE: "lodgeprice",
   LNG: "lng",
@@ -41,7 +46,7 @@ const ACTION = {
   LODGEPICTURE: "lodgepicture",
   LODGEMULTIPLEPICTURE: "lodgemultiplepicture",
   DESCRIPTION: "description",
-  LODGESPECS: "lodgespecs",
+  SPECIFICATIONS: "specifications",
 };
 
 // UPDATE IMG REDUCER
@@ -66,14 +71,14 @@ const detailsReducer = (state, action) => {
     case "lodgetown":
       return { ...state, lodgetown: action.payload };
 
-    case "lodgeaddress":
-      return { ...state, lodgeaddress: action.payload };
+    case "address":
+      return { ...state, address: action.payload };
 
     case "caretakernumber":
       return { ...state, caretakernumber: action.payload };
 
-    case "lodgespecs":
-      return { ...state, lodgespecs: action.payload };
+    case "specifications":
+      return { ...state, specifications: action.payload };
 
     case "lodgeprice":
       return { ...state, lodgeprice: action.payload };
@@ -94,6 +99,11 @@ const UpdateLodge = () => {
     let preview = document.getElementById("update-img-preview");
     preview.src = NoImg;
   }, []);
+  const getUser = useSelector(selectUser)
+  const location = useLocation();
+  const navigate = useNavigate()
+  const updateData = location?.state?.updateDetails
+  // console.log(updateData);
 
   const [updateDetailState, dispatch] = useReducer(
     detailsReducer,
@@ -101,7 +111,7 @@ const UpdateLodge = () => {
   );
   const [updateImgState, imgDispatch] = useReducer(imgReducer, UPDATEIMGSTATE);
 
-  const lodgeSpecs = [
+  const specifications = [
     { value: "water", label: "Water" },
     { value: "electricity", label: "Electricity" },
     { value: "good-network", label: "Good Network" },
@@ -114,7 +124,7 @@ const UpdateLodge = () => {
       ans.push(event[i].value);
     }
     // console.log(ans);
-    dispatch({ type: ACTION.LODGESPECS, payload: ans });
+    dispatch({ type: ACTION.SPECIFICATIONS, payload: ans});
   };
 
   // handle single image upload
@@ -123,7 +133,7 @@ const UpdateLodge = () => {
       let preview = document.getElementById("update-img-preview");
       const imgSrc = URL.createObjectURL(e.target.files[0]);
       preview.src = imgSrc;
-      imgDispatch({ type: ACTION.LODGEPICTURE, payload: e.target.files[0] });
+      imgDispatch({ type: ACTION.LODGEPICTURE, payload: e.target.files[0]});
     }
   };
 
@@ -131,32 +141,62 @@ const UpdateLodge = () => {
   const handleMultipleImgUpload = (e) => {
     let boxContainer = document.getElementById("update-multiple-img-showcase");
     let finalArr = [];
-    if (e.target.files.length < 1 || e.target.files.length > 3)
-      return toast.warning("Showcase images must be between 1 and 3 images");
+    if (e.target.files.length > 3)
+      return toast.warning("Showcase images must not be more than 3 images");
     boxContainer.innerHTML = "";
     for (let i = 0; i < e.target.files.length; i++) {
       boxContainer.innerHTML += `<p>${e.target.files[i].name}</p>`;
       finalArr.push(e.target.files[i]);
     }
 
-    imgDispatch({ type: ACTION.LODGEMULTIPLEPICTURE, payload: finalArr });
+    imgDispatch({ type: ACTION.LODGEMULTIPLEPICTURE, payload: finalArr || updateData?.lodgemultiplepicture });
   };
 
-  const handleSubmitUpdateDetail = (e) => {
+  const handleSubmitUpdateDetail = async(e) => {
     e.preventDefault();
 
-    // TODO: RUN AXIOS POST REQUEST TO SUBMIT DATA
-    console.log(updateDetailState);
-    // window.location.reload(); // for now!!
+    try {
+      let finalObj = {}
+      const isEmpty = () => {
+        for (const val of Object.values(updateDetailState)){
+          if (val === "" || val === null || val.length === 0){
+            continue
+          }else {
+            return false
+          }
+        }
+        return true
+      }
+
+
+      // TODO: RUN AXIOS POST REQUEST TO SUBMIT DATA
+      // console.log(updateDetailState);
+      if (isEmpty()) return toast.warning("There's nothing to update 😊");
+      for (let val in updateDetailState){
+        if (updateDetailState[val] && !(JSON.stringify(updateDetailState[val]) === "[]")){
+          finalObj[val] = updateDetailState[val]
+        }
+      }
+
+      // console.log(finalObj)
+      const response = await axios.put(`${UPDATE_URL}${updateData?.id}`, finalObj, {headers: {'Content-Type': 'application/json', "x-auth-token": getUser?.token }})
+      console.log(response)
+      navigate(-1);
+      toast.success(response?.data?.message)
+      // window.location.reload(); // for now!!
+    } catch (error) {
+      toast.error(error?.response?.data?.msg)
+    }
+    
   };
 
   const handleSubmitUpdateImg = (e) => {
     e.preventDefault();
 
-    for (const val in updateImgState) {
-      if (!updateImgState[val])
-        return toast.warning("Atleast one field is required!");
-    }
+    // for (const val in updateImgState) {
+    //   if (!updateImgState[val])
+    //     return toast.warning("Atleast one field is required!");
+    // }
 
     // TODO: RUN AXIOS POST REQUEST TO SUBMIT DATA
     console.log(updateImgState);
@@ -265,7 +305,7 @@ const UpdateLodge = () => {
                     <input
                       onChange={(e) =>
                         dispatch({
-                          type: ACTION.LODGEADDRESS,
+                          type: ACTION.ADDRESS,
                           payload: e.target.value,
                         })
                       }
@@ -297,7 +337,7 @@ const UpdateLodge = () => {
                   </label>
                   <Select
                     onChange={handleSelectChange}
-                    options={lodgeSpecs}
+                    options={specifications}
                     isMulti
                   />
                 </div>

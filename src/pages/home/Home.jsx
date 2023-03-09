@@ -78,7 +78,7 @@ const Home = () => {
     fetchLodges();
   }, []);
 
-  console.log(eziobodoLodges);
+  // console.log(eziobodoLodges);
   // console.log(ihiagwaLodges)
   // console.log(umuchimmaLodges)
 
@@ -226,7 +226,7 @@ const Home = () => {
         <div className="lodges__box">
           {eziobodoLodges.map(
             ({
-              id,
+              _id,
               lodgepicture,
               lodgeprice,
               lodgename,
@@ -235,10 +235,12 @@ const Home = () => {
               lodgemultiplepicture,
               caretakernumber,
               lodgedescription,
+              lodgetype,
+              lodgetown,
             }) => (
               <LodgeCard
-                key={id}
-                id={id}
+                key={_id}
+                id={_id}
                 lodgepicture={lodgepicture}
                 lodgeprice={lodgeprice}
                 lodgename={lodgename}
@@ -247,6 +249,8 @@ const Home = () => {
                 lodgemultiplepicture={lodgemultiplepicture}
                 caretakernumber={caretakernumber}
                 lodgedescription={lodgedescription}
+                lodgetype={lodgetype}
+                lodgetown={lodgetown}
               />
             )
           )}
@@ -259,7 +263,7 @@ const Home = () => {
         <div className="lodges__box">
           {umuchimmaLodges.map(
             ({
-              id,
+              _id,
               lodgepicture,
               lodgeprice,
               lodgename,
@@ -268,10 +272,12 @@ const Home = () => {
               lodgemultiplepicture,
               caretakernumber,
               lodgedescription,
+              lodgetype,
+              lodgetown,
             }) => (
               <LodgeCard
-                key={id}
-                id={id}
+                key={_id}
+                id={_id}
                 lodgepicture={lodgepicture}
                 lodgeprice={lodgeprice}
                 lodgename={lodgename}
@@ -280,6 +286,8 @@ const Home = () => {
                 lodgemultiplepicture={lodgemultiplepicture}
                 caretakernumber={caretakernumber}
                 lodgedescription={lodgedescription}
+                lodgetype={lodgetype}
+                lodgetown={lodgetown}
               />
             )
           )}
@@ -292,7 +300,7 @@ const Home = () => {
         <div className="lodges__box">
           {ihiagwaLodges.map(
             ({
-              id,
+              _id,
               lodgepicture,
               lodgeprice,
               lodgename,
@@ -301,10 +309,12 @@ const Home = () => {
               lodgemultiplepicture,
               caretakernumber,
               lodgedescription,
+              lodgetype,
+              lodgetown,
             }) => (
               <LodgeCard
-                key={id}
-                id={id}
+                key={_id}
+                id={_id}
                 lodgepicture={lodgepicture}
                 lodgeprice={lodgeprice}
                 lodgename={lodgename}
@@ -313,6 +323,8 @@ const Home = () => {
                 lodgemultiplepicture={lodgemultiplepicture}
                 caretakernumber={caretakernumber}
                 lodgedescription={lodgedescription}
+                lodgetype={lodgetype}
+                lodgetown={lodgetown}
               />
             )
           )}

@@ -9,21 +9,25 @@ import { useState } from "react";
 import NoImg from "./../../assets/no-img.png";
 import { toast } from "react-toastify";
 import Select from "react-select";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../features/slices/userSlice";
+import axios from "axios";
+const CREATE_URL = "/lodges"
 
 // create lodge state
 const STATE = {
   lodgename: "",
   lodgetype: "",
   lodgetown: "",
-  lodgeaddress: "",
+  address: "",
   caretakernumber: null,
   lodgeprice: null,
-  lng: null,
-  lat: null,
+  lng: "",
+  lat: "",
   lodgepicture: null,
-  lodgemultiplepicture: [],
+  lodgemultiplepicture: null,
   description: "",
-  lodgespecs: [],
+  specifications: [],
 };
 
 // create reducer
@@ -38,8 +42,8 @@ const reducer = (state, action) => {
     case "lodgetown":
       return { ...state, lodgetown: action.payload };
 
-    case "lodgeaddress":
-      return { ...state, lodgeaddress: action.payload };
+    case "address":
+      return { ...state, address: action.payload };
 
     case "caretakernumber":
       return { ...state, caretakernumber: action.payload };
@@ -62,8 +66,8 @@ const reducer = (state, action) => {
     case "description":
       return { ...state, description: action.payload };
 
-    case "lodgespecs":
-      return { ...state, lodgespecs: action.payload };
+    case "specifications":
+      return { ...state, specifications: action.payload };
 
     default:
       throw new Error().message;
@@ -75,7 +79,7 @@ const ACTION = {
   LODGENAME: "lodgename",
   LODGETYPE: "lodgetype",
   LODGETOWN: "lodgetown",
-  LODGEADDRESS: "lodgeaddress",
+  address: "address",
   CARETAKERNUMBER: "caretakernumber",
   LODGEPRICE: "lodgeprice",
   LNG: "lng",
@@ -83,13 +87,14 @@ const ACTION = {
   LODGEPICTURE: "lodgepicture",
   LODGEMULTIPLEPICTURE: "lodgemultiplepicture",
   DESCRIPTION: "description",
-  LODGESPECS: "lodgespecs",
+  specifications: "specifications",
 };
 
 const CreateLodge = () => {
   const [singleImg, setSingleImg] = useState(null);
   const [createLodgeState, dispatch] = useReducer(reducer, STATE);
-  const lodgeSpecs = [
+  const getUser = useSelector(selectUser)
+  const specifications = [
     { value: "water", label: "Water" },
     { value: "electricity", label: "Electricity" },
     { value: "good-network", label: "Good Network" },
@@ -102,7 +107,7 @@ const CreateLodge = () => {
       ans.push(event[i].value);
     }
     // console.log(ans);
-    dispatch({ type: ACTION.LODGESPECS, payload: ans });
+    dispatch({ type: ACTION.specifications, payload: ans });
   };
 
   useEffect(() => {
@@ -112,6 +117,7 @@ const CreateLodge = () => {
 
   // handle single image upload
   const handleImgUpload = (e) => {
+    console.log(e.target.files[0])
     if (e.target.files.length > 0) {
       let preview = document.getElementById("create-lodge__image-file-preview");
       const imgSrc = URL.createObjectURL(e.target.files[0]);
@@ -123,6 +129,7 @@ const CreateLodge = () => {
 
   // handle multiple image upload
   const handleMultipleImgUpload = (e) => {
+    console.log(e.target.files)
     let boxContainer = document.getElementById("create-multiple-img-showcase");
     let finalArr = [];
     if (e.target.files.length < 1 || e.target.files.length > 3)
@@ -133,7 +140,7 @@ const CreateLodge = () => {
       finalArr.push(e.target.files[i]);
     }
 
-    dispatch({ type: ACTION.LODGEMULTIPLEPICTURE, payload: finalArr });
+    dispatch({ type: ACTION.LODGEMULTIPLEPICTURE, payload: e.target.files });
   };
 
   // handle delete preview picture
@@ -143,21 +150,47 @@ const CreateLodge = () => {
     preview.src = NoImg;
   };
 
-  const handleCreateFormSubmit = (e) => {
+  const handleCreateFormSubmit = async(e) => {
     e.preventDefault();
 
-    for (const val in createLodgeState) {
+    try {
+      for (const val in createLodgeState) {
       if (!createLodgeState[val])
         return toast.warning("All fields are required!");
+      }
+
+      console.log(createLodgeState?.lodgemultiplepicture)
+
+      // TODO: RUN AXIOS POST REQUEST TO SUBMIT DATA
+      // console.log(createLodgeState);
+      const formData = new FormData();
+      formData.append("address", createLodgeState?.address);
+      formData.append("caretakernumber", createLodgeState?.caretakernumber);
+      formData.append("description", createLodgeState?.description);
+      formData.append("lat", createLodgeState?.lat);
+      formData.append("lng", createLodgeState?.lng);
+      formData.append("lodgemultiplepicture", createLodgeState?.lodgemultiplepicture);
+      formData.append("lodgename", createLodgeState?.lodgename);
+      formData.append("lodgepicture", createLodgeState?.lodgepicture);
+      formData.append("lodgeprice", createLodgeState?.lodgeprice);
+      formData.append("lodgetown", createLodgeState?.lodgetown);
+      formData.append("lodgetype", createLodgeState?.lodgetype);
+      formData.append("specifications", createLodgeState?.specifications);
+      // window.location.reload(); // for now!!
+
+      // console.log(formData.entries())
+      for (const pair of formData.entries()) {
+        console.log(pair);
+      }
+
+      const response = await axios.post(`${CREATE_URL}`, formData, {headers: {"x-auth-token": getUser?.token }})
+      console.log(response)
+
+    } catch (error) {
+      console.log(error)
     }
-
-    // TODO: RUN AXIOS POST REQUEST TO SUBMIT DATA
-    console.log(createLodgeState);
-    // window.location.reload(); // for now!!
   };
-
   // console.log(createLodgeState);
-
   return (
     <>
       <Navbar />
@@ -265,7 +298,7 @@ const CreateLodge = () => {
               <input
                 onChange={(e) =>
                   dispatch({
-                    type: ACTION.LODGEADDRESS,
+                    type: ACTION.address,
                     payload: e.target.value,
                   })
                 }
@@ -315,7 +348,7 @@ const CreateLodge = () => {
                 Lodge Specs <span>(you can select multiple specs)</span>
               </label>
               <Select
-                options={lodgeSpecs}
+                options={specifications}
                 isMulti
                 onChange={handleSelectChange}
               />

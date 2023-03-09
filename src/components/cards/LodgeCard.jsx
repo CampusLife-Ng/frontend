@@ -15,6 +15,8 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { selectUser } from "../../features/slices/userSlice";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+const DELETE_URL = "/lodges"
 
 const LodgeCard = ({
   id,
@@ -26,12 +28,17 @@ const LodgeCard = ({
   lodgemultiplepicture,
   lodgedescription,
   caretakernumber,
+  lodgetype,
+  lodgetown,
   type,
 }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [liked, setLiked] = useState(false);
   const lodgeList = useSelector(selectLodgeList);
+  const activeUser = useSelector(selectUser)
+  const token = activeUser?.token
+  // console.log(token)
   const toggleLike = () => {
     setLiked(!liked);
   };
@@ -48,6 +55,8 @@ const LodgeCard = ({
         lodgemultiplepicture,
         lodgedescription,
         caretakernumber,
+        lodgetype,
+        lodgetown,
         lodgeType: "normal",
       })
     );
@@ -75,10 +84,44 @@ const LodgeCard = ({
           lodgemultiplepicture,
           lodgedescription,
           caretakernumber,
+          lodgetown,
+          lodgetype
         },
       },
     });
   };
+
+  const handleDeleteLodge = async(id) => {
+    console.log(id)
+    try {
+      const response = await axios.delete(`${DELETE_URL}/${id}`, {headers: { "x-auth-token": token }, withCredentials: true })
+      // console.log(response)
+      toast.success(response?.data?.message)
+      window.location.reload();
+    } catch (error) {
+      toast.error(error?.response?.data?.msg)
+    }
+  }
+
+  const handleUpdateLodge = () => {
+    navigate("/update-lodge", { state: {
+        updateDetails: {
+          id,
+          lodgepicture,
+          lodgeprice,
+          lodgename,
+          address,
+          specifications,
+          lodgemultiplepicture,
+          lodgedescription,
+          caretakernumber,
+          lodgetype,
+          lodgetown,
+        },
+      }, } )
+  }
+
+  console.log(specifications, address)
 
   const getUser = useSelector(selectUser);
 
@@ -119,7 +162,7 @@ const LodgeCard = ({
         </p>
 
         <div className="featured__card-desc-fourth">
-          {specifications[0].split(", ").map((item, idx) => (
+          {specifications.map((item, idx) => (
             <Specs key={idx} Icon={HouseIcon} text={item} />
           ))}
         </div>
@@ -135,16 +178,16 @@ const LodgeCard = ({
           {getUser.role === "admin" && (
             <>
               <motion.div
+                onClick={handleUpdateLodge}
                 whileTap={{ scale: 0.8 }}
                 className="lodge-card-update-btn"
               >
-                <Link style={{ color: "white" }} to="/update-lodge">
                   Update
-                </Link>
               </motion.div>
 
               <motion.div
                 whileTap={{ scale: 0.8 }}
+                onClick={() => handleDeleteLodge(id)}
                 className="lodge-card-delete-btn"
               >
                 Delete
