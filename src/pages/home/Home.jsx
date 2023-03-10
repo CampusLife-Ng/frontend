@@ -14,6 +14,7 @@ import {
   LodgeCard,
   NewsLetter,
   Footer,
+  SkeletonLoader,
 } from "../../components";
 import Hero1 from "./../../assets/heroimg1.png";
 import Hero2 from "./../../assets/heroimg2.png";
@@ -24,19 +25,75 @@ import MobileImg2 from "./../../assets/mobile-img2.jpg";
 import MobileImg3 from "./../../assets/mobile-img3.jpg";
 import MpImg1 from "./../../assets/mpimg1.png";
 import MpImg2 from "./../../assets/mpimg2.png";
-import {
-  lodgeDataEziobodo,
-  lodgeDataFeatured,
-  lodgeDataUmuchimma,
-  lodgeDataIhiagwa,
-} from "../../utils/dev-data";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../features/slices/userSlice";
+import { toast } from "react-toastify";
+import { useEffect, useState } from "react";
+import axios from "axios";
+const GETALLLODGES_URL = "/lodges/getLodges";
 // import { v4 as uuidv4 } from "uuid";
 
 const Home = () => {
+  const getUser = useSelector(selectUser);
+  const handleShowMarketPlace = () => {
+    toast.info("Futo Market Place Coming Soon.. 😁");
+  };
+
+  const [eziobodoLodges, setEziobodoLodges] = useState([]);
+  const [umuchimmaLodges, setUmuchimmaLodges] = useState([]);
+  const [ihiagwaLodges, setIhiagwaLodges] = useState([]);
+  const [eziobodoLoader, setEziobodoLoader] = useState(false);
+  const [umuchimmaLoader, setUmuchimmaLoader] = useState(false);
+  const [ihiagwaLoader, setIhiagwaLoader] = useState(false);
+  const loadingArr = [1, 2, 3];
+  useEffect(() => {
+    const fetchLodges = async () => {
+      try {
+        setEziobodoLoader(true);
+        setUmuchimmaLoader(true);
+        setIhiagwaLoader(true);
+        const response = await axios.get(GETALLLODGES_URL);
+        // console.log(response?.data?.data);
+
+        setEziobodoLodges(
+          response?.data?.data?.lodges?.filter(
+            (item) => item.lodgetown === "eziobodo"
+          )
+        );
+        setEziobodoLoader(false);
+        setUmuchimmaLodges(
+          response?.data?.data?.lodges?.filter(
+            (item) => item.lodgetown === "umuchimma"
+          )
+        );
+        setUmuchimmaLoader(false);
+        setIhiagwaLodges(
+          response?.data?.data?.lodges?.filter(
+            (item) => item.lodgetown === "ihiagwa"
+          )
+        );
+        setIhiagwaLoader(false);
+      } catch (error) {
+        console.log(error);
+        setEziobodoLoader(false);
+        setUmuchimmaLoader(false);
+        setIhiagwaLoader(false);
+      }
+    };
+
+    fetchLodges();
+  }, []);
+
+  // console.log(eziobodoLodges);
+  // console.log(eziobodoLoader)
+  // console.log(ihiagwaLodges);
+  // console.log(umuchimmaLodges)
+
   return (
     <>
       {/* NAVIGATION */}
-      <Navbar />
+      <Navbar marketplace={true} />
 
       {/* HERO SECTION */}
       <section className="hero">
@@ -52,8 +109,19 @@ const Home = () => {
                 at gravida vestibulum. amet nunc dui lorem.
               </p>
               <div className="hero__btn">
-                <Button text="Suggest a lodge" type="fill" />
-                <Button text="Browse all properties" type="outline" />
+                <Link to="/suggest">
+                  <Button text="Suggest a lodge" type="fill" />
+                </Link>
+                <Link to="/view-all">
+                  <Button text="Browse all properties" type="outline" />
+                </Link>
+                {getUser.role === "admin" && (
+                  <>
+                    <Link to="/create-lodge">
+                      <Button text="Create a Lodge" type="outline-blue" />
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
             <div className="hero__right">
@@ -98,19 +166,27 @@ const Home = () => {
                 at.
               </p>
               <div className="hero__mobile-btn">
-                <Button text="Sugget a lodge" type="fill" />
-                <Button text="Browse all properties" type="outline" />
+                <Link to="/suggest">
+                  <Button text="Suggest a lodge" type="fill" />
+                </Link>
+                <Link to="/view-all">
+                  <Button text="Browse all properties" type="outline" />
+                </Link>
+                {getUser.role === "admin" && (
+                  <>
+                    <Link to="/create-lodge">
+                      <Button text="Create a Lodge" type="outline-blue" />
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* SEARCH BAR */}
-      <SearchBar />
-
       {/* FEATURED LODGES SECTION*/}
-      <section className="feature__section">
+      {/* <section className="feature__section">
         <FeatureTop text="Featured Lodges" type="featured" />
 
         <div className="featured__box">
@@ -145,102 +221,140 @@ const Home = () => {
                 </SwiperSlide>
               )
             )}
-            {/* <SwiperSlide>
-              <FeaturedCard img={MobileImg1} />
-            </SwiperSlide>
-            <SwiperSlide>
-              <FeaturedCard img={MobileImg2} />
-            </SwiperSlide>
-            <SwiperSlide>
-              <FeaturedCard img={MobileImg3} />
-            </SwiperSlide> */}
           </Swiper>
         </div>
-      </section>
+      </section> */}
+
+      {/* SEARCH BAR */}
+      {/* <SearchBar /> */}
 
       {/* LODGES IN EZIOBODO SECTION*/}
       <section className="lodges__section-1">
-        <FeatureTop text="Lodges Around Eziobodo" />
+        <FeatureTop text="Eziobodo" town="eziobodo" />
         <div className="lodges__box">
-          {lodgeDataEziobodo.map(
-            ({
-              id,
-              lodgeImg,
-              available,
-              lodgePrice,
-              lodgeName,
-              lodgeLocation,
-            }) => (
-              <LodgeCard
-                key={id}
-                id={id}
-                lodgeImg={lodgeImg}
-                available={available}
-                lodgePrice={lodgePrice}
-                lodgeName={lodgeName}
-                lodgeLocation={lodgeLocation}
-              />
-            )
-          )}
+          {eziobodoLoader
+            ? loadingArr.map((item) => <SkeletonLoader />)
+            : eziobodoLodges?.slice(0, 3).map(
+                ({
+                  _id,
+                  lodgepicture,
+                  lodgeprice,
+                  lodgename,
+                  address,
+                  specifications,
+                  lodgemultiplepicture,
+                  caretakernumber,
+                  lodgedescription,
+                  lodgetype,
+                  lodgetown,
+                }) => (
+                  <LodgeCard
+                    key={_id}
+                    id={_id}
+                    lodgepicture={lodgepicture}
+                    lodgeprice={lodgeprice}
+                    lodgename={lodgename}
+                    address={address}
+                    specifications={specifications}
+                    lodgemultiplepicture={lodgemultiplepicture}
+                    caretakernumber={caretakernumber}
+                    lodgedescription={lodgedescription}
+                    lodgetype={lodgetype}
+                    lodgetown={lodgetown}
+                  />
+                )
+              )}
         </div>
       </section>
 
       {/* LODGES IN UMUCHIMMA SECTION*/}
       <section className="lodges__section-1">
-        <FeatureTop text="Lodges Around Umuchimma" />
+        <FeatureTop text="Umuchimma" town="umuchimma"/>
         <div className="lodges__box">
-          {lodgeDataUmuchimma.map(
-            ({
-              id,
-              lodgeImg,
-              available,
-              lodgePrice,
-              lodgeName,
-              lodgeLocation,
-            }) => (
-              <LodgeCard
-                key={id}
-                id={id}
-                lodgeImg={lodgeImg}
-                available={available}
-                lodgePrice={lodgePrice}
-                lodgeName={lodgeName}
-                lodgeLocation={lodgeLocation}
-              />
-            )
-          )}
+          {umuchimmaLoader
+            ? loadingArr.map((item) => <SkeletonLoader />)
+            : umuchimmaLodges?.slice(0, 3).map(
+                ({
+                  _id,
+                  lodgepicture,
+                  lodgeprice,
+                  lodgename,
+                  address,
+                  specifications,
+                  lodgemultiplepicture,
+                  caretakernumber,
+                  lodgedescription,
+                  lodgetype,
+                  lodgetown,
+                }) => (
+                  <LodgeCard
+                    key={_id}
+                    id={_id}
+                    lodgepicture={lodgepicture}
+                    lodgeprice={lodgeprice}
+                    lodgename={lodgename}
+                    address={address}
+                    specifications={specifications}
+                    lodgemultiplepicture={lodgemultiplepicture}
+                    caretakernumber={caretakernumber}
+                    lodgedescription={lodgedescription}
+                    lodgetype={lodgetype}
+                    lodgetown={lodgetown}
+                  />
+                )
+              )}
         </div>
       </section>
 
       {/* LODGES IN IHIAGWA SECTION*/}
       <section className="lodges__section-1">
-        <FeatureTop text="Lodges Around Ihiagwa" />
+        <FeatureTop text="Ihiagwa" town="ihiagwa"/>
         <div className="lodges__box">
-          {lodgeDataIhiagwa.map(
-            ({
-              id,
-              lodgeImg,
-              available,
-              lodgePrice,
-              lodgeName,
-              lodgeLocation,
-            }) => (
-              <LodgeCard
-                key={id}
-                id={id}
-                lodgeImg={lodgeImg}
-                available={available}
-                lodgePrice={lodgePrice}
-                lodgeName={lodgeName}
-                lodgeLocation={lodgeLocation}
-              />
+          {ihiagwaLoader ? (
+            loadingArr.map((item) => <SkeletonLoader />)
+          ) : ihiagwaLodges?.length > 0 ? (
+            ihiagwaLodges?.slice(0, 3).map(
+              ({
+                _id,
+                lodgepicture,
+                lodgeprice,
+                lodgename,
+                address,
+                specifications,
+                lodgemultiplepicture,
+                caretakernumber,
+                lodgedescription,
+                lodgetype,
+                lodgetown,
+              }) => (
+                <LodgeCard
+                  key={_id}
+                  id={_id}
+                  lodgepicture={lodgepicture}
+                  lodgeprice={lodgeprice}
+                  lodgename={lodgename}
+                  address={address}
+                  specifications={specifications}
+                  lodgemultiplepicture={lodgemultiplepicture}
+                  caretakernumber={caretakernumber}
+                  lodgedescription={lodgedescription}
+                  lodgetype={lodgetype}
+                  lodgetown={lodgetown}
+                />
+              )
             )
+          ) : (
+            <>
+              <div className="display-error">
+                <p>No Available Lodges For Ihiagwa Yet! 😊</p>
+              </div>
+            </>
           )}
         </div>
       </section>
 
       {/* MARKET PLACE SECTION */}
-      <section className="market__place">
+      <section className="market__place" id="market-place">
         <FeatureTop text="Our Marketplace" type="market-place" />
         <div className="market__place-content">
           <div className="market__place-content-container">
@@ -254,7 +368,12 @@ const Home = () => {
                 imperdiet rutrum faucibus.
               </p>
               <div className="market-place-btn">
-                <Button text="Coming Soon" type="outline" color="blue" />
+                <Button
+                  onclick={handleShowMarketPlace}
+                  text="Coming Soon"
+                  type="outline"
+                  color="blue"
+                />
               </div>
             </div>
             <div className="right">

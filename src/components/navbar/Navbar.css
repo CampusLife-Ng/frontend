@@ -29,7 +29,7 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 4rem;
+  gap: 2rem;
 }
 
 .nav__link {
@@ -38,6 +38,11 @@
   color: var(--text-dark);
   transition: all 300ms ease;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.nav__link .NAVLINK{
   display: flex;
   align-items: center;
 }
@@ -77,7 +82,7 @@
   display: none;
 }
 
-@media screen and (max-width: 56.25em) {
+@media screen and (max-width: 58.125em) {
   .nav {
     height: 8rem;
   }
@@ -102,7 +107,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 4rem;
+    gap: 3rem;
     position: absolute;
     top: 8rem;
     left: 0;

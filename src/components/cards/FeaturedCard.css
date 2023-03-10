@@ -12,12 +12,14 @@
 }
 
 .featured__card-desc-btn {
+  display: flex;
+  align-items: center;
   background-color: var(--text-primary);
   width: max-content;
   padding: 1rem 2rem;
   color: white;
   font-weight: 500;
-  border-radius: 8px;
+  border-radius: 5px;
 }
 
 .featured__card-desc {
@@ -88,6 +90,11 @@
 
 .arrow__box {
   display: none;
+}
+
+.featured-action-btns {
+  display: flex;
+  gap: 1.5rem;
 }
 
 /* @950px */

@@ -4,9 +4,6 @@ import { motion } from "framer-motion";
 import RoomIcon from "@mui/icons-material/Room";
 import Specs from "./../specs/Specs";
 import HouseIcon from "@mui/icons-material/House";
-import WaterIcon from "@mui/icons-material/Water";
-import SoupKitchenIcon from "@mui/icons-material/SoupKitchen";
-import WcIcon from "@mui/icons-material/Wc";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -15,20 +12,33 @@ import {
   selectLodgeList,
 } from "../../features/slices/lodgeSlice";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import { selectUser } from "../../features/slices/userSlice";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+const DELETE_URL = "/lodges"
 
 const LodgeCard = ({
   id,
-  lodgeImg,
-  available,
-  lodgePrice,
-  lodgeName,
-  lodgeLocation,
+  lodgepicture,
+  lodgeprice,
+  lodgename,
+  address,
+  specifications,
+  lodgemultiplepicture,
+  lodgedescription,
+  caretakernumber,
+  lodgetype,
+  lodgetown,
   type,
 }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [liked, setLiked] = useState(false);
   const lodgeList = useSelector(selectLodgeList);
-
+  const activeUser = useSelector(selectUser)
+  const token = activeUser?.token
+  // console.log(token)
   const toggleLike = () => {
     setLiked(!liked);
   };
@@ -37,11 +47,16 @@ const LodgeCard = ({
     dispatch(
       addLodge({
         id,
-        lodgeImg,
-        available,
-        lodgePrice,
-        lodgeName,
-        lodgeLocation,
+        lodgepicture,
+        lodgeprice,
+        lodgename,
+        address,
+        specifications,
+        lodgemultiplepicture,
+        lodgedescription,
+        caretakernumber,
+        lodgetype,
+        lodgetown,
         lodgeType: "normal",
       })
     );
@@ -52,15 +67,84 @@ const LodgeCard = ({
     return lodgeList?.findIndex((item) => item.id === num);
   };
 
+  const handleShowMap = () => {
+    toast.info("Map Coming Soon.. 😁");
+  };
+
+  const goToDetails = () => {
+    navigate("/details", {
+      state: {
+        data: {
+          id,
+          lodgepicture,
+          lodgeprice,
+          lodgename,
+          address,
+          specifications,
+          lodgemultiplepicture,
+          lodgedescription,
+          caretakernumber,
+          lodgetown,
+          lodgetype
+        },
+      },
+    });
+  };
+
+  const handleDeleteLodge = async(id) => {
+    try {
+      const response = await axios.delete(`${DELETE_URL}/${id}`, {headers: { "x-auth-token": token }, withCredentials: true })
+      dispatch(
+        addLodge({
+          id,
+          lodgepicture,
+          lodgeprice,
+          lodgename,
+          address,
+          specifications,
+          lodgemultiplepicture,
+          lodgedescription,
+          caretakernumber,
+          lodgetype,
+          lodgetown,
+          lodgeType: "normal",
+        })
+      );
+      // console.log(response)
+      toast.success(response?.data?.message)
+      window.location.reload();
+    } catch (error) {
+      toast.error(error?.response?.data?.msg)
+    }
+  }
+
+  const handleUpdateLodge = () => {
+    navigate("/update-lodge", { state: {
+        updateDetails: {
+          id,
+          lodgepicture,
+          lodgeprice,
+          lodgename,
+          address,
+          specifications,
+          lodgemultiplepicture,
+          lodgedescription,
+          caretakernumber,
+          lodgetype,
+          lodgetown,
+        },
+      }, } )
+  }
+
+  // console.log(specifications, address)
+
+  const getUser = useSelector(selectUser);
+
   return (
     <div className="lodge__card">
       <div className="top">
-        <img src={lodgeImg} alt="" />
-        <div
-          className={`availability ${available ? "available" : "notavailable"}`}
-        >
-          {available ? "Available" : "Not Available"}
-        </div>
+        <img src={lodgepicture} alt="" />
+
         {type === "featured" ? (
           <></>
         ) : (
@@ -80,30 +164,55 @@ const LodgeCard = ({
         )}
       </div>
       <div className="bottom">
+        <div className="bottom-top">
         <div className="bottom__first">
-          <p className="lodge__card-price">₦ {lodgePrice} </p>
-          <motion.p whileTap={{ scale: 0.8 }}>Show on map</motion.p>
+          <p className="lodge__card-price">₦ {lodgeprice} </p>
+          <motion.p onClick={handleShowMap} whileTap={{ scale: 0.8 }}>
+            Show on map
+          </motion.p>
         </div>
-        <p className="lodge__name">{lodgeName} Lodge, FUTO</p>
+        <p className="lodge__name">{lodgename} Lodge, FUTO</p>
         <p className="lodge__location">
           <RoomIcon className="desc__location-icon" />
-          <span>{lodgeLocation}</span>
+          <span>{address}</span>
         </p>
 
         <div className="featured__card-desc-fourth">
-          <Specs Icon={HouseIcon} text="Self con" />
-          <Specs Icon={SoupKitchenIcon} text="Kitchen" />
-          <Specs Icon={WcIcon} text="Toilet" />
-          <Specs Icon={WaterIcon} text="Running water" />
+          {specifications?.map((item, idx) => (
+            <Specs key={idx} Icon={HouseIcon} text={item} />
+          ))}
         </div>
-        <motion.div
-          whileTap={{ scale: 0.8 }}
-          className="featured__card-desc-btn"
-        >
-          <Link style={{ color: "white" }} to="/details">
+
+        </div>
+        <div className="card-btns">
+          <motion.div
+            onClick={goToDetails}
+            whileTap={{ scale: 0.8 }}
+            className="featured__card-desc-btn"
+          >
             View Details
-          </Link>
-        </motion.div>
+          </motion.div>
+
+          {getUser.role === "admin" && (
+            <>
+              <motion.div
+                onClick={handleUpdateLodge}
+                whileTap={{ scale: 0.8 }}
+                className="lodge-card-update-btn"
+              >
+                  Update
+              </motion.div>
+
+              <motion.div
+                whileTap={{ scale: 0.8 }}
+                onClick={() => handleDeleteLodge(id)}
+                className="lodge-card-delete-btn"
+              >
+                Delete
+              </motion.div>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );

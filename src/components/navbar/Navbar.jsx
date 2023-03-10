@@ -1,15 +1,17 @@
 import "./Navbar.css";
 import Logo from "./../../assets/logowhite.png";
 import { Button } from "../../components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, NavLink } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { selectLodgeList } from "../../features/slices/lodgeSlice";
-import { useNavigate } from "react-router-dom";
+import AnchorLink from "react-anchor-link-smooth-scroll";
+import { selectUser } from "../../features/slices/userSlice";
 
-const Navbar = () => {
+const Navbar = ({ marketplace }) => {
+  const getUser = useSelector(selectUser);
   const navigate = useNavigate();
   const [openNav, setOpenNav] = useState(false);
 
@@ -19,69 +21,133 @@ const Navbar = () => {
     navigate("/liked-lodges");
   };
 
-  // console.log(getLodgeList);
-  useEffect(() => {
-    const handleNavActiveLink = (e) => {
-      if (e.target.closest(".nav__link")) {
-        document
-          .querySelectorAll(".nav__link")
-          .forEach((item) => item.classList.remove("active"));
-        e.target.closest(".nav__link").classList.add("active");
-      }
-    };
-    document
-      .querySelector(".nav__links")
-      ?.addEventListener("click", handleNavActiveLink);
-
-    return () =>
-      document
-        .querySelector(".nav__links")
-        .removeEventListener("click", handleNavActiveLink);
-  });
+  const activeStyling = ({ isActive }) =>
+    isActive ? { color: "#44c570" } : { color: "#0a0d14" };
 
   return (
-    <nav className="nav">
-      <div className="container">
-        <div className="nav__content">
-          <Link to="/" className="nav__logo-container">
-            <img src={Logo} className="nav__logo" alt="nav-logo" />
-          </Link>
+    <>
+      <nav className="nav">
+        <div className="container">
+          <div className="nav__content">
+            <Link to="/" className="nav__logo-container">
+              <img src={Logo} className="nav__logo" alt="nav-logo" />
+            </Link>
 
-          <ul className="nav__links">
-            {/* <li className="nav__link">Town</li> */}
-            <li className="nav__link">Marketplace</li>
-            <li className="nav__link" onClick={handleLikedPage}>
+            <ul className="nav__links">
+              {/* <li className="nav__link">Town</li> */}
+              {marketplace && (
+                <AnchorLink href="#market-place">
+                  <li className="nav__link">Marketplace</li>
+                </AnchorLink>
+              )}
+              <li className="nav__link">
+                <NavLink
+                  className={"NAVLINK"}
+                  style={activeStyling}
+                  to="/liked-lodges"
+                >
+                  <span>Liked</span>
+                  <span className="liked-notification">
+                    {getLodgeList?.length}
+                  </span>
+                </NavLink>
+              </li>
+
+              {
+              Object.keys(getUser).length === 0 && (
+                <>
+                  <li className="nav__link">
+                    <NavLink style={activeStyling} to="/auth">
+                      Login
+                    </NavLink>
+                  </li>
+                </>
+              )
+              }
+
+
+              <li className="nav__link">
+                <NavLink style={activeStyling} to="/our-team">
+                  Our Team
+                </NavLink>
+              </li>
+
+              <Link to="/suggest">
+                <Button text="Suggest a lodge" type="fill" />
+              </Link>
+              {getUser.role === "admin" && (
+                <>
+                  {" "}
+                  <Link to="/verify-property">
+                    <Button text="View Suggested" type="outline" />
+                  </Link>
+                </>
+              )}
+            </ul>
+
+            {openNav ? (
+              <HighlightOffIcon
+                onClick={() => setOpenNav(false)}
+                className="nav__mobile-close"
+              />
+            ) : (
+              <MenuIcon
+                onClick={() => setOpenNav(true)}
+                className="nav__mobile-menu"
+              />
+            )}
+          </div>
+        </div>
+        <ul className={`mobile__nav ${openNav && "active"}`}>
+          {/* <li className="nav__link">Town</li> */}
+          {marketplace && (
+            <AnchorLink href="#market-place">
+              <li className="nav__link">Marketplace</li>
+            </AnchorLink>
+          )}
+
+          <li className="nav__link">
+            <NavLink
+              className={"NAVLINK"}
+              style={activeStyling}
+              to="/liked-lodges"
+            >
               <span>Liked</span>
               <div className="liked-notification">{getLodgeList?.length}</div>
-            </li>
-            <li className="nav__link">Signup</li>
-            <Button text="Suggest a lodge" type="fill" />
-          </ul>
+            </NavLink>
+          </li>
+          {
+            Object.keys(getUser).length === 0 && (
+              <>
+                <li className="nav__link">
+                  <NavLink style={activeStyling} to="/auth">
+                    Login
+                  </NavLink>
+                </li>
+              </>
+            )
+          }
 
-          {openNav ? (
-            <HighlightOffIcon
-              onClick={() => setOpenNav(false)}
-              className="nav__mobile-close"
-            />
-          ) : (
-            <MenuIcon
-              onClick={() => setOpenNav(true)}
-              className="nav__mobile-menu"
-            />
+          <li className="nav__link">
+            <NavLink style={activeStyling} to="/our-team">
+              Our Team
+            </NavLink>
+          </li>
+
+          <Link to="/suggest">
+            <Button text="Suggest a lodge" type="fill" />
+          </Link>
+          {getUser.role === "admin" && (
+            <>
+              {" "}
+              <Link to="/verify-property">
+                <Button text="View Suggested" type="outline" />
+              </Link>
+            </>
           )}
-        </div>
-      </div>
-      <ul className={`mobile__nav ${openNav && "active"}`}>
-        {/* <li className="nav__link">Town</li> */}
-        <li className="nav__link">Marketplace</li>
-        <li className="nav__link" onClick={handleLikedPage}>
-          <span>Liked</span>
-          <div className="liked-notification">{getLodgeList?.length}</div>
-        </li>
-        <li className="nav__link">Signup</li>
-        <Button text="Suggest a lodge" type="fill" />
-      </ul>
-    </nav>
+        </ul>
+      </nav>
+    </>
   );
 };
 

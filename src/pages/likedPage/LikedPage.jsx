@@ -18,8 +18,10 @@ import { useNavigate } from "react-router-dom";
 
 const LikedPage = () => {
   const navigate = useNavigate();
-  const featuredLodgesList = useSelector(selectFeaturedLodgeList);
+  // const featuredLodgesList = useSelector(selectFeaturedLodgeList);
   const normalLodgesList = useSelector(selectNormalLodgeList);
+
+  // console.log(normalLodgesList);
 
   const isDataEmpty = (arr) => {
     return arr.length === 0;
@@ -38,7 +40,7 @@ const LikedPage = () => {
       <Navbar />
       <div className="liked-lodges">
         <div className="liked-lodges__content">
-          {isDataEmpty(featuredLodgesList) && isDataEmpty(normalLodgesList) ? (
+          {isDataEmpty(normalLodgesList) ? (
             <>
               <div className="empty-liked">
                 <div className="empty-liked__img">
@@ -64,14 +66,14 @@ const LikedPage = () => {
             </>
           ) : (
             <>
-              {!isDataEmpty(featuredLodgesList) && (
+              {/* {!isDataEmpty(featuredLodgesList) && (
                 <>
-                  {/* FEATURED LODGES SECTION*/}
+                  FEATURED LODGES SECTION
                   <section className="feature__section">
                     <FeatureTop text="Featured Lodges" type="featured" />
 
                     <div className="featured__box-liked">
-                      {featuredLodgesList.map(
+                      {featuredLodgesList?.map(
                         ({
                           id,
                           img,
@@ -100,7 +102,7 @@ const LikedPage = () => {
                     </div>
                   </section>
                 </>
-              )}
+              )} */}
 
               {!isDataEmpty(normalLodgesList) && (
                 <>
@@ -108,23 +110,33 @@ const LikedPage = () => {
                   <section className="lodges__section-1">
                     <FeatureTop text="Liked lodges" type="featured" />
                     <div className="lodges__box">
-                      {normalLodgesList.map(
+                      {normalLodgesList?.map(
                         ({
                           id,
-                          lodgeImg,
-                          available,
-                          lodgePrice,
-                          lodgeName,
-                          lodgeLocation,
+                          lodgepicture,
+                          lodgeprice,
+                          lodgename,
+                          address,
+                          specifications,
+                          lodgemultiplepicture,
+                          lodgedescription,
+                          caretakernumber,
+                          lodgetype,
+                          lodgetown,
                         }) => (
                           <LodgeCard
                             key={id}
                             id={id}
-                            lodgeImg={lodgeImg}
-                            available={available}
-                            lodgePrice={lodgePrice}
-                            lodgeName={lodgeName}
-                            lodgeLocation={lodgeLocation}
+                            lodgepicture={lodgepicture}
+                            lodgeprice={lodgeprice}
+                            lodgename={lodgename}
+                            address={address}
+                            specifications={specifications}
+                            lodgemultiplepicture={lodgemultiplepicture}
+                            caretakernumber={caretakernumber}
+                            lodgedescription={lodgedescription}
+                            lodgetype={lodgetype}
+                            lodgetown={lodgetown}
                             type="featured"
                           />
                         )

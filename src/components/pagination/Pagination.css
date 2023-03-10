@@ -1,0 +1,25 @@
+.pagination {
+    margin-top: 5rem;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+.page-item {
+    display: inline-block;
+    width: 35px;
+    height: 35px;
+    border: 2px solid var(--text-primary);
+    border-radius: 5px;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    color: var(--text-dark);
+    font-weight: 500;
+    transition: 300ms all ease;
+    font-size: var(--text-2);
+}
+
+.page-item:hover, .page-item.active {
+    background-color: var(--text-primary);
+    color: white;
+}

@@ -1,0 +1,81 @@
+.suggest {
+  margin: 13rem auto 0 auto;
+  max-width: var(--container-lg);
+  min-height: calc(50vh - 13rem);
+  padding: 1.5rem;
+}
+
+.suggest .heading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.7rem;
+  margin-top: 3rem;
+}
+
+.suggest .heading p {
+  max-width: 60rem;
+  text-align: center;
+}
+
+.suggest__cards {
+  margin-top: 5rem;
+  display: flex;
+  gap: 3rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.suggest__card {
+  width: 30rem;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.card__img {
+}
+
+.card__img img {
+  display: block;
+  width: 100%;
+  height: 15rem;
+  object-fit: cover;
+}
+
+.lodge__name,
+.card__status,
+.card__date {
+  font-size: var(--text-1);
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-left: 1rem;
+}
+
+.card__status span {
+    padding: 0.1rem 1rem;
+    border-radius: 100px;
+}
+
+.card__status.verified span {
+    color: rgb(20, 137, 20);
+    background-color: rgba(113, 255, 113, 0.461);
+    border-color: rgba(113, 255, 113, 0.461);
+}
+
+.card__status.not-verified span {
+    color: rgb(255, 31, 31);
+    border-color: rgba(255, 85, 85, 0.56);
+    background-color: rgba(255, 85, 85, 0.56);
+}
+
+.card__btn {
+    background-color: var(--text-primary);
+    padding: 1.5rem;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    margin-top: 1rem;
+}

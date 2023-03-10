@@ -43,6 +43,7 @@
   left: 0.7rem;
   font-size: 3rem;
   color: var(--text-light);
+  opacity: 0.6;
 }
 
 .news__section-form .form__group input {

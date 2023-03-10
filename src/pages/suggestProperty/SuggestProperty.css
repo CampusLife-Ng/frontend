@@ -1,0 +1,332 @@
+.suggest_body {
+  margin-top: 13rem;
+  max-width: var(--container-lg);
+  margin: 13rem auto 0 auto;
+  padding: 5rem 2rem;
+}
+
+.suggest_body-top {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.suggest_body-top p {
+  max-width: 75rem;
+  margin: 0 auto;
+  font-size: var(--text-1);
+}
+
+.suggest_property-content {
+  display: flex;
+  margin-top: 10rem;
+  gap: 5rem;
+}
+
+.suggest_property-content .left {
+  flex: 0.42;
+  display: flex;
+  flex-direction: column;
+  gap: 10rem;
+}
+
+.suggest_property-content .left .info-card {
+  width: 100%;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border-radius: 10px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.suggest_property-content .left .info-card .icon {
+  background-color: #b6ffce;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.info-card-icon {
+  color: var(--primary-color) !important;
+  font-size: 3rem !important;
+}
+
+.suggest_property-content .right {
+  flex: 0.85;
+  height: max-content;
+}
+
+.suggest_property-content .right form {
+  background-color: white;
+  width: 100%;
+  height: 100%;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  padding: 4rem;
+}
+
+.suggest_property-content .right form .personal-details {
+  border-bottom: 2px solid var(--bg-neutral);
+  display: flex;
+  flex-direction: column;
+  gap: 3.5rem;
+  padding-bottom: 6rem;
+}
+
+.suggest_property-content .right form .personal-details div {
+  flex: 1;
+  display: flex;
+  gap: 2rem;
+}
+
+.peronal-details-form-group {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.peronal-details-form-group label {
+  font-size: var(--text-2);
+}
+
+.peronal-details-form-group input,
+.peronal-details-form-group .lodge-img {
+  display: block;
+  background-color: var(--bg-neutral);
+  outline-color: transparent;
+  border-color: transparent;
+  width: 100%;
+  height: 5rem;
+  padding: 1rem;
+  font-family: inherit;
+  font-size: var(--text-1);
+  border-radius: 5px;
+}
+
+.peronal-details-form-group .lodge-img {
+  cursor: pointer;
+}
+
+.peronal-details-form-group .lodge-image-action {
+  display: none;
+}
+
+.peronal-details-form-group textarea {
+  resize: none;
+  background-color: var(--bg-neutral);
+  outline-color: transparent;
+  border-color: transparent;
+  padding: 1rem;
+  font-family: inherit;
+  font-size: var(--text-1);
+  border-radius: 5px;
+}
+
+.property-details {
+  margin-top: 8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.property-details.verify {
+  margin-top: 1rem;
+}
+
+.property-details div {
+  flex: 1;
+  display: flex;
+  gap: 2rem;
+}
+
+.suggest-btn {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.verify-btns {
+  display: flex;
+  justify-content: center;
+  margin-top: 3rem;
+  gap: 2rem;
+  text-align: center;
+}
+
+.verify-btn {
+  padding: 1.5rem 3rem;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.verify-btn.verify {
+  background-color: var(--text-primary);
+  font-size: var(--text-2);
+  color: white;
+  border-color: transparent;
+}
+
+.verify-btn.continue {
+  background-color: var(--text-light);
+  font-size: var(--text-2);
+  color: white;
+}
+
+.verify-btn.trash {
+  background-color: var(--bg-danger);
+  font-size: var(--text-2);
+  color: white;
+}
+
+.institution-select {
+  background-color: var(--bg-neutral);
+  border-radius: 5px;
+  margin-left: 0;
+  height: 5rem;
+}
+
+.peronal-details-form-group div {
+  position: relative;
+  display: flex !important;
+}
+
+.peronal-details-form-group div span {
+  margin-right: -1.4rem;
+}
+
+.peronal-details-form-group div .country-code {
+  background-color: var(--bg-neutral);
+  border-radius: 5px;
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  font-size: var(--text-1);
+  color: var(--text-light);
+}
+
+.instDropDown {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 1rem;
+  font-size: var(--text-2) !important;
+}
+
+.peronal-details-form-group div .lodge-img-icon {
+  position: absolute;
+  font-size: 3rem !important;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 2rem;
+}
+
+.preview-box > div {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.preview-box .delete-box {
+  display: flex;
+  align-items: flex-end;
+}
+
+.preview-box .delete-box .delete-preview-box {
+  cursor: pointer;
+  font-size: 3rem !important;
+  color: var(--bg-danger);
+}
+
+.preview-img {
+  /* position: relative; */
+  background-color: var(--bg-neutral);
+  border-radius: 10px;
+  /* height: 400px; */
+  top: 100%;
+  overflow: hidden;
+}
+
+.preview-img img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.lodge-picture-notice {
+  color: var(--bg-danger);
+  font-size: 1.1rem;
+}
+
+.multiple-img-showcase {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.multiple-img-showcase p{
+  border: 1px solid var(--text-light);
+  border-radius: 5px;
+  padding: 1rem;
+  flex: 1;
+}
+
+
+
+.peronal-details-form-group .showcase {
+  height: max-content;
+}
+
+/* at media query 950px */
+@media screen and (max-width: 950px) {
+  .suggest_property-content .left .info-card h3 {
+    font-size: var(--text-2);
+  }
+}
+
+/* at media query 900px */
+@media screen and (max-width: 900px) {
+  .suggest_property-content {
+    flex-direction: column;
+  }
+
+  .suggest_property-content .left {
+    gap: 5rem;
+  }
+}
+
+/* at media query 640px */
+@media screen and (max-width: 640px) {
+  .property-details div {
+    /* display: flex; */
+    /* flex: 1;
+    gap: 2rem; */
+    /* flex-direction: column; */
+  }
+
+  .personal-details > div,
+  .property-details > div {
+    flex-direction: column;
+  }
+
+  .suggest_body-top h1 {
+    font-size: 3.5rem;
+  }
+
+  .suggest_property-content .right form {
+    padding: 4rem 1rem;
+  }
+}
+
+/* at media query 400px */
+@media screen and (max-width: 400px) {
+  .verify-btns {
+    flex-direction: column;
+  }
+}

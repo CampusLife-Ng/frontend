@@ -15,6 +15,8 @@ import {
   selectLodgeList,
 } from "../../features/slices/lodgeSlice";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import { selectUser } from "../../features/slices/userSlice";
 
 const FeaturedCard = ({
   img,
@@ -28,6 +30,7 @@ const FeaturedCard = ({
   const [liked, setLiked] = useState(false);
   const dispatch = useDispatch();
   const lodgeList = useSelector(selectLodgeList);
+  const getUser = useSelector(selectUser);
 
   const toggleLike = () => {
     setLiked(!liked);
@@ -53,15 +56,19 @@ const FeaturedCard = ({
     return lodgeList?.findIndex((item) => item.id === num);
   };
 
+  const handleShowMap = () => {
+    toast.info("Map Coming Soon.. 😁");
+  };
+
   return (
     <div className="featured__card">
       <div className="featured__card-left">
         <img src={img} alt="" />
-        <div
+        {/* <div
           className={`availability ${available ? "available" : "notavailable"}`}
         >
           {available ? "Available" : "Not Available"}
-        </div>
+        </div> */}
         {type === "featured" ? (
           <></>
         ) : (
@@ -88,7 +95,9 @@ const FeaturedCard = ({
         </div>
         <div className="featured__card-desc-second">
           <h3>{lodgeName}</h3>
-          <motion.p whileTap={{ scale: 0.8 }}>Show on map</motion.p>
+          <motion.p onClick={handleShowMap} whileTap={{ scale: 0.8 }}>
+            Show on map
+          </motion.p>
         </div>
         <div className="featured__card-desc-third">
           <p>
@@ -103,14 +112,36 @@ const FeaturedCard = ({
           <Specs Icon={WcIcon} text="Toilet" />
           <Specs Icon={WaterIcon} text="Running water" />
         </div>
-        <motion.div
-          whileTap={{ scale: 0.8 }}
-          className="featured__card-desc-btn"
-        >
-          <Link style={{ color: "white" }} to="/details">
-            View Details
-          </Link>
-        </motion.div>
+        <div className="featured-action-btns">
+          <motion.div
+            whileTap={{ scale: 0.8 }}
+            className="featured__card-desc-btn"
+          >
+            <Link style={{ color: "white" }} to="/details">
+              View Details
+            </Link>
+          </motion.div>
+
+          {getUser.role === "admin" && (
+            <>
+              <motion.div
+                whileTap={{ scale: 0.8 }}
+                className="lodge-card-update-btn"
+              >
+                <Link style={{ color: "white" }} to="/update-lodge">
+                  Update
+                </Link>
+              </motion.div>
+
+              <motion.div
+                whileTap={{ scale: 0.8 }}
+                className="lodge-card-delete-btn"
+              >
+                Delete
+              </motion.div>
+            </>
+          )}
+        </div>
 
         {type !== "featured" && (
           <div className="arrow__box">
