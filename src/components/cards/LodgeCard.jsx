@@ -92,9 +92,24 @@ const LodgeCard = ({
   };
 
   const handleDeleteLodge = async(id) => {
-    console.log(id)
     try {
       const response = await axios.delete(`${DELETE_URL}/${id}`, {headers: { "x-auth-token": token }, withCredentials: true })
+      dispatch(
+        addLodge({
+          id,
+          lodgepicture,
+          lodgeprice,
+          lodgename,
+          address,
+          specifications,
+          lodgemultiplepicture,
+          lodgedescription,
+          caretakernumber,
+          lodgetype,
+          lodgetown,
+          lodgeType: "normal",
+        })
+      );
       // console.log(response)
       toast.success(response?.data?.message)
       window.location.reload();
@@ -121,7 +136,7 @@ const LodgeCard = ({
       }, } )
   }
 
-  console.log(specifications, address)
+  // console.log(specifications, address)
 
   const getUser = useSelector(selectUser);
 
@@ -149,6 +164,7 @@ const LodgeCard = ({
         )}
       </div>
       <div className="bottom">
+        <div className="bottom-top">
         <div className="bottom__first">
           <p className="lodge__card-price">₦ {lodgeprice} </p>
           <motion.p onClick={handleShowMap} whileTap={{ scale: 0.8 }}>
@@ -162,9 +178,11 @@ const LodgeCard = ({
         </p>
 
         <div className="featured__card-desc-fourth">
-          {specifications.map((item, idx) => (
+          {specifications?.map((item, idx) => (
             <Specs key={idx} Icon={HouseIcon} text={item} />
           ))}
+        </div>
+
         </div>
         <div className="card-btns">
           <motion.div

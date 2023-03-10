@@ -12,7 +12,8 @@ import Select from "react-select";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../features/slices/userSlice";
 import axios from "axios";
-const CREATE_URL = "/lodges"
+import { useNavigate } from "react-router-dom";
+const CREATE_URL = "/lodges";
 
 // create lodge state
 const STATE = {
@@ -93,7 +94,9 @@ const ACTION = {
 const CreateLodge = () => {
   const [singleImg, setSingleImg] = useState(null);
   const [createLodgeState, dispatch] = useReducer(reducer, STATE);
-  const getUser = useSelector(selectUser)
+  const [isLoading, setIsLoading] = useState(false);
+  const getUser = useSelector(selectUser);
+  const navigate = useNavigate();
   const specifications = [
     { value: "water", label: "Water" },
     { value: "electricity", label: "Electricity" },
@@ -117,7 +120,7 @@ const CreateLodge = () => {
 
   // handle single image upload
   const handleImgUpload = (e) => {
-    console.log(e.target.files[0])
+    // console.log(e.target.files[0]);
     if (e.target.files.length > 0) {
       let preview = document.getElementById("create-lodge__image-file-preview");
       const imgSrc = URL.createObjectURL(e.target.files[0]);
@@ -129,7 +132,7 @@ const CreateLodge = () => {
 
   // handle multiple image upload
   const handleMultipleImgUpload = (e) => {
-    console.log(e.target.files)
+    // console.log(e.target.files);
     let boxContainer = document.getElementById("create-multiple-img-showcase");
     let finalArr = [];
     if (e.target.files.length < 1 || e.target.files.length > 3)
@@ -150,16 +153,21 @@ const CreateLodge = () => {
     preview.src = NoImg;
   };
 
-  const handleCreateFormSubmit = async(e) => {
+  const handleCreateFormSubmit = async (e) => {
     e.preventDefault();
 
     try {
       for (const val in createLodgeState) {
-      if (!createLodgeState[val])
-        return toast.warning("All fields are required!");
+        if (val === "lat" || val === "lng") {
+          continue;
+        } else {
+          if (!createLodgeState[val])
+            return toast.warning("Fill required fields!");
+        }
       }
+      setIsLoading(true);
 
-      console.log(createLodgeState?.lodgemultiplepicture)
+      // console.log(createLodgeState?.lodgemultiplepicture);
 
       // TODO: RUN AXIOS POST REQUEST TO SUBMIT DATA
       // console.log(createLodgeState);
@@ -169,7 +177,6 @@ const CreateLodge = () => {
       formData.append("description", createLodgeState?.description);
       formData.append("lat", createLodgeState?.lat);
       formData.append("lng", createLodgeState?.lng);
-      formData.append("lodgemultiplepicture", createLodgeState?.lodgemultiplepicture);
       formData.append("lodgename", createLodgeState?.lodgename);
       formData.append("lodgepicture", createLodgeState?.lodgepicture);
       formData.append("lodgeprice", createLodgeState?.lodgeprice);
@@ -177,17 +184,30 @@ const CreateLodge = () => {
       formData.append("lodgetype", createLodgeState?.lodgetype);
       formData.append("specifications", createLodgeState?.specifications);
       // window.location.reload(); // for now!!
-
-      // console.log(formData.entries())
-      for (const pair of formData.entries()) {
-        console.log(pair);
+      for (let i = 0; i < createLodgeState?.lodgemultiplepicture.length; i++) {
+        formData.append(
+          "lodgemultiplepicture",
+          createLodgeState?.lodgemultiplepicture[i]
+        );
       }
 
-      const response = await axios.post(`${CREATE_URL}`, formData, {headers: {"x-auth-token": getUser?.token }})
-      console.log(response)
+      // console.log(formData.entries())
+      // for (const pair of formData.entries()) {
+      //   console.log(pair);
+      // }
 
+      const response = await axios.post(`${CREATE_URL}`, formData, {
+        headers: {
+          "x-auth-token": getUser?.token,
+        },
+      });
+      setIsLoading(false);
+      console.log(response);
+      navigate(-1);
+      toast.success(response?.data?.message);
     } catch (error) {
-      console.log(error)
+      setIsLoading(false);
+      toast.error(error?.response?.data?.msg);
     }
   };
   // console.log(createLodgeState);
@@ -223,7 +243,7 @@ const CreateLodge = () => {
 
           <form
             onSubmit={(e) => handleCreateFormSubmit(e)}
-            className="create-lodge-form"
+            className={`create-lodge-form ${isLoading && "loading"}`}
           >
             {/* LODGENAME */}
             <div className="create-lodge-form-group">
@@ -447,7 +467,7 @@ const CreateLodge = () => {
                 rows="15"
               ></textarea>
             </div>
-
+            {/* <button type="submit">submit</button> */}
             <Button text="Creat Lodge" type="fill" submit={true} />
           </form>
         </div>

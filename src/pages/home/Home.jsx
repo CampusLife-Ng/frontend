@@ -14,6 +14,7 @@ import {
   LodgeCard,
   NewsLetter,
   Footer,
+  SkeletonLoader,
 } from "../../components";
 import Hero1 from "./../../assets/heroimg1.png";
 import Hero2 from "./../../assets/heroimg2.png";
@@ -24,12 +25,6 @@ import MobileImg2 from "./../../assets/mobile-img2.jpg";
 import MobileImg3 from "./../../assets/mobile-img3.jpg";
 import MpImg1 from "./../../assets/mpimg1.png";
 import MpImg2 from "./../../assets/mpimg2.png";
-import {
-  lodgeDataEziobodo,
-  lodgeDataFeatured,
-  lodgeDataUmuchimma,
-  lodgeDataIhiagwa,
-} from "../../utils/dev-data";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../features/slices/userSlice";
@@ -48,10 +43,16 @@ const Home = () => {
   const [eziobodoLodges, setEziobodoLodges] = useState([]);
   const [umuchimmaLodges, setUmuchimmaLodges] = useState([]);
   const [ihiagwaLodges, setIhiagwaLodges] = useState([]);
-
+  const [eziobodoLoader, setEziobodoLoader] = useState(false);
+  const [umuchimmaLoader, setUmuchimmaLoader] = useState(false);
+  const [ihiagwaLoader, setIhiagwaLoader] = useState(false);
+  const loadingArr = [1, 2, 3];
   useEffect(() => {
     const fetchLodges = async () => {
       try {
+        setEziobodoLoader(true);
+        setUmuchimmaLoader(true);
+        setIhiagwaLoader(true);
         const response = await axios.get(GETALLLODGES_URL);
         // console.log(response?.data?.data);
 
@@ -60,18 +61,24 @@ const Home = () => {
             (item) => item.lodgetown === "eziobodo"
           )
         );
+        setEziobodoLoader(false);
         setUmuchimmaLodges(
           response?.data?.data?.lodges?.filter(
             (item) => item.lodgetown === "umuchimma"
           )
         );
+        setUmuchimmaLoader(false);
         setIhiagwaLodges(
           response?.data?.data?.lodges?.filter(
             (item) => item.lodgetown === "ihiagwa"
           )
         );
+        setIhiagwaLoader(false);
       } catch (error) {
         console.log(error);
+        setEziobodoLoader(false);
+        setUmuchimmaLoader(false);
+        setIhiagwaLoader(false);
       }
     };
 
@@ -79,7 +86,8 @@ const Home = () => {
   }, []);
 
   // console.log(eziobodoLodges);
-  // console.log(ihiagwaLodges)
+  // console.log(eziobodoLoader)
+  // console.log(ihiagwaLodges);
   // console.log(umuchimmaLodges)
 
   return (
@@ -222,111 +230,125 @@ const Home = () => {
 
       {/* LODGES IN EZIOBODO SECTION*/}
       <section className="lodges__section-1">
-        <FeatureTop text="Lodges Around Eziobodo" />
+        <FeatureTop text="Eziobodo" town="eziobodo" />
         <div className="lodges__box">
-          {eziobodoLodges.map(
-            ({
-              _id,
-              lodgepicture,
-              lodgeprice,
-              lodgename,
-              address,
-              specifications,
-              lodgemultiplepicture,
-              caretakernumber,
-              lodgedescription,
-              lodgetype,
-              lodgetown,
-            }) => (
-              <LodgeCard
-                key={_id}
-                id={_id}
-                lodgepicture={lodgepicture}
-                lodgeprice={lodgeprice}
-                lodgename={lodgename}
-                address={address}
-                specifications={specifications}
-                lodgemultiplepicture={lodgemultiplepicture}
-                caretakernumber={caretakernumber}
-                lodgedescription={lodgedescription}
-                lodgetype={lodgetype}
-                lodgetown={lodgetown}
-              />
-            )
-          )}
+          {eziobodoLoader
+            ? loadingArr.map((item) => <SkeletonLoader />)
+            : eziobodoLodges?.slice(0, 3).map(
+                ({
+                  _id,
+                  lodgepicture,
+                  lodgeprice,
+                  lodgename,
+                  address,
+                  specifications,
+                  lodgemultiplepicture,
+                  caretakernumber,
+                  lodgedescription,
+                  lodgetype,
+                  lodgetown,
+                }) => (
+                  <LodgeCard
+                    key={_id}
+                    id={_id}
+                    lodgepicture={lodgepicture}
+                    lodgeprice={lodgeprice}
+                    lodgename={lodgename}
+                    address={address}
+                    specifications={specifications}
+                    lodgemultiplepicture={lodgemultiplepicture}
+                    caretakernumber={caretakernumber}
+                    lodgedescription={lodgedescription}
+                    lodgetype={lodgetype}
+                    lodgetown={lodgetown}
+                  />
+                )
+              )}
         </div>
       </section>
 
       {/* LODGES IN UMUCHIMMA SECTION*/}
       <section className="lodges__section-1">
-        <FeatureTop text="Lodges Around Umuchimma" />
+        <FeatureTop text="Umuchimma" town="umuchimma"/>
         <div className="lodges__box">
-          {umuchimmaLodges.map(
-            ({
-              _id,
-              lodgepicture,
-              lodgeprice,
-              lodgename,
-              address,
-              specifications,
-              lodgemultiplepicture,
-              caretakernumber,
-              lodgedescription,
-              lodgetype,
-              lodgetown,
-            }) => (
-              <LodgeCard
-                key={_id}
-                id={_id}
-                lodgepicture={lodgepicture}
-                lodgeprice={lodgeprice}
-                lodgename={lodgename}
-                address={address}
-                specifications={specifications}
-                lodgemultiplepicture={lodgemultiplepicture}
-                caretakernumber={caretakernumber}
-                lodgedescription={lodgedescription}
-                lodgetype={lodgetype}
-                lodgetown={lodgetown}
-              />
-            )
-          )}
+          {umuchimmaLoader
+            ? loadingArr.map((item) => <SkeletonLoader />)
+            : umuchimmaLodges?.slice(0, 3).map(
+                ({
+                  _id,
+                  lodgepicture,
+                  lodgeprice,
+                  lodgename,
+                  address,
+                  specifications,
+                  lodgemultiplepicture,
+                  caretakernumber,
+                  lodgedescription,
+                  lodgetype,
+                  lodgetown,
+                }) => (
+                  <LodgeCard
+                    key={_id}
+                    id={_id}
+                    lodgepicture={lodgepicture}
+                    lodgeprice={lodgeprice}
+                    lodgename={lodgename}
+                    address={address}
+                    specifications={specifications}
+                    lodgemultiplepicture={lodgemultiplepicture}
+                    caretakernumber={caretakernumber}
+                    lodgedescription={lodgedescription}
+                    lodgetype={lodgetype}
+                    lodgetown={lodgetown}
+                  />
+                )
+              )}
         </div>
       </section>
 
       {/* LODGES IN IHIAGWA SECTION*/}
       <section className="lodges__section-1">
-        <FeatureTop text="Lodges Around Ihiagwa" />
+        <FeatureTop text="Ihiagwa" town="ihiagwa"/>
         <div className="lodges__box">
-          {ihiagwaLodges.map(
-            ({
-              _id,
-              lodgepicture,
-              lodgeprice,
-              lodgename,
-              address,
-              specifications,
-              lodgemultiplepicture,
-              caretakernumber,
-              lodgedescription,
-              lodgetype,
-              lodgetown,
-            }) => (
-              <LodgeCard
-                key={_id}
-                id={_id}
-                lodgepicture={lodgepicture}
-                lodgeprice={lodgeprice}
-                lodgename={lodgename}
-                address={address}
-                specifications={specifications}
-                lodgemultiplepicture={lodgemultiplepicture}
-                caretakernumber={caretakernumber}
-                lodgedescription={lodgedescription}
-                lodgetype={lodgetype}
-                lodgetown={lodgetown}
-              />
+          {ihiagwaLoader ? (
+            loadingArr.map((item) => <SkeletonLoader />)
+          ) : ihiagwaLodges?.length > 0 ? (
+            ihiagwaLodges?.slice(0, 3).map(
+              ({
+                _id,
+                lodgepicture,
+                lodgeprice,
+                lodgename,
+                address,
+                specifications,
+                lodgemultiplepicture,
+                caretakernumber,
+                lodgedescription,
+                lodgetype,
+                lodgetown,
+              }) => (
+                <LodgeCard
+                  key={_id}
+                  id={_id}
+                  lodgepicture={lodgepicture}
+                  lodgeprice={lodgeprice}
+                  lodgename={lodgename}
+                  address={address}
+                  specifications={specifications}
+                  lodgemultiplepicture={lodgemultiplepicture}
+                  caretakernumber={caretakernumber}
+                  lodgedescription={lodgedescription}
+                  lodgetype={lodgetype}
+                  lodgetown={lodgetown}
+                />
+              )
             )
+          ) : (
+            <>
+              <div className="display-error">
+                <p>No Available Lodges For Ihiagwa Yet! 😊</p>
+              </div>
+            </>
           )}
         </div>
       </section>

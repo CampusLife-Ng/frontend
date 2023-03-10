@@ -68,6 +68,34 @@
   display: flex;
   flex-direction: column;
   gap: 2.5rem;
+  position: relative;
+}
+
+.create-lodge-form.loading::before{
+  content: "";
+  display: block;
+  background-color: rgba(121, 119, 119, 0.301);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 50;
+}
+
+.create-lodge-form.loading::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: block;
+  width: 40px;
+  height: 40px;
+  border: 8px solid #ddd;
+  border-radius: 50%;
+  border-top-color: var(--text-primary);
+  animation: loading 0.75s ease infinite;
 }
 
 .create-lodge-form-group {

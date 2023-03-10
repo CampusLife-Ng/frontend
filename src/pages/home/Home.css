@@ -156,10 +156,10 @@
   max-width: calc(var(--container-lg) + 1rem);
   margin: 0 auto;
   padding: 0 1rem;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  row-gap: 3rem;
-  column-gap: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 3rem;
 }
 
 .market__place {

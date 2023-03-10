@@ -5,7 +5,6 @@ import RoomIcon from "@mui/icons-material/Room";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
 import { useLocation } from "react-router-dom";
-import CurrencyFormat from 'react-currency-format';
 
 const Details = () => {
   const handleShowMap = () => {
@@ -13,7 +12,7 @@ const Details = () => {
   };
 
   const location = useLocation();
-  console.log(location);
+  // console.log(location);
 
   return (
     <>
@@ -35,9 +34,7 @@ const Details = () => {
                     </div>
                     <div className="price-map">
                       <p className="right__price">
-                        {
-                          <CurrencyFormat value={location?.state?.data?.lodgeprice} displayType={'text'} thousandSeparator={true} prefix={'₦'} renderText={value => <span>{value}</span>} />
-                        }
+                        {location?.state?.data?.lodgeprice}
                       </p>
                       <motion.div
                         onClick={handleShowMap}

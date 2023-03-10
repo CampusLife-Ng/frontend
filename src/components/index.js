@@ -12,3 +12,4 @@ export { default as RequireAuth } from "./RequireAuth";
 export { default as Layout } from "./Layout"
 export { default as Spinner } from "./spinner/Spinner";
 export { default as Pagination } from "./pagination/Pagination";
+export { default as SkeletonLoader } from "./spinner/SkeletonLoader"

@@ -12,6 +12,8 @@
 }
 
 .featured__card-desc-btn {
+  display: flex;
+  align-items: center;
   background-color: var(--text-primary);
   width: max-content;
   padding: 1rem 2rem;
