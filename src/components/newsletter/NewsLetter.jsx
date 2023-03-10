@@ -12,7 +12,7 @@ const NewsLetter = () => {
     if (!newsLetterEmail)
       return toast.warning("Please enter your email address");
 
-    console.log(newsLetterEmail);
+    return toast.info("Newletter functionality comming soon😊")
   };
   return (
     <section className="news__section">

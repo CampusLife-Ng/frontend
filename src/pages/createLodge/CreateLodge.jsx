@@ -202,7 +202,7 @@ const CreateLodge = () => {
         },
       });
       setIsLoading(false);
-      console.log(response);
+      // console.log(response);
       navigate(-1);
       toast.success(response?.data?.message);
     } catch (error) {

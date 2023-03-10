@@ -11,6 +11,7 @@ import NoImg from "./../../assets/no-img.png"
 
 const SuggestProperty = () => {
   const location = useLocation();
+  const LODGE = location?.state?.lodge
   const verify = location.state?.verify || false;
   
   const handleDeleteImage = () => {
@@ -79,7 +80,7 @@ const SuggestProperty = () => {
             </div>
           </div>
           <div className="right">
-            <SuggestForm verify={verify} />
+            <SuggestForm verify={verify} lodge={LODGE}/>
           </div>
         </div>
       </div>

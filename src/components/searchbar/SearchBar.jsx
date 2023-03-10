@@ -84,8 +84,8 @@ const SearchBar = ({ setLodgeData, setSearchInput }) => {
             <option value={"Type Of Lodge"} disabled>
               Type Of Lodge
             </option>
-            <option value="self con">Sel Con</option>
-            <option value="2 bedroom">2 Bedroom</option>
+            <option value="self-con">Sel Con</option>
+            <option value="2-bedroom">2 Bedroom</option>
             <option value="villa">Villa</option>
           </select>
           <KeyboardArrowDownIcon className="select-icon" />
@@ -173,8 +173,8 @@ const SearchBar = ({ setLodgeData, setSearchInput }) => {
               <option value={"Type Of Lodge"} disabled>
                 Type Of Lodge
               </option>
-              <option value="self con">Self Con</option>
-              <option value="2 bedroom">2 Bedroom</option>
+              <option value="self-con">Self Con</option>
+              <option value="2-bedroom">2 Bedroom</option>
               <option value="villa">Villa</option>
             </select>
             <KeyboardArrowDownIcon className="select-icon" />

@@ -54,7 +54,7 @@ const Home = () => {
         setUmuchimmaLoader(true);
         setIhiagwaLoader(true);
         const response = await axios.get(GETALLLODGES_URL);
-        // console.log(response?.data?.data);
+        console.log(response?.data?.data?.lodges);
 
         setEziobodoLodges(
           response?.data?.data?.lodges?.filter(
@@ -64,7 +64,7 @@ const Home = () => {
         setEziobodoLoader(false);
         setUmuchimmaLodges(
           response?.data?.data?.lodges?.filter(
-            (item) => item.lodgetown === "umuchimma"
+            (item) => item.lodgetown === "ummuchimma"
           )
         );
         setUmuchimmaLoader(false);
@@ -85,10 +85,9 @@ const Home = () => {
     fetchLodges();
   }, []);
 
-  // console.log(eziobodoLodges);
-  // console.log(eziobodoLoader)
-  // console.log(ihiagwaLodges);
-  // console.log(umuchimmaLodges)
+  console.log(eziobodoLodges);
+  console.log(ihiagwaLodges);
+  console.log(umuchimmaLodges)
 
   return (
     <>
@@ -234,7 +233,7 @@ const Home = () => {
         <div className="lodges__box">
           {eziobodoLoader
             ? loadingArr.map((item) => <SkeletonLoader />)
-            : eziobodoLodges?.slice(0, 3).map(
+            : eziobodoLodges?.length > 0 ? eziobodoLodges?.slice(0, 3).map(
                 ({
                   _id,
                   lodgepicture,
@@ -263,7 +262,11 @@ const Home = () => {
                     lodgetown={lodgetown}
                   />
                 )
-              )}
+              ) : <>
+              <div className="display-error">
+                <p>No Available Lodges For Eziobodo Yet! 😊</p>
+              </div>
+            </>}
         </div>
       </section>
 
@@ -273,7 +276,7 @@ const Home = () => {
         <div className="lodges__box">
           {umuchimmaLoader
             ? loadingArr.map((item) => <SkeletonLoader />)
-            : umuchimmaLodges?.slice(0, 3).map(
+            : umuchimmaLodges?.length > 0 ? umuchimmaLodges?.slice(0, 3).map(
                 ({
                   _id,
                   lodgepicture,
@@ -302,7 +305,11 @@ const Home = () => {
                     lodgetown={lodgetown}
                   />
                 )
-              )}
+              ) : <>
+              <div className="display-error">
+                <p>No Available Lodges For Umuchimma Yet! 😊</p>
+              </div>
+            </>}
         </div>
       </section>
 

@@ -7,10 +7,20 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Button } from "../../components";
 import Select from "react-select";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../features/slices/userSlice";
+const CREATE_SUGGEST_LODGE_URL = "suggestlodges";
 
-const SuggestForm = ({ verify }) => {
+const SuggestForm = ({ verify, lodge }) => {
   const navigator = useNavigate();
   const [imageSource, setImageSource] = useState(null);
+  const getUser = useSelector(selectUser)
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate()
+
+  // console.log(lodge)
+
   const [suggestLodgeData, setSuggestLodgeData] = useState({
     fullname: null,
     email: null,
@@ -27,10 +37,10 @@ const SuggestForm = ({ verify }) => {
     lodgemultiplepicture: [],
     lng: null,
     lat: null,
-    lodgespecs: null,
+    specifications: null,
   });
 
-  const lodgeSpecs = [
+  const specifications = [
     { value: "water", label: "Water" },
     { value: "electricity", label: "Electricity" },
     { value: "good-network", label: "Good Network" },
@@ -47,7 +57,7 @@ const SuggestForm = ({ verify }) => {
     setSuggestLodgeData((prev) => {
       return {
         ...prev,
-        ["lodgespecs"]: ans,
+        ["specifications"]: ans,
       };
     });
   };
@@ -106,22 +116,92 @@ const SuggestForm = ({ verify }) => {
     });
   };
 
-  const submitSuggestForm = (e) => {
+  const handleTrashSuggestion = async() => {
+    try {
+      setIsLoading(true)
+      const response = await axios.delete(`/suggestlodges/${lodge?._id}`, {
+        headers: {
+          "x-auth-token": getUser?.token,
+        },
+      });
+      navigate(-1);
+      toast.success(response?.data?.message);
+      setIsLoading(false)
+    } catch (error) {
+        setIsLoading(false);
+        toast.error(error?.response?.data?.msg);
+    }
+  }
+
+  const submitSuggestForm = async(e) => {
+    let finalObj = {}
+    let verifyObj = {...suggestLodgeData}
     e.preventDefault();
     if (verify) {
-      for (let val in suggestLodgeData) {
+      for (let val in verifyObj) {
         if (
           val === "fullname" ||
           val === "email" ||
           val === "phonenumber" ||
           val === "institution"
         ) {
-          continue;
+          delete verifyObj[val];
         }
-        if (!suggestLodgeData[val])
-          return toast.warning("All fields are required");
+        // if (!suggestLodgeData[val])
+        //   return toast.warning("All fields are required");
       }
+
+      const isEmpty = () => {
+        for (const val of Object.values(verifyObj)){
+          if (val === "" || val === null || val.length === 0){
+            continue
+          }else {
+            return false
+          }
+        }
+        return true
+      }
+
+      if (isEmpty()) return toast.warning("There's nothing to update 😊");
+      // console.log(verifyObj)
+
+      try {
+        setIsLoading(true)
+        for (let val in verifyObj){
+          if (verifyObj[val] && !(JSON.stringify(verifyObj[val]) === "[]")){
+            finalObj[val] = verifyObj[val]
+          }
+        }
+        const formData = new FormData();
+        for(let val in finalObj){
+          if (val === "lodgemultiplepicture" && finalObj[val].length > 0){
+            for (let i = 0; i < finalObj[val].length; i++){
+              formData.append("lodgemultiplepicture", finalObj[val][i])
+            }
+          }
+
+          if (finalObj[val] && val !== "lodgemultiplepicture"){
+            formData.append(val, finalObj[val])
+          }
+        }
+
+        //TODO: AXIOS HERE
+        for (const pair of formData.entries()) {
+          console.log(pair);
+        }
+        const response = await axios.put(`suggestlodges/updateSuggestedLodge/${lodge?._id}`, formData, { headers: { "x-auth-token": getUser?.token } })
+        // console.log(response)
+        navigate(-1);
+        toast.success(response?.data?.message);
+        setIsLoading(false)
+      } catch (error) {
+        toast.error(error?.response?.data?.msg);
+        setIsLoading(false)
+      }
+      
     }
+    // console.log(finalObj)
+
 
     if (!verify) {
       for (let val in suggestLodgeData) {
@@ -131,17 +211,49 @@ const SuggestForm = ({ verify }) => {
         if (!suggestLodgeData[val])
           return toast.warning("All fields are required");
       }
-    }
 
-    // TODO: RUN AXIOS POST REQUEST TO SUBMIT DATA
-    console.log(suggestLodgeData);
-    // window.location.reload(); // for now!!
+      try {
+        setIsLoading(true)
+        for (let val in suggestLodgeData){
+          if (suggestLodgeData[val] && (!(JSON.stringify(suggestLodgeData[val]) === "[]") || !suggestLodgeData[val] === null)){
+            finalObj[val] = suggestLodgeData[val]
+          }
+        }
+
+        // TODO: RUN AXIOS POST REQUEST TO SUBMIT DATA
+        // console.log(suggestLodgeData);
+        // console.log(finalObj)
+        const formData = new FormData();
+        formData.append("address", finalObj?.address);
+        formData.append("caretakernumber", finalObj?.caretakernumber);
+        formData.append("lodgedescription", finalObj?.lodgedescription);
+        formData.append("lodgename", finalObj?.lodgename);
+        formData.append("lodgepicture", finalObj?.lodgepicture);
+        formData.append("lodgeprice", finalObj?.lodgeprice);
+        formData.append("lodgetown", finalObj?.lodgetown);
+        formData.append("lodgetype", finalObj?.lodgetype);
+        formData.append("specifications", finalObj?.specifications);
+
+        // console.log(formData.entries())
+        // for (const pair of formData.entries()) {
+        //   console.log(pair);
+        // }
+        // window.location.reload(); // for now!!
+        const response = await axios.post(`${CREATE_SUGGEST_LODGE_URL}`, formData, { headers: { "x-auth-token": getUser?.token } })
+        setIsLoading(false);
+        navigate(-1);
+        toast.success(response?.data?.message);
+      } catch (error) {
+        setIsLoading(false);
+        toast.error(error?.response?.data?.msg);
+      }
+    }
   };
   // console.log(suggestLodgeData);
 
   return (
     <>
-      <form onSubmit={(e) => submitSuggestForm(e)}>
+      <form onSubmit={(e) => submitSuggestForm(e)} className={`${isLoading && "loading"}`}>
         {!verify && (
           <>
             {" "}
@@ -238,9 +350,9 @@ const SuggestForm = ({ verify }) => {
                   <option value={"Select Lodge Type"} disabled>
                     Select Lodge Type
                   </option>
-                  <option value="self con">Self con</option>
-                  <option value="2 bedroom">2 bedroom</option>
-                  <option value="villa">villa</option>
+                  <option value="self-con">Self con</option>
+                  <option value="2-bedroom">2 bedroom</option>
+                  <option value="villa">Villa</option>
                 </select>
                 <ArrowDropDownOutlinedIcon className="instDropDown" />
               </div>
@@ -261,8 +373,6 @@ const SuggestForm = ({ verify }) => {
                     Select Town
                   </option>
                   <option value="futo">Eziobodo</option>
-                  <option value="unn">Umuchimma</option>
-                  <option value="unizik">Ihiagwa</option>
                 </select>
                 <ArrowDropDownOutlinedIcon className="instDropDown" />
               </div>
@@ -299,7 +409,7 @@ const SuggestForm = ({ verify }) => {
               Lodge Specs <span>(you can select multiple specs)</span>
             </label>
             <Select
-              options={lodgeSpecs}
+              options={specifications}
               isMulti
               onChange={handleSelectChange}
             />
@@ -438,7 +548,7 @@ const SuggestForm = ({ verify }) => {
             >
               Continue
             </motion.div>
-            <motion.div whileTap={{ scale: 0.8 }} className="verify-btn trash">
+            <motion.div onClick={handleTrashSuggestion} whileTap={{ scale: 0.8 }} className="verify-btn trash">
               Trash
             </motion.div>
           </div>
